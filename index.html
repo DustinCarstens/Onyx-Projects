@@ -6,11 +6,11 @@
     <title>Onyx | Projects & Tools by Dustin Carstens</title>
     <meta name="description" content="Onyx is a project lab by Dustin Carstens — a curated collection of data tools, interactive dashboards, and curiosity-driven builds.">
     
-    <!-- Open Graph / Social Sharing - ->
+    <!-- Open Graph / Social Sharing -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Onyx | Projects & Tools by Dustin Carstens">
     <meta property="og:description" content="A project lab for data tools, interactive dashboards, and full-stack builds. MBA graduate, former Pfizer analyst, and web development consultant.">
-    <meta property="og:url" content="https://onyx.dustincarstens.com">
+    <meta property="og:url" content="https://onyx-projects.com">
     <meta property="og:image" content="https://onyx.dustincarstens.com/images/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -48,21 +48,37 @@
         <div class="scroll-progress-bar" id="scrollProgressBar"></div>
     </div>
 
-    <!-- Section Navigation Dots -->
+    <!-- Section Navigation Dots (desktop) -->
     <nav class="section-nav" id="sectionNav" aria-label="Page sections">
-        <a href="#home" class="nav-dot active" data-section="Home" data-target="home" aria-label="Navigate to Home section"></a>
-        <a href="#about" class="nav-dot" data-section="About" data-target="about" aria-label="Navigate to About section"></a>
-        <a href="#dashboard" class="nav-dot" data-section="Dashboard" data-target="dashboard" aria-label="Navigate to Dashboard section"></a>
-        <a href="#projects" class="nav-dot" data-section="Projects" data-target="projects" aria-label="Navigate to Projects section"></a>
-        <a href="#lab" class="nav-dot" data-section="Lab" data-target="lab" aria-label="Navigate to Lab section"></a>
-        <a href="#toolkit" class="nav-dot" data-section="Tools" data-target="toolkit" aria-label="Navigate to Toolkit section"></a>
-        <a href="#connect" class="nav-dot" data-section="Connect" data-target="connect" aria-label="Navigate to Connect section"></a>
+        <a href="#home" class="nav-dot active" data-section="Home" data-target="home"></a>
+        <a href="#about" class="nav-dot" data-section="About" data-target="about"></a>
+        <a href="#work" class="nav-dot" data-section="Work" data-target="work"></a>
+        <a href="#dashboard" class="nav-dot" data-section="Dashboard" data-target="dashboard"></a>
+        <a href="#lab" class="nav-dot" data-section="Lab" data-target="lab"></a>
+        <a href="#toolkit" class="nav-dot" data-section="Toolkit" data-target="toolkit"></a>
+        <a href="#connect" class="nav-dot" data-section="Connect" data-target="connect"></a>
     </nav>
 
-    <!-- Back to Top Button -->
+    <!-- Back to Top -->
     <button class="back-to-top" id="backToTop" aria-label="Back to top">
         <i class="fas fa-arrow-up"></i>
     </button>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-bottom-nav" id="mobileBottomNav" aria-label="Mobile navigation">
+        <a href="#home" class="mob-nav-item active" data-target="home">
+            <i class="fas fa-home"></i><span>Home</span>
+        </a>
+        <a href="#work" class="mob-nav-item" data-target="work">
+            <i class="fas fa-briefcase"></i><span>Work</span>
+        </a>
+        <a href="#lab" class="mob-nav-item" data-target="lab">
+            <i class="fas fa-flask"></i><span>Tools</span>
+        </a>
+        <a href="#connect" class="mob-nav-item" data-target="connect">
+            <i class="fas fa-envelope"></i><span>Connect</span>
+        </a>
+    </nav>
 
     <!-- Navigation -->
     <nav class="nav" id="nav" role="navigation" aria-label="Main navigation">
@@ -72,8 +88,8 @@
         </a>
         <ul class="nav-links" id="navLinks">
             <li><a href="#about">About</a></li>
+            <li><a href="#work">Work</a></li>
             <li><a href="#dashboard">Dashboard</a></li>
-            <li><a href="#projects">Projects</a></li>
             <li><a href="#lab">Live Lab</a></li>
             <li><a href="#toolkit">Toolkit</a></li>
             <li><a href="#connect" class="nav-cta">Connect</a></li>
@@ -83,7 +99,7 @@
         </button>
     </nav>
 
-    <!-- Hero -->
+    <!-- ══════════ HERO ══════════ -->
     <section class="hero" id="home" aria-label="Hero section">
         <div class="hero-bg" data-parallax="0.3"></div>
         <div class="hero-lines"></div>
@@ -104,149 +120,43 @@
             </p>
             <div class="hero-stats">
                 <div class="hero-stat">
-                    <div class="hero-stat-number" id="projectCount">4</div>
+                    <div class="hero-stat-number" data-count="4">0</div>
                     <div class="hero-stat-label">Projects Built</div>
                 </div>
                 <div class="hero-stat">
-                    <div class="hero-stat-number" id="toolCount">6</div>
+                    <div class="hero-stat-number" data-count="6">0</div>
                     <div class="hero-stat-label">Live Tools</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-number" data-count="2">0</div>
+                    <div class="hero-stat-label">Excel Templates</div>
                 </div>
             </div>
             <div class="hero-actions">
-                <a href="#projects" class="btn-primary">Explore Projects</a>
+                <a href="#work" class="btn-primary">Explore Projects</a>
                 <a href="#lab" class="btn-ghost">Try Live Tools</a>
             </div>
         </div>
     </section>
 
-    <!-- Featured Project -->
-    <section class="section featured-project" id="featured" aria-label="Featured project">
-        <div class="featured-container">
-            <div class="featured-content reveal">
-                <span class="section-label">Featured Project</span>
-                <h2 class="section-title">Same Day Locksmith KC</h2>
-                <p class="featured-subtitle">Full-stack business website with integrated booking system</p>
-                
-                <div class="featured-details">
-                    <div class="featured-detail">
-                        <div class="detail-label">Challenge</div>
-                        <p>Local locksmith business needed professional online presence with seamless booking capabilities and mobile-first design for emergency service requests.</p>
-                    </div>
-                    
-                    <div class="featured-detail">
-                        <div class="detail-label">Solution</div>
-                        <p>Designed and developed responsive website as a consultant, implementing WorkIZ API integration, custom Google Maps functionality, and optimized mobile experience with glassmorphism design and premium aesthetic.</p>
-                    </div>
-                    
-                    <div class="featured-detail">
-                        <div class="detail-label">Tech Stack</div>
-                        <div class="tech-tags">
-                            <span class="tech-tag">HTML/CSS/JavaScript</span>
-                            <span class="tech-tag">Cloudflare Workers</span>
-                            <span class="tech-tag">WorkIZ API</span>
-                            <span class="tech-tag">Google Maps API</span>
-                            <span class="tech-tag">Mobile-First Design</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="featured-actions">
-                    <a href="https://www.samedaylocksmithkc.com" target="_blank" rel="noopener noreferrer" class="btn-primary">
-                        <i class="fas fa-external-link-alt" style="margin-right: 0.5rem;"></i>
-                        View Live Site
-                    </a>
-                    <a href="#projects" class="btn-ghost">More Projects</a>
-                </div>
-            </div>
-            
-            <div class="featured-image reveal reveal-delay-2">
-                <div class="featured-image-frame">
-                    <video class="featured-video" autoplay loop muted playsinline controls>
-                        <source src="Videos/Same_Day_Locksmith_Website.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                    <div class="featured-badge">
-                        <span class="badge-dot"></span>
-                        LIVE
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Tableau Dashboard -->
-    <section class="section tableau-section" id="dashboard" aria-label="Interactive data dashboard">
-        <div class="tableau-container">
-            <div class="tableau-header reveal">
-                <span class="section-label">Data Visualization</span>
-                <h2 class="section-title">Interactive<br><em>Dashboard</em></h2>
-                <p class="section-desc">Explore this Tableau dashboard directly — filter data, hover for details, and interact with visualizations in real time. This marketing analytics dashboard transforms raw supermarket data into actionable insights.</p>
-            </div>
-            
-            <div class="tableau-wrapper reveal reveal-delay-1">
-                <div class="tableau-embed-container">
-                    <!--
-                        ╔═══════════════════════════════════════════════════════╗
-                        ║  TO EMBED YOUR DASHBOARD:                            ║
-                        ║  1. Go to your viz on Tableau Public                 ║
-                        ║  2. Click Share → Copy Link                          ║
-                        ║  3. Replace the src URL below with your viz URL      ║
-                        ║                                                      ║
-                        ║  Example URL format:                                 ║
-                        ║  https://public.tableau.com/views/YourVizName/Sheet1 ║
-                        ╚═══════════════════════════════════════════════════════╝
-                    -->
-                    <tableau-viz
-                        id="tableauViz" 
-                        src="https://public.tableau.com/views/MarketingDashboard_17604793719080/SuperMarketData-MarketingDashboard"
-                        width="100%"
-                        height="1100"
-                        device="desktop"
-                        toolbar="bottom" 
-                        hide-tabs>
-                    </tableau-viz>
-                </div>
-                
-                <div class="tableau-info">
-                    <div class="tableau-info-item">
-                        <i class="fas fa-mouse-pointer"></i>
-                        <span>Click and drag to filter data ranges</span>
-                    </div>
-                    <div class="tableau-info-item">
-                        <i class="fas fa-hand-pointer"></i>
-                        <span>Hover over charts for detailed tooltips</span>
-                    </div>
-                    <div class="tableau-info-item">
-                        <i class="fas fa-expand"></i>
-                        <span>Use toolbar below to download or view fullscreen</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="tableau-cta reveal reveal-delay-2">
-                <p>Want to see more visualizations?</p>
-                <a href="https://public.tableau.com/app/profile/dustin.carstens/vizzes" target="_blank" rel="noopener noreferrer" class="btn-ghost">
-                    View Full Portfolio <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- About -->
+    <!-- ══════════ ABOUT ══════════ -->
     <section class="section about" id="about" aria-label="About Onyx">
         <div class="about-grid">
             <div class="about-left reveal">
                 <span class="section-label">About Onyx</span>
                 <h2 class="section-title">A Workshop for<br><em>Thinking Out Loud</em></h2>
                 <p class="section-desc">
-                    I'm Dustin Carstens. Onyx is where I build things — data visualizations, web tools, analytical deep-dives, and whatever else pulls me in. Named after the black stone, it's a space for projects that are polished, intentional, and worth sharing.
+                    I'm Dustin Carstens. Onyx is where I build things — data visualizations, web tools, analytical deep-dives, and whatever else pulls me in. I work with AI as a design and development partner, using tools like Claude to accelerate ideation and problem-solving. The vision and direction are mine; AI helps me build faster.
                 </p>
-                <p class="section-desc">
-                    I work with AI as a design and development partner — using tools like Claude to accelerate ideation, code implementation, and problem-solving. The vision and direction are mine; AI helps me build faster and explore ideas more deeply. This collaborative approach lets me focus on what matters: creating tools that work and solving problems worth solving.
-                </p>
-                <p class="section-desc">
-                    Some of these are practical utilities. Others are explorations — a dataset I wanted to understand, a dashboard I needed to exist, or a tool I couldn't find anywhere else. This site serves as the front door to all of it.
-                </p>
+                
+                <div class="about-exploring">
+                    <span class="exploring-label">Currently exploring</span>
+                    <div class="exploring-tags">
+                        <span class="exploring-tag"><i class="fas fa-brain"></i> Claude API</span>
+                        <span class="exploring-tag"><i class="fas fa-bolt"></i> WebSocket Streaming</span>
+                        <span class="exploring-tag"><i class="fas fa-chart-bar"></i> Tableau LOD</span>
+                    </div>
+                </div>
                 
                 <div class="about-credentials">
                     <div class="credential-column">
@@ -277,219 +187,338 @@
                         <div class="about-image-sub">Builder & Explorer</div>
                     </div>
                 </div>
-                
                 <div class="about-cta">
                     <a href="#connect" class="btn-ghost" style="width: 100%;">
-                        <i class="fas fa-envelope" style="margin-right: 0.5rem;"></i>
-                        Get In Touch
+                        <i class="fas fa-envelope" style="margin-right: 0.5rem;"></i> Get In Touch
                     </a>
                     <div class="about-links">
-                        <a href="https://www.linkedin.com/in/dustin-carstens-677683162" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">
-                            <i class="fab fa-linkedin-in"></i> LinkedIn
-                        </a>
-                        <a href="https://public.tableau.com/app/profile/dustin.carstens/vizzes" target="_blank" rel="noopener noreferrer" aria-label="Tableau portfolio">
-                            <i class="fas fa-chart-bar"></i> Tableau
-                        </a>
+                        <a href="https://www.linkedin.com/in/dustin-carstens-677683162" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
+                        <a href="https://public.tableau.com/app/profile/dustin.carstens/vizzes" target="_blank" rel="noopener noreferrer"><i class="fas fa-chart-bar"></i> Tableau</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Projects -->
-    <section class="section services" id="projects" aria-label="Projects showcase">
-        <div style="max-width: 1200px; margin: 0 auto;">
-            <div class="services-header reveal">
-                <span class="section-label">Projects</span>
-                <h2 class="section-title">Things I've<br><em>Built</em></h2>
-                <p class="section-desc">Each project started as something I wanted to understand, automate, or make visible. Click any card to explore the details.</p>
+    <!-- ══════════ FEATURED WORK CAROUSEL ══════════ -->
+    <section class="section carousel-section" id="work" aria-label="Featured work">
+        <div class="carousel-header reveal">
+            <span class="section-label">Featured Work</span>
+            <h2 class="section-title">Things I've<br><em>Built</em></h2>
+            <p class="section-desc">Each project started as something I wanted to understand, automate, or make visible.</p>
+        </div>
+        
+        <div class="carousel-wrapper">
+            <div class="carousel" id="projectCarousel">
+                <div class="carousel-track" id="carouselTrack">
+                    
+                    <!-- Slide 1: Locksmith -->
+                    <div class="carousel-slide" data-index="0">
+                        <div class="slide-visual">
+                            <video class="slide-video" autoplay loop muted playsinline>
+                                <source src="Videos/Same_Day_Locksmith_Website.mp4" type="video/mp4">
+                            </video>
+                            
+                        </div>
+                        <div class="slide-content">
+                            <span class="slide-number">01</span>
+                            <h3 class="slide-title">Same Day Locksmith KC</h3>
+                            <p class="slide-desc">Full-stack business website with WorkIZ API integration, custom booking system, and Google Maps. Mobile-first design for emergency locksmith requests.</p>
+                            <div class="slide-metrics">
+                                <div class="slide-metric"><span class="metric-value">200+</span><span class="metric-label">Reviews</span></div>
+                                <div class="slide-metric"><span class="metric-value">4.8</span><span class="metric-label">Rating</span></div>
+                                <div class="slide-metric"><span class="metric-value">24/7</span><span class="metric-label">Booking</span></div>
+                            </div>
+                            <div class="slide-tags">
+                                <span class="tech-tag">HTML/CSS/JS</span>
+                                <span class="tech-tag">Cloudflare</span>
+                                <span class="tech-tag">WorkIZ API</span>
+                                <span class="tech-tag">Google Maps</span>
+                            </div>
+                            <a href="https://www.samedaylocksmithkc.com" target="_blank" rel="noopener noreferrer" class="btn-primary slide-cta">
+                                <i class="fas fa-external-link-alt"></i> View Live Site
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Slide 2: Dashboards -->
+                    <div class="carousel-slide" data-index="1">
+                        <div class="slide-visual slide-visual-dark">
+                            <div class="slide-placeholder-viz">
+                                <i class="fas fa-chart-bar"></i>>
+                                <span>Interactive Tableau Dashboard</span>
+                                <small>Scroll down to explore live</small>
+                            </div>
+                        </div>
+                        <div class="slide-content">
+                            <span class="slide-number">02</span>
+                            <h3 class="slide-title">Marketing Analytics Dashboard</h3>
+                            <p class="slide-desc">Embedded Tableau visualizations that transform raw supermarket data into explorable stories. Filter, drill down, and interact with insights directly.</p>
+                            <div class="slide-metrics">
+                                <div class="slide-metric"><span class="metric-value">5+</span><span class="metric-label">Charts</span></div>
+                                <div class="slide-metric"><span class="metric-value">Live</span><span class="metric-label">Filtering</span></div>
+                                <div class="slide-metric"><span class="metric-value">Real</span><span class="metric-label">Data</span></div>
+                            </div>
+                            <div class="slide-tags">
+                                <span class="tech-tag">Tableau</span>
+                                <span class="tech-tag">Data Viz</span>
+                                <span class="tech-tag">Analytics</span>
+                                <span class="tech-tag">JS API</span>
+                            </div>
+                            <a href="#dashboard" class="btn-primary slide-cta carousel-internal-link">
+                                <i class="fas fa-chart-line"></i> View Dashboard
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Slide 3: Data Pipeline -->
+                    <div class="carousel-slide" data-index="2">
+                        <div class="slide-visual slide-visual-dark">
+                            <div class="slide-placeholder-code">
+                                <div class="code-line"><span class="code-kw">import</span> pandas <span class="code-kw">as</span> pd</div>
+                                <div class="code-line"><span class="code-kw">from</span> sqlalchemy <span class="code-kw">import</span> create_engine</div>
+                                <div class="code-line">&nbsp;</div>
+                                <div class="code-line"><span class="code-cm"># Extract → Transform → Load</span></div>
+                                <div class="code-line">df = pd.<span class="code-fn">read_sql</span>(query, engine)</div>
+                                <div class="code-line">df = <span class="code-fn">clean_and_transform</span>(df)</div>
+                                <div class="code-line">df.<span class="code-fn">to_sql</span>(<span class="code-str">'analytics'</span>, engine)</div>
+                                <div class="code-line">&nbsp;</div>
+                                <div class="code-line"><span class="code-cm"># ✓ 12,847 rows processed</span></div>
+                                <div class="code-line"><span class="code-cm"># ✓ Pipeline complete</span></div>
+                            </div>
+                        </div>
+                        <div class="slide-content">
+                            <span class="slide-number">03</span>
+                            <h3 class="slide-title">Data Pipeline Automation</h3>
+                            <p class="slide-desc">ETL workflows and data transformation scripts that automate repetitive analysis tasks. Scheduled execution with error handling and monitoring.</p>
+                            <div class="slide-metrics">
+                                <div class="slide-metric"><span class="metric-value">Auto</span><span class="metric-label">Scheduled</span></div>
+                                <div class="slide-metric"><span class="metric-value">ETL</span><span class="metric-label">Pipeline</span></div>
+                                <div class="slide-metric"><span class="metric-value">SQL</span><span class="metric-label">Powered</span></div>
+                            </div>
+                            <div class="slide-tags">
+                                <span class="tech-tag">Python</span>
+                                <span class="tech-tag">pandas</span>
+                                <span class="tech-tag">SQL</span>
+                                <span class="tech-tag">Automation</span>
+                            </div>
+                            <a href="#connect" class="btn-primary slide-cta carousel-internal-link">
+                                <i class="fas fa-envelope"></i> Discuss a Project
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Slide 4: Onyx -->
+                    <div class="carousel-slide" data-index="3">
+                        <div class="slide-visual slide-visual-dark">
+                            <div class="slide-placeholder-meta">
+                                <div class="meta-browser">
+                                    <div class="meta-dots"><span></span><span></span><span></span></div>
+                                    <div class="meta-url">onyx.dustincarstens.com</div>
+                                </div>
+                                <div class="meta-content">
+                                    <div class="meta-hex"></div>
+                                    <div class="meta-title">ONYX</div>
+                                    <div class="meta-sub">Built from Curiosity</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slide-content">
+                            <span class="slide-number">04</span>
+                            <h3 class="slide-title">Onyx — This Portfolio</h3>
+                            <p class="slide-desc">The site you're exploring right now. Custom-built with a premium dark aesthetic, interactive tools, embedded dashboards, and responsive design. No templates, no frameworks.</p>
+                            <div class="slide-metrics">
+                                <div class="slide-metric"><span class="metric-value">6</span><span class="metric-label">Tools</span></div>
+                                <div class="slide-metric"><span class="metric-value">0</span><span class="metric-label">Frameworks</span></div>
+                                <div class="slide-metric"><span class="metric-value">100%</span><span class="metric-label">Custom</span></div>
+                            </div>
+                            <div class="slide-tags">
+                                <span class="tech-tag">HTML/CSS/JS</span>
+                                <span class="tech-tag">Tableau API</span>
+                                <span class="tech-tag">REST APIs</span>
+                                <span class="tech-tag">AI-Assisted</span>
+                            </div>
+                            <a href="#lab" class="btn-primary slide-cta carousel-internal-link">
+                                <i class="fas fa-flask"></i> Try the Tools
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Carousel Nav Arrows -->
+                <button class="carousel-btn carousel-prev" id="carouselPrev" aria-label="Previous slide">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="carousel-btn carousel-next" id="carouselNext" aria-label="Next slide">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
             </div>
-            <div class="services-grid">
-                <div class="service-card reveal reveal-delay-1" data-project="dashboards">
-                    <div class="service-number">01</div>
-                    <h3>Interactive Dashboards</h3>
-                    <p>Embedded Tableau visualizations that turn raw datasets into explorable stories. Marketing analytics, performance tracking, and trend analysis you can interact with directly.</p>
-                    <div class="service-tags">
-                        <span class="service-tag">Tableau</span>
-                        <span class="service-tag">Data Viz</span>
-                        <span class="service-tag">Analytics</span>
-                    </div>
-                    <button class="service-explore" aria-label="Explore dashboards project">Explore <i class="fas fa-arrow-right"></i></button>
-                </div>
-                <div class="service-card reveal reveal-delay-2" data-project="tools">
-                    <div class="service-number">02</div>
-                    <h3>Live Web Tools</h3>
-                    <p>Browser-based utilities built for quick calculations and conversions. Unit converters, data calculators, and text analytics — all client-side with no backend required.</p>
-                    <div class="service-tags">
-                        <span class="service-tag">JavaScript</span>
-                        <span class="service-tag">APIs</span>
-                        <span class="service-tag">UX</span>
-                    </div>
-                    <button class="service-explore" aria-label="Explore web tools project">Explore <i class="fas fa-arrow-right"></i></button>
-                </div>
-                <div class="service-card reveal reveal-delay-3" data-project="website">
-                    <div class="service-number">03</div>
-                    <h3>Business Website Development</h3>
-                    <p>Full-stack website for Same Day Locksmith KC with WorkIZ API integration, custom booking system, and Google Maps functionality. Mobile-first design for emergency service requests.</p>
-                    <div class="service-tags">
-                        <span class="service-tag">Full-Stack</span>
-                        <span class="service-tag">API Integration</span>
-                        <span class="service-tag">Cloudflare</span>
-                    </div>
-                    <button class="service-explore" aria-label="Explore business website project">Explore <i class="fas fa-arrow-right"></i></button>
-                </div>
-                <div class="service-card reveal reveal-delay-4" data-project="automation">
-                    <div class="service-number">04</div>
-                    <h3>Data Pipeline Automation</h3>
-                    <p>ETL workflows and data transformation scripts that automate repetitive analysis tasks. Built with Python, SQL, and scheduled execution for reliable data processing.</p>
-                    <div class="service-tags">
-                        <span class="service-tag">Python</span>
-                        <span class="service-tag">SQL</span>
-                        <span class="service-tag">Automation</span>
-                    </div>
-                    <button class="service-explore" aria-label="Explore automation project">Explore <i class="fas fa-arrow-right"></i></button>
-                </div>
+
+            <!-- Dots + Progress -->
+            <div class="carousel-controls">
+                <div class="carousel-dots" id="carouselDots"></div>
+                <div class="carousel-progress"><div class="carousel-progress-bar" id="carouselProgressBar"></div></div>
             </div>
         </div>
     </section>
 
-    <!-- Live Lab -->
+    <!-- ══════════ TABLEAU DASHBOARD ══════════ -->
+    <section class="section tableau-section" id="dashboard" aria-label="Interactive data dashboard">
+        <div class="tableau-container">
+            <div class="tableau-header reveal">
+                <span class="section-label">Data Visualization</span>
+                <h2 class="section-title">Interactive<br><em>Dashboard</em></h2>
+                <p class="section-desc">Explore this Tableau dashboard directly — filter data, hover for details, and interact with visualizations in real time.</p>
+            </div>
+            <div class="tableau-wrapper reveal reveal-delay-1">
+                <div class="tableau-embed-container">
+                    <tableau-viz id="tableauViz" 
+                        src="https://public.tableau.com/views/MarketingDashboard_17604793719080/SuperMarketData-MarketingDashboard"
+                        width="100%" height="1100" toolbar="bottom" hide-tabs>
+                    </tableau-viz>
+                </div>
+                <div class="tableau-info">
+                    <div class="tableau-info-item"><i class="fas fa-mouse-pointer"></i><span>Click and drag to filter data ranges</span></div>
+                    <div class="tableau-info-item"><i class="fas fa-hand-pointer"></i><span>Hover over charts for detailed tooltips</span></div>
+                    <div class="tableau-info-item"><i class="fas fa-expand"></i><span>Use toolbar below to download or fullscreen</span></div>
+                </div>
+            </div>
+            <div class="tableau-cta reveal reveal-delay-2">
+                <p>Want to see more visualizations?</p>
+                <a href="https://public.tableau.com/app/profile/dustin.carstens/vizzes" target="_blank" rel="noopener noreferrer" class="btn-ghost">
+                    View Full Portfolio <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════ LIVE LAB (Tabbed) ══════════ -->
     <section class="section live-lab" id="lab" aria-label="Interactive tools lab">
         <div class="lab-header reveal">
             <span class="section-label">Live Lab</span>
             <h2 class="section-title">Interactive<br><em>Tools</em></h2>
-            <p class="section-desc">Try these tools directly in your browser. No signup, no installation — just click and use.</p>
+            <p class="section-desc">Try these tools directly in your browser.  — just click and use.</p>
         </div>
         
-        <div class="lab-grid">
-            <!-- Weather Dashboard -->
-            <div class="lab-card reveal reveal-delay-1">
-                <div class="lab-card-header">
-                    <div class="lab-icon"><i class="fas fa-cloud-sun"></i></div>
-                    <h3>Weather Dashboard</h3>
-                </div>
-                <p>Real-time weather data for any location using live API integration.</p>
-                <div class="weather-tool">
+        <!-- Tab Navigation -->
+        <div class="lab-tabs reveal" role="tablist">
+            <button class="lab-tab active" role="tab" aria-selected="true" data-tab="tools"><i class="fas fa-wrench"></i> Tools</button>
+            <button class="lab-tab" role="tab" aria-selected="false" data-tab="analytics"><i class="fas fa-chart-pie"></i> Analytics</button>
+            <button class="lab-tab" role="tab" aria-selected="false" data-tab="resources"><i class="fas fa-download"></i> Resources</button>
+        </div>
+        
+        <!-- Panel: Tools -->
+        <div class="lab-panel active" data-panel="tools">
+            <div class="lab-grid">
+                <div class="lab-card reveal reveal-delay-1">
+                    <div class="lab-card-header"><div class="lab-icon"><i class="fas fa-cloud-sun"></i></div><h3>Weather Dashboard</h3></div>
+                    <p>Real-time weather data for any location using live API integration.</p>
                     <div class="tool-input-group">
-                        <input type="text" id="weatherCity" placeholder="Enter city name" value="Kansas City" aria-label="City name for weather lookup">
+                        <input type="text" id="weatherCity" placeholder="Enter city name" value="Kansas City">
                         <button class="tool-btn" id="weatherBtn">Get Weather</button>
                     </div>
-                    <div id="weatherResult" class="tool-result" role="region" aria-live="polite"></div>
+                    <div id="weatherResult" class="tool-result"></div>
                 </div>
-            </div>
-
-            <!-- Data Calculator -->
-            <div class="lab-card reveal reveal-delay-2">
-                <div class="lab-card-header">
-                    <div class="lab-icon"><i class="fas fa-calculator"></i></div>
-                    <h3>Data Calculator</h3>
-                </div>
-                <p>Paste numbers (comma or space-separated) to get instant statistics.</p>
-                <div class="calculator-tool">
-                    <textarea id="dataInput" placeholder="Enter numbers: 10, 20, 30, 40, 50" aria-label="Enter numbers for calculation"></textarea>
+                <div class="lab-card reveal reveal-delay-2">
+                    <div class="lab-card-header"><div class="lab-icon"><i class="fas fa-calculator"></i></div><h3>Data Calculator</h3></div>
+                    <p>Paste numbers (comma or space-separated) to get instant statistics.</p>
+                    <textarea id="dataInput" placeholder="Enter numbers: 10, 20, 30, 40, 50"></textarea>
                     <button class="tool-btn" id="calculateBtn">Calculate</button>
-                    <div id="calcResult" class="tool-result" role="region" aria-live="polite"></div>
+                    <div id="calcResult" class="tool-result"></div>
                 </div>
-            </div>
-
-            <!-- Unit Converter -->
-            <div class="lab-card reveal reveal-delay-3">
-                <div class="lab-card-header">
-                    <div class="lab-icon"><i class="fas fa-exchange-alt"></i></div>
-                    <h3>Unit Converter</h3>
-                </div>
-                <p>Convert between different units of measurement instantly.</p>
-                <div class="converter-tool">
-                    <div class="converter-category">
-                        <select id="unitCategory" class="converter-select" aria-label="Select conversion category">
+                <div class="lab-card reveal reveal-delay-3">
+                    <div class="lab-card-header"><div class="lab-icon"><i class="fas fa-exchange-alt"></i></div><h3>Unit Converter</h3></div>
+                    <p>Convert between different units of measurement instantly.</p>
+                    <div class="converter-tool">
+                        <select id="unitCategory" class="converter-select">
                             <option value="temperature">Temperature</option>
                             <option value="length">Length</option>
                             <option value="weight">Weight</option>
                             <option value="volume">Volume</option>
                             <option value="speed">Speed</option>
                         </select>
-                    </div>
-                    <div class="converter-inputs">
-                        <div class="converter-group">
-                            <input type="number" id="fromValue" placeholder="Enter value" value="32" aria-label="Value to convert from">
-                            <select id="fromUnit" class="converter-select" aria-label="Convert from unit"></select>
-                        </div>
-                        <div class="converter-swap">
-                            <button id="swapBtn" class="swap-btn" aria-label="Swap conversion units">
-                                <i class="fas fa-exchange-alt"></i>
-                            </button>
-                        </div>
-                        <div class="converter-group">
-                            <input type="number" id="toValue" placeholder="Result" readonly aria-label="Conversion result">
-                            <select id="toUnit" class="converter-select" aria-label="Convert to unit"></select>
+                        <div class="converter-inputs">
+                            <div class="converter-group">
+                                <input type="number" id="fromValue" placeholder="Enter value" value="32">
+                                <select id="fromUnit" class="converter-select"></select>
+                            </div>
+                            <div class="converter-swap">
+                                <button id="swapBtn" class="swap-btn"><i class="fas fa-exchange-alt"></i></button>
+                            </div>
+                            <div class="converter-group">
+                                <input type="number" id="toValue" placeholder="Result" readonly>
+                                <select id="toUnit" class="converter-select"></select>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Tech Stack Reference -->
-            <div class="lab-card reveal reveal-delay-4">
-                <div class="lab-card-header">
-                    <div class="lab-icon"><i class="fas fa-layer-group"></i></div>
-                    <h3>Tech Stack Reference</h3>
-                </div>
-                <p>Quick reference of technologies I work with across projects.</p>
-                <div class="tech-stack-grid">
-                    <div class="tech-category">
-                        <div class="tech-category-label">Frontend</div>
-                        <div class="tech-items">HTML, CSS, JavaScript</div>
-                    </div>
-                    <div class="tech-category">
-                        <div class="tech-category-label">Backend</div>
-                        <div class="tech-items">Python, SQL, Cloudflare Workers</div>
-                    </div>
-                    <div class="tech-category">
-                        <div class="tech-category-label">Data & Analytics</div>
-                        <div class="tech-items">Tableau, Excel, pandas, R</div>
-                    </div>
-                    <div class="tech-category">
-                        <div class="tech-category-label">APIs & Integration</div>
-                        <div class="tech-items">REST, JSON, WorkIZ, Google Maps</div>
-                    </div>
-                    <div class="tech-category">
-                        <div class="tech-category-label">Development Tools</div>
-                        <div class="tech-items">Claude, ChatGPT, Git, VS Code</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Stock Lookup -->
-            <div class="lab-card reveal reveal-delay-5">
-                <div class="lab-card-header">
-                    <div class="lab-icon"><i class="fas fa-chart-line"></i></div>
-                    <h3>Stock Lookup</h3>
-                </div>
-                <p>Get real-time stock quotes and market data for any ticker symbol.</p>
-                <div class="stock-tool">
+                <div class="lab-card reveal reveal-delay-4">
+                    <div class="lab-card-header"><div class="lab-icon"><i class="fas fa-chart-line"></i></div><h3>Stock Lookup</h3></div>
+                    <p>Get real-time stock quotes and market data for any ticker symbol.</p>
                     <div class="tool-input-group">
-                        <input type="text" id="stockSymbol" placeholder="Enter ticker (e.g., AAPL, MSFT)" value="AAPL" aria-label="Stock ticker symbol">
+                        <input type="text" id="stockSymbol" placeholder="Enter ticker (e.g., AAPL)" value="AAPL">
                         <button class="tool-btn" id="stockBtn">Get Quote</button>
                     </div>
-                    <div id="stockResult" class="tool-result" role="region" aria-live="polite"></div>
+                    <div id="stockResult" class="tool-result"></div>
                 </div>
             </div>
-
-            <!-- Text Analytics -->
-            <div class="lab-card reveal reveal-delay-6">
-                <div class="lab-card-header">
-                    <div class="lab-icon"><i class="fas fa-font"></i></div>
-                    <h3>Text Analytics</h3>
+        </div>
+        
+        <!-- Panel: Analytics -->
+        <div class="lab-panel" data-panel="analytics">
+            <div class="lab-grid">
+                <div class="lab-card">
+                    <div class="lab-card-header"><div class="lab-icon"><i class="fas fa-font"></i></div><h3>Text Analytics</h3></div>
+                    <p>Analyze text for word count, character count, and reading time.</p>
+                    <textarea id="textInput" placeholder="Paste your text here..."></textarea>
+                    <div id="textResult" class="text-stats"></div>
                 </div>
-                <p>Analyze text for word count, character count, and reading time.</p>
-                <div class="text-tool">
-                    <textarea id="textInput" placeholder="Paste your text here..." aria-label="Text to analyze"></textarea>
-                    <div id="textResult" class="text-stats" role="region" aria-live="polite"></div>
+            </div>
+        </div>
+        
+        <!-- Panel: Resources -->
+        <div class="lab-panel" data-panel="resources">
+            <div class="lab-grid resources-grid">
+                <div class="resource-card">
+                    <div class="resource-preview">
+                        <div class="resource-icon-lg"><i class="fas fa-file-excel"></i></div>
+                        <span class="resource-format">.XLSX</span>
+                    </div>
+                    <div class="resource-info">
+                        <h3>Budget Spreadsheet Template</h3>
+                        <p>Comprehensive budget tracking with built-in formulas, category breakdowns, and monthly summaries.</p>
+                        <div class="resource-meta">
+                            <span><i class="fas fa-table"></i> Multi-tab</span>
+                            <span><i class="fas fa-calculator"></i> Auto-calc</span>
+                        </div>
+                        <a href="Resources/Budget_Template.xlsx" class="resource-dl-btn" download>
+                            <i class="fas fa-download"></i> Download Template
+                        </a>
+                    </div>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-preview">
+                        <div class="resource-icon-lg"><i class="fas fa-file-excel"></i></div>
+                        <span class="resource-format">.XLSX</span>
+                    </div>
+                    <div class="resource-info">
+                        <h3>Project Management Template</h3>
+                        <p>Full PM workbook with task tracking, timeline views, resource allocation, and status dashboards.</p>
+                        <div class="resource-meta">
+                            <span><i class="fas fa-tasks"></i> Task tracking</span>
+                            <span><i class="fas fa-calendar"></i> Timeline</span>
+                        </div>
+                        <a href="Resources/Portfolio_Project_Management_Plan.xlsx" class="resource-dl-btn" download>
+                            <i class="fas fa-download"></i> Download Template
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Toolkit -->
+    <!-- ══════════ TOOLKIT ══════════ -->
     <section class="section credentials" id="toolkit" aria-label="Technology toolkit">
         <div class="credentials-inner">
             <div class="reveal">
@@ -497,135 +526,53 @@
                 <h2 class="section-title">What I <em>Work With</em></h2>
             </div>
             <div class="credentials-grid">
-                <div class="credential-cell reveal reveal-delay-1">
-                    <div class="credential-icon"><i class="fas fa-chart-line"></i></div>
-                    <h4>Data & Analytics</h4>
-                    <p>Tableau, Python, R, SQL, Excel — analysis and visualization</p>
-                </div>
-                <div class="credential-cell reveal reveal-delay-2">
-                    <div class="credential-icon"><i class="fas fa-code"></i></div>
-                    <h4>Web Development</h4>
-                    <p>HTML, CSS, JavaScript, APIs, Cloudflare Workers</p>
-                </div>
-                <div class="credential-cell reveal reveal-delay-3">
-                    <div class="credential-icon"><i class="fas fa-database"></i></div>
-                    <h4>Data Engineering</h4>
-                    <p>ETL pipelines, data modeling, database design, automation</p>
-                </div>
-                <div class="credential-cell reveal reveal-delay-4">
-                    <div class="credential-icon"><i class="fas fa-pencil-ruler"></i></div>
-                    <h4>Design & UX</h4>
-                    <p>Responsive design, UI architecture, user-centered builds</p>
-                </div>
-                <div class="credential-cell reveal reveal-delay-5">
-                    <div class="credential-icon"><i class="fas fa-brain"></i></div>
-                    <h4>AI-Assisted Development</h4>
-                    <p>Claude, ChatGPT — accelerated prototyping and problem-solving</p>
-                </div>
+                <div class="credential-cell reveal reveal-delay-1"><div class="credential-icon"><i class="fas fa-chart-line"></i></div><h4>Data & Analytics</h4><p>Tableau, Python, R, SQL, Excel — analysis and visualization</p></div>
+                <div class="credential-cell reveal reveal-delay-2"><div class="credential-icon"><i class="fas fa-code"></i></div><h4>Web Development</h4><p>HTML, CSS, JavaScript, APIs, Cloudflare Workers</p></div>
+                <div class="credential-cell reveal reveal-delay-3"><div class="credential-icon"><i class="fas fa-database"></i></div><h4>Data Engineering</h4><p>ETL pipelines, data modeling, database design, automation</p></div>
+                <div class="credential-cell reveal reveal-delay-4"><div class="credential-icon"><i class="fas fa-pencil-ruler"></i></div><h4>Design & UX</h4><p>Responsive design, UI architecture, user-centered builds</p></div>
+                <div class="credential-cell reveal reveal-delay-5"><div class="credential-icon"><i class="fas fa-brain"></i></div><h4>AI-Assisted Dev</h4><p>Claude, ChatGPT — accelerated prototyping and problem-solving</p></div>
             </div>
         </div>
     </section>
 
-    <!-- Currently Learning -->
-    <section class="section learning-section" aria-label="Current learning focus">
-        <div class="learning-container reveal">
-            <span class="section-label" style="justify-content: center;">Growth</span>
-            <h2 class="section-title" style="text-align: center;">Currently<br><em>Exploring</em></h2>
-            <p class="section-desc" style="text-align: center; max-width: 600px; margin: 0 auto 3rem;">
-                Always expanding my toolkit and diving into new technologies that solve interesting problems.
-            </p>
-            
-            <div class="learning-grid">
-                <div class="learning-card reveal reveal-delay-1">
-                    <div class="learning-icon">
-                        <i class="fas fa-brain"></i>
-                    </div>
-                    <h4>Advanced AI Integration</h4>
-                    <p>Exploring Claude API, prompt engineering, and building AI-powered applications with Anthropic's tools.</p>
-                </div>
-                
-                <div class="learning-card reveal reveal-delay-2">
-                    <div class="learning-icon">
-                        <i class="fas fa-chart-network"></i>
-                    </div>
-                    <h4>Real-Time Data Streaming</h4>
-                    <p>Learning WebSocket implementation and live data visualization for dynamic dashboards.</p>
-                </div>
-                
-                <div class="learning-card reveal reveal-delay-3">
-                    <div class="learning-icon">
-                        <i class="fas fa-code-branch"></i>
-                    </div>
-                    <h4>Advanced Tableau LOD</h4>
-                    <p>Deep-diving into Level of Detail expressions for complex analytical scenarios.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Connect -->
+    <!-- ══════════ CONNECT ══════════ -->
     <section class="cta-section" id="connect" aria-label="Contact section">
         <div class="cta-inner reveal">
             <span class="section-label" style="justify-content: center;">Connect</span>
             <h2 class="cta-title">Let's<br><em>Connect</em></h2>
-            <p class="cta-desc">Whether you have a question, want to discuss a project, or just want to say hello — I'm always open to connecting with interesting people.</p>
-            
+            <p class="cta-desc">Whether you have a question, want to discuss a project, or just want to say hello — I'm always open to connecting.</p>
             <div class="cta-actions">
-                <a href="/cdn-cgi/l/email-protection#f195848285989fb195848285989f9290838285949f82df929e9c" class="btn-primary">
-                    <i class="fas fa-envelope" style="margin-right: 0.5rem;"></i>
-                    Email Me
-                </a>
-                <a href="https://www.linkedin.com/in/dustin-carstens-677683162" target="_blank" rel="noopener noreferrer" class="btn-ghost">
-                    <i class="fab fa-linkedin-in" style="margin-right: 0.5rem;"></i>
-                    LinkedIn
-                </a>
+                <a href="mailto:carstensdustin@gmail.com" class="btn-primary"><i class="fas fa-envelope" style="margin-right: 0.5rem;"></i> Email Me</a>
+                <a href="https://www.linkedin.com/in/dustin-carstens-677683162" target="_blank" rel="noopener noreferrer" class="btn-ghost"><i class="fab fa-linkedin-in" style="margin-right: 0.5rem;"></i> LinkedIn</a>
             </div>
-            
             <div class="cta-downloads">
                 <p class="download-label">View My Work</p>
                 <div class="download-buttons">
-                    <a href="https://public.tableau.com/app/profile/dustin.carstens/vizzes" target="_blank" rel="noopener noreferrer" class="download-link">
-                        <i class="fas fa-chart-bar"></i>
-                        <span>Tableau Portfolio</span>
-                    </a>
-                    <a href="#projects" class="download-link">
-                        <i class="fas fa-folder-open"></i>
-                        <span>Project Showcase</span>
-                    </a>
+                    <a href="https://public.tableau.com/app/profile/dustin.carstens/vizzes" target="_blank" rel="noopener noreferrer" class="download-link"><i class="fas fa-chart-bar"></i><span>Tableau Portfolio</span></a>
+                    <a href="#work" class="download-link"><i class="fas fa-folder-open"></i><span>Project Showcase</span></a>
                 </div>
             </div>
-            
-            <div class="cta-email">
-                <span>Email: carstensdustin@gmail.com</span>
-            </div>
+            <div class="cta-email"><span>Email: <a href="mailto:carstensdustin@gmail.com">carstensdustin@gmail.com</a></span></div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer class="footer" role="contentinfo">
-        <div class="footer-left">
-            &copy; 2025 Onyx. All rights reserved.
-        </div>
+        <div class="footer-left">&copy; 2025 Onyx. All rights reserved.</div>
         <div class="footer-links">
-            <a href="https://www.linkedin.com/in/dustin-carstens-677683162" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile"><i class="fab fa-linkedin-in"></i></a>
-            <a href="https://github.com/DustinCarstens" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile"><i class="fab fa-github"></i></a>
-            <a href="https://public.tableau.com/app/profile/dustin.carstens/vizzes" target="_blank" rel="noopener noreferrer" aria-label="Tableau portfolio"><i class="fas fa-chart-bar"></i></a>
+            <a href="https://www.linkedin.com/in/dustin-carstens-677683162" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://github.com/DustinCarstens" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
+            <a href="https://public.tableau.com/app/profile/dustin.carstens/vizzes" target="_blank" rel="noopener noreferrer"><i class="fas fa-chart-bar"></i></a>
         </div>
     </footer>
 
     <!-- Project Modal -->
     <div class="modal" id="projectModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-        <div class="modal-overlay" aria-hidden="true"></div>
+        <div class="modal-overlay"></div>
         <div class="modal-content">
-            <button class="modal-close" aria-label="Close modal">
-                <i class="fas fa-times"></i>
-            </button>
-            <div class="modal-header">
-                <h2 id="modalTitle" class="modal-title"></h2>
-            </div>
-            <div class="modal-body" id="modalBody">
-                <!-- Dynamic content will be inserted here -->
-            </div>
+            <button class="modal-close" aria-label="Close modal"><i class="fas fa-times"></i></button>
+            <div class="modal-header"><h2 id="modalTitle" class="modal-title"></h2></div>
+            <div class="modal-body" id="modalBody"></div>
         </div>
     </div>
 
