@@ -25,15 +25,36 @@ const hasFineCursor = window.matchMedia('(pointer: fine)').matches;
 if (hasFineCursor) {
     const cursor = document.getElementById('customCursor');
     const cursorGlow = document.getElementById('cursorGlow');
-    let mouseX = 0, mouseY = 0, cursorX = 0, cursorY = 0;
-    document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
-    (function animateCursor() {
-        cursorX += (mouseX - cursorX) * 0.2;
-        cursorY += (mouseY - cursorY) * 0.2;
-        cursor.style.left = cursorX + 'px'; cursor.style.top = cursorY + 'px';
-        cursorGlow.style.left = cursorX + 'px'; cursorGlow.style.top = cursorY + 'px';
-        requestAnimationFrame(animateCursor);
+    let mouseX = -100, mouseY = -100, glowX = -100, glowY = -100;
+    let prevX = -100, prevY = -100, velocity = 0;
+
+    // Inner dot: zero-lag, direct positioning
+    document.addEventListener('mousemove', e => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        cursor.style.left = mouseX + 'px';
+        cursor.style.top = mouseY + 'px';
+    });
+
+    // Outer glow: smooth trail with velocity-based scaling
+    (function animateGlow() {
+        glowX += (mouseX - glowX) * 0.18;
+        glowY += (mouseY - glowY) * 0.18;
+        cursorGlow.style.left = glowX + 'px';
+        cursorGlow.style.top = glowY + 'px';
+
+        // Velocity: expand ring when moving fast
+        const dx = mouseX - prevX, dy = mouseY - prevY;
+        const speed = Math.sqrt(dx * dx + dy * dy);
+        velocity += (Math.min(speed, 60) - velocity) * 0.15;
+        const scale = 1 + velocity * 0.012;
+        cursorGlow.style.transform = `translate(-50%, -50%) scale(${scale})`;
+
+        prevX = mouseX;
+        prevY = mouseY;
+        requestAnimationFrame(animateGlow);
     })();
+
     document.querySelectorAll('a, button, input, select, textarea, .lab-card, .nav-dot, .carousel-dot, .resource-card').forEach(el => {
         el.addEventListener('mouseenter', () => { cursor.classList.add('hovering'); cursorGlow.classList.add('hovering'); });
         el.addEventListener('mouseleave', () => { cursor.classList.remove('hovering'); cursorGlow.classList.remove('hovering'); });
@@ -488,10 +509,10 @@ setVH();
 window.addEventListener('resize', setVH);
 
 // ═══════════════════════════════════════
-//  ABOUT — CONSTELLATION CANVAS
+//  ABOUT — MESH GRADIENT CANVAS
 // ═══════════════════════════════════════
 (() => {
-    const canvas = document.getElementById('aboutConstellation');
+    const canvas = document.getElementById('aboutMesh');
     const section = document.getElementById('about');
     if (!canvas || !section) return;
 
@@ -500,11 +521,15 @@ window.addEventListener('resize', setVH);
     if (reducedMotion) return;
 
     let w = 0, h = 0, animId = null, isActive = false;
-    let mouseX = -1000, mouseY = -1000;
-    const particles = [];
-    const PARTICLE_COUNT = window.innerWidth < 768 ? 0 : window.innerWidth < 1024 ? 30 : 55;
-    const CONNECT_DIST = 140;
-    const MOUSE_RADIUS = 180;
+    let mouseX = 0.5, mouseY = 0.5; // normalized 0-1
+
+    // 4 light sources that drift organically
+    const lights = [
+        { x: 0.25, y: 0.3, r: 280, vx: 0.0003, vy: 0.0002, phase: 0, speed: 0.003, alpha: 0.07 },
+        { x: 0.7, y: 0.25, r: 320, vx: -0.0002, vy: 0.0003, phase: 1.5, speed: 0.002, alpha: 0.05 },
+        { x: 0.5, y: 0.7, r: 250, vx: 0.0001, vy: -0.0002, phase: 3, speed: 0.004, alpha: 0.06 },
+        { x: 0.15, y: 0.65, r: 200, vx: 0.0002, vy: 0.0001, phase: 4.5, speed: 0.0025, alpha: 0.04 }
+    ];
     const gold = { r: 200, g: 164, b: 90 };
 
     function resize() {
@@ -512,112 +537,45 @@ window.addEventListener('resize', setVH);
         h = canvas.height = section.offsetHeight;
     }
 
-    function createParticle() {
-        return {
-            x: Math.random() * w,
-            y: Math.random() * h,
-            vx: (Math.random() - 0.5) * 0.3,
-            vy: (Math.random() - 0.5) * 0.25,
-            size: Math.random() * 2 + 0.5,
-            alpha: Math.random() * 0.5 + 0.15,
-            pulse: Math.random() * Math.PI * 2,
-            pulseSpeed: Math.random() * 0.015 + 0.005
-        };
-    }
-
-    function init() {
-        resize();
-        particles.length = 0;
-        for (let i = 0; i < PARTICLE_COUNT; i++) particles.push(createParticle());
-    }
-
-    // Mouse tracking relative to section
     section.addEventListener('mousemove', (e) => {
         const rect = section.getBoundingClientRect();
-        mouseX = e.clientX - rect.left;
-        mouseY = e.clientY - rect.top;
+        mouseX = (e.clientX - rect.left) / rect.width;
+        mouseY = (e.clientY - rect.top) / rect.height;
     });
-    section.addEventListener('mouseleave', () => { mouseX = -1000; mouseY = -1000; });
 
     function render() {
         ctx.clearRect(0, 0, w, h);
 
-        // Update & draw particles
-        for (const p of particles) {
-            p.pulse += p.pulseSpeed;
+        for (const l of lights) {
+            l.phase += l.speed;
 
-            // Mouse attraction (gentle)
-            const dx = mouseX - p.x;
-            const dy = mouseY - p.y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < MOUSE_RADIUS && dist > 1) {
-                const force = (MOUSE_RADIUS - dist) / MOUSE_RADIUS * 0.008;
-                p.vx += dx / dist * force;
-                p.vy += dy / dist * force;
-            }
+            // Organic drift
+            l.x += l.vx + Math.sin(l.phase) * 0.0004;
+            l.y += l.vy + Math.cos(l.phase * 0.7) * 0.0003;
 
-            // Damping
-            p.vx *= 0.997;
-            p.vy *= 0.997;
+            // Mouse influence (gentle)
+            l.x += (mouseX - l.x) * 0.001;
+            l.y += (mouseY - l.y) * 0.001;
 
-            p.x += p.vx;
-            p.y += p.vy;
+            // Soft bounds
+            if (l.x < 0.05 || l.x > 0.95) l.vx *= -1;
+            if (l.y < 0.05 || l.y > 0.95) l.vy *= -1;
+            l.x = Math.max(0, Math.min(1, l.x));
+            l.y = Math.max(0, Math.min(1, l.y));
 
-            // Wrap
-            if (p.x < -10) p.x = w + 10;
-            if (p.x > w + 10) p.x = -10;
-            if (p.y < -10) p.y = h + 10;
-            if (p.y > h + 10) p.y = -10;
+            // Breathing alpha
+            const breathe = l.alpha * (0.7 + 0.3 * Math.sin(l.phase * 1.5));
+            const px = l.x * w;
+            const py = l.y * h;
+            const r = l.r + Math.sin(l.phase * 0.8) * 40;
 
-            // Draw dot
-            const pulseAlpha = p.alpha * (0.7 + 0.3 * Math.sin(p.pulse));
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(${gold.r},${gold.g},${gold.b},${pulseAlpha})`;
-            ctx.fill();
+            const grad = ctx.createRadialGradient(px, py, 0, px, py, r);
+            grad.addColorStop(0, `rgba(${gold.r},${gold.g},${gold.b},${breathe})`);
+            grad.addColorStop(0.4, `rgba(${gold.r},${gold.g},${gold.b},${breathe * 0.4})`);
+            grad.addColorStop(1, 'transparent');
 
-            // Glow on larger particles
-            if (p.size > 1.2) {
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size * 3, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(${gold.r},${gold.g},${gold.b},${pulseAlpha * 0.08})`;
-                ctx.fill();
-            }
-        }
-
-        // Draw connections
-        ctx.lineWidth = 0.5;
-        for (let i = 0; i < particles.length; i++) {
-            for (let j = i + 1; j < particles.length; j++) {
-                const dx = particles[i].x - particles[j].x;
-                const dy = particles[i].y - particles[j].y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < CONNECT_DIST) {
-                    const opacity = (1 - dist / CONNECT_DIST) * 0.12;
-                    ctx.beginPath();
-                    ctx.moveTo(particles[i].x, particles[i].y);
-                    ctx.lineTo(particles[j].x, particles[j].y);
-                    ctx.strokeStyle = `rgba(${gold.r},${gold.g},${gold.b},${opacity})`;
-                    ctx.stroke();
-                }
-            }
-        }
-
-        // Mouse connection lines
-        if (mouseX > 0 && mouseY > 0) {
-            for (const p of particles) {
-                const dx = mouseX - p.x;
-                const dy = mouseY - p.y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < MOUSE_RADIUS) {
-                    const opacity = (1 - dist / MOUSE_RADIUS) * 0.2;
-                    ctx.beginPath();
-                    ctx.moveTo(p.x, p.y);
-                    ctx.lineTo(mouseX, mouseY);
-                    ctx.strokeStyle = `rgba(${gold.r},${gold.g},${gold.b},${opacity})`;
-                    ctx.stroke();
-                }
-            }
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, w, h);
         }
 
         if (isActive) animId = requestAnimationFrame(render);
@@ -626,22 +584,17 @@ window.addEventListener('resize', setVH);
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                if (!isActive) {
-                    isActive = true;
-                    section.classList.add('constellation-active');
-                    render();
-                }
+                if (!isActive) { isActive = true; section.classList.add('mesh-active'); render(); }
             } else {
-                isActive = false;
-                section.classList.remove('constellation-active');
+                isActive = false; section.classList.remove('mesh-active');
                 if (animId) cancelAnimationFrame(animId);
             }
         });
     }, { threshold: 0.05 });
     observer.observe(section);
 
-    init();
-    window.addEventListener('resize', debounce(() => { resize(); }, 200));
+    resize();
+    window.addEventListener('resize', debounce(resize, 200));
 })();
 
 // ═══════════════════════════════════════
@@ -651,16 +604,13 @@ window.addEventListener('resize', setVH);
     if (!hasFineCursor) return;
     const frame = document.getElementById('portraitFrame');
     if (!frame) return;
-
-    const MAX_TILT = 4; // degrees
+    const MAX_TILT = 4;
 
     frame.addEventListener('mousemove', (e) => {
         const rect = frame.getBoundingClientRect();
-        const x = (e.clientX - rect.left) / rect.width - 0.5;  // -0.5 to 0.5
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
         const y = (e.clientY - rect.top) / rect.height - 0.5;
-        const tiltX = -y * MAX_TILT;
-        const tiltY = x * MAX_TILT;
-        frame.style.transform = `perspective(800px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+        frame.style.transform = `perspective(800px) rotateX(${-y * MAX_TILT}deg) rotateY(${x * MAX_TILT}deg)`;
     });
 
     frame.addEventListener('mouseleave', () => {
@@ -678,26 +628,22 @@ window.addEventListener('resize', setVH);
     const energy = document.getElementById('timelineEnergy');
     if (!timeline || !energy) return;
 
-    const observer = new IntersectionObserver((entries) => {
+    const obs = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                // Fire energy pulse
                 setTimeout(() => {
                     energy.classList.add('active');
                     const line = timeline.querySelector('.timeline-line');
                     if (line) setTimeout(() => line.classList.add('energized'), 800);
-
-                    // Activate nodes as energy passes
-                    const nodes = timeline.querySelectorAll('.timeline-node');
-                    nodes.forEach((node, i) => {
+                    timeline.querySelectorAll('.timeline-node').forEach((node, i) => {
                         setTimeout(() => node.classList.add('node-activated'), 300 + i * 350);
                     });
                 }, 400);
-                observer.unobserve(entry.target);
+                obs.unobserve(entry.target);
             }
         });
     }, { threshold: 0.4 });
-    observer.observe(timeline);
+    obs.observe(timeline);
 })();
 
 // ═══════════════════════════════════════
@@ -706,70 +652,119 @@ window.addEventListener('resize', setVH);
 (() => {
     const ticker = document.getElementById('exploringTicker');
     if (!ticker) return;
-
     const items = ticker.querySelectorAll('.ticker-item');
-    if (items.length === 0) return;
+    if (!items.length) return;
 
     let currentIndex = 0;
-    const HOLD = 2500;
-    const TYPE_SPEED = 55;
-    const ERASE_SPEED = 30;
+    const HOLD = 2500, TYPE_SPEED = 55, ERASE_SPEED = 30;
 
-    function typeText(item, text, callback) {
-        let i = 0;
-        item.textContent = '';
-        item.classList.add('active');
-        const interval = setInterval(() => {
-            item.textContent = text.slice(0, ++i);
-            if (i >= text.length) {
-                clearInterval(interval);
-                setTimeout(callback, HOLD);
-            }
-        }, TYPE_SPEED);
+    function typeText(item, text, cb) {
+        let i = 0; item.textContent = ''; item.classList.add('active');
+        const iv = setInterval(() => { item.textContent = text.slice(0, ++i); if (i >= text.length) { clearInterval(iv); setTimeout(cb, HOLD); } }, TYPE_SPEED);
     }
-
-    function eraseText(item, callback) {
-        let text = item.textContent;
-        let i = text.length;
-        const interval = setInterval(() => {
-            item.textContent = text.slice(0, --i);
-            if (i <= 0) {
-                clearInterval(interval);
-                item.classList.remove('active');
-                callback();
-            }
-        }, ERASE_SPEED);
+    function eraseText(item, cb) {
+        let text = item.textContent, i = text.length;
+        const iv = setInterval(() => { item.textContent = text.slice(0, --i); if (i <= 0) { clearInterval(iv); item.classList.remove('active'); cb(); } }, ERASE_SPEED);
     }
-
     function cycle() {
         const item = items[currentIndex];
         const fullText = item.getAttribute('data-text') || item.textContent.trim();
         if (!item.getAttribute('data-text')) item.setAttribute('data-text', fullText);
-
-        typeText(item, fullText, () => {
-            eraseText(item, () => {
-                currentIndex = (currentIndex + 1) % items.length;
-                cycle();
-            });
-        });
+        typeText(item, fullText, () => eraseText(item, () => { currentIndex = (currentIndex + 1) % items.length; cycle(); }));
     }
 
-    items.forEach(item => {
-        item.setAttribute('data-text', item.textContent.trim());
-        item.textContent = '';
-        item.classList.remove('active');
-    });
+    items.forEach(item => { item.setAttribute('data-text', item.textContent.trim()); item.textContent = ''; item.classList.remove('active'); });
 
-    const aboutSection = document.getElementById('about');
-    const tickerObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                setTimeout(cycle, 800);
-                tickerObserver.unobserve(entry.target);
-            }
-        });
+    const obs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => { if (entry.isIntersecting) { setTimeout(cycle, 800); obs.unobserve(entry.target); } });
     }, { threshold: 0.3 });
-    tickerObserver.observe(aboutSection);
+    obs.observe(document.getElementById('about'));
+})();
+
+// ═══════════════════════════════════════
+//  HERO → ABOUT DISSOLVE TRANSITION
+// ═══════════════════════════════════════
+(() => {
+    const heroDissolve = document.getElementById('heroDissolve');
+    const hero = document.querySelector('.hero');
+    const heroOrbitals = document.getElementById('heroOrbitals');
+    const heroGeometry = document.getElementById('heroGeometry');
+    const heroGemWrap = document.getElementById('heroGemWrap');
+    if (!heroDissolve || !hero) return;
+
+    let ticking = false;
+    function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+            const heroH = hero.offsetHeight;
+            const scrollY = window.pageYOffset;
+            const fadeStart = heroH * 0.5;
+            const fadeEnd = heroH * 0.95;
+
+            if (scrollY > fadeStart) {
+                const progress = Math.min((scrollY - fadeStart) / (fadeEnd - fadeStart), 1);
+                heroDissolve.classList.add('active');
+                heroDissolve.style.opacity = progress;
+
+                // Fade hero visual elements
+                const fadeOut = 1 - progress;
+                if (heroOrbitals) heroOrbitals.style.opacity = fadeOut;
+                if (heroGeometry) heroGeometry.style.opacity = fadeOut;
+                if (heroGemWrap) heroGemWrap.style.opacity = Math.max(fadeOut, 0.1);
+            } else {
+                heroDissolve.classList.remove('active');
+                heroDissolve.style.opacity = 0;
+                if (heroOrbitals) heroOrbitals.style.opacity = '';
+                if (heroGeometry) heroGeometry.style.opacity = '';
+                if (heroGemWrap) heroGemWrap.style.opacity = '';
+            }
+            ticking = false;
+        });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+})();
+
+// ═══════════════════════════════════════
+//  NAV PROGRESS LINE
+// ═══════════════════════════════════════
+(() => {
+    const progressLine = document.getElementById('navProgressLine');
+    const sectionNavEl = document.getElementById('sectionNav');
+    if (!progressLine || !sectionNavEl) return;
+
+    function updateProgress() {
+        const scrolled = document.documentElement.scrollTop;
+        const total = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const pct = Math.min((scrolled / total) * 100, 100);
+        progressLine.style.height = pct + '%';
+    }
+    window.addEventListener('scroll', debounce(updateProgress, 16), { passive: true });
+})();
+
+// ═══════════════════════════════════════
+//  SECTION HINTS (scroll breadcrumbs)
+// ═══════════════════════════════════════
+(() => {
+    const hints = document.querySelectorAll('.section-hint');
+    if (!hints.length) return;
+
+    hints.forEach(hint => {
+        const section = hint.closest('.section, .hero');
+        if (!section) return;
+
+        const obs = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                // Show hint when section is mostly visible, hide when user scrolls past
+                if (entry.isIntersecting && entry.intersectionRatio > 0.4) {
+                    hint.classList.add('visible');
+                } else {
+                    hint.classList.remove('visible');
+                }
+            });
+        }, { threshold: [0.3, 0.5, 0.8] });
+        obs.observe(section);
+    });
 })();
 
 // ═══════════════════════════════════════
@@ -844,8 +839,8 @@ const heroEntrance = (() => {
         const gemGeo = new THREE.DodecahedronGeometry(1.4, 0);
         const gemMat = new THREE.MeshPhongMaterial({
             color: 0x121214,
-            specular: 0xc8a45a,
-            shininess: 120,
+            specular: 0x3a3020,
+            shininess: 30,
             transparent: true,
             opacity: 0.88,
             flatShading: true
@@ -866,7 +861,7 @@ const heroEntrance = (() => {
         const glowGeo = new THREE.IcosahedronGeometry(0.6, 1);
         const glowMat = new THREE.MeshBasicMaterial({
             color: 0xc8a45a,
-            transparent: true, opacity: 0.08
+            transparent: true, opacity: 0.03
         });
         innerGlow = new THREE.Mesh(glowGeo, glowMat);
         gemScene.add(innerGlow);
@@ -874,15 +869,15 @@ const heroEntrance = (() => {
         // Lights
         gemScene.add(new THREE.AmbientLight(0x1a1a2e, 0.6));
 
-        const keyLight = new THREE.PointLight(0xc8a45a, 1.6, 12);
+        const keyLight = new THREE.PointLight(0xc8a45a, 0.6, 12);
         keyLight.position.set(3, 3, 4);
         gemScene.add(keyLight);
 
-        const fillLight = new THREE.PointLight(0xd4b76a, 0.7, 10);
+        const fillLight = new THREE.PointLight(0xd4b76a, 0.3, 10);
         fillLight.position.set(-3, -1, 3);
         gemScene.add(fillLight);
 
-        const rimLight = new THREE.PointLight(0xffffff, 0.4, 8);
+        const rimLight = new THREE.PointLight(0xffffff, 0.2, 8);
         rimLight.position.set(0, -3, -2);
         gemScene.add(rimLight);
 
@@ -900,7 +895,7 @@ const heroEntrance = (() => {
         innerGlow.rotation.y = -gemAngle * 0.6;
         innerGlow.rotation.x = gemAngle * 0.3;
         // Breathe the inner glow
-        innerGlow.material.opacity = 0.06 + Math.sin(gemAngle * 2) * 0.04;
+        innerGlow.material.opacity = 0.02 + Math.sin(gemAngle * 2) * 0.02;
         gemRenderer.render(gemScene, gemCamera);
     }
 
@@ -1003,12 +998,23 @@ const heroEntrance = (() => {
     }
 
     // ── MASTER ANIMATION LOOP ──
+    let heroVisible = true;
     function loop() {
+        if (!heroVisible) { animFrameId = null; return; }
         updateGem();
         updateParticles();
         updateGeometry();
         animFrameId = requestAnimationFrame(loop);
     }
+
+    // Pause hero rendering when off-screen
+    const heroVisObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            heroVisible = entry.isIntersecting;
+            if (heroVisible && !animFrameId && started) loop();
+        });
+    }, { threshold: 0.02 });
+    if (hero) heroVisObs.observe(hero);
 
     // ── RESIZE ──
     function onResize() {

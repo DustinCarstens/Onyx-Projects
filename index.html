@@ -10,14 +10,14 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="Onyx | Projects & Tools by Dustin Carstens">
     <meta property="og:description" content="A project lab for data tools, interactive dashboards, and full-stack builds. MBA graduate, former Pfizer analyst, and web development consultant.">
-    <meta property="og:url" content="https://onyx-projects.com">
-    <meta property="og:image" content="https://onyx.dustincarstens.com/images/og-image.png">
+    <meta property="og:url" content="https://www.onyx-projects.com">
+    <meta property="og:image" content="https://www.onyx-projects.com/images/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Onyx | Projects & Tools by Dustin Carstens">
     <meta name="twitter:description" content="A project lab for data tools, interactive dashboards, and full-stack builds.">
-    <meta name="twitter:image" content="https://onyx.dustincarstens.com/images/og-image.png">
+    <meta name="twitter:image" content="https://www.onyx-projects.com/images/og-image.png">
     
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpolygon points='50,2 95,27 95,73 50,98 5,73 5,27' fill='none' stroke='%23c8a45a' stroke-width='6'/%3E%3Cpolygon points='50,20 78,37 78,63 50,80 22,63 22,37' fill='%23c8a45a'/%3E%3C/svg%3E">
@@ -53,6 +53,7 @@
 
     <!-- Section Navigation Dots (desktop) -->
     <nav class="section-nav" id="sectionNav" aria-label="Page sections">
+        <div class="nav-progress-line" id="navProgressLine"></div>
         <a href="#home" class="nav-dot active" data-section="Home" data-target="home"></a>
         <a href="#about" class="nav-dot" data-section="About" data-target="about"></a>
         <a href="#work" class="nav-dot" data-section="Work" data-target="work"></a>
@@ -130,13 +131,11 @@
         </div>
 
         <!-- Particle canvas -->
-        <canvas class="hero-particles" id="heroParticles"></canvas>
+        <canvas class="hero-particles" id="heroParticles" aria-hidden="true"></canvas>
 
         <!-- 3D Gem -->
         <div class="hero-gem-wrap" id="heroGemWrap">
-            <div class="hero-gem-glow"></div>
-            <div class="hero-gem-pulse"></div>
-            <canvas id="heroGemCanvas"></canvas>
+            <canvas id="heroGemCanvas" aria-hidden="true"></canvas>
         </div>
 
         <!-- Orbital accents (replaces stats) -->
@@ -152,6 +151,9 @@
             <div class="orbital-node node-6"></div>
         </div>
 
+        <!-- Hero dissolve zone -->
+        <div class="hero-dissolve" id="heroDissolve"></div>
+
         <!-- Content -->
         <div class="hero-content" id="heroContent">
             <div class="hero-eyebrow">
@@ -160,8 +162,8 @@
                 <span class="hero-eyebrow-line"></span>
             </div>
             <h1 class="hero-title">
-                <span class="hero-title-line"><span>Onyx</span></span>
-                <span class="hero-title-line"><span><em>Projects</em></span></span>
+                <span class="hero-title-line"><span>Built from</span></span>
+                <span class="hero-title-line"><span><em>Curiosity</em></span></span>
             </h1>
             <p class="hero-subtitle">
                 A personal lab for data tools, interactive dashboards, and
@@ -177,59 +179,54 @@
 
     <!-- ══════════ ABOUT ══════════ -->
     <section class="section about" id="about" aria-label="About Onyx">
-        <!-- Constellation canvas -->
-        <canvas class="about-constellation" id="aboutConstellation"></canvas>
+        <!-- Mesh gradient canvas -->
+        <canvas class="about-mesh" id="aboutMesh" aria-hidden="true"></canvas>
 
         <div class="about-split">
-
             <!-- LEFT: Content -->
             <div class="about-content">
-                <div class="reveal">
+                <div class="reveal" data-reveal="slide-right">
                     <span class="section-label">About Onyx</span>
                     <h2 class="section-title">A Workshop for<br><em>Thinking Out Loud</em></h2>
                 </div>
 
-                <p class="about-bio reveal reveal-delay-1">
+                <p class="about-bio reveal reveal-delay-1" data-reveal="slide-right">
                     Onyx is where I build things — data tools, web applications, and analytical deep-dives powered by curiosity. I use AI as a development partner to move fast; the vision and direction are mine.
                 </p>
 
-                <!-- Journey Timeline -->
-                <div class="about-timeline reveal reveal-delay-2" id="aboutTimeline">
+                <!-- Credentials Timeline -->
+                <div class="about-timeline reveal reveal-delay-2" id="aboutTimeline" data-reveal="slide-right">
                     <div class="timeline-line">
                         <div class="timeline-energy" id="timelineEnergy"></div>
                     </div>
                     <div class="timeline-node">
                         <div class="node-marker"><i class="fas fa-graduation-cap"></i></div>
                         <div class="node-content">
-                            <h4>MBA, UMKC</h4>
-                            <p>Business Analytics Certificate</p>
+                            <h4>Background</h4>
+                            <ul class="node-list">
+                                <li>MBA, UMKC</li>
+                                <li>Business Analytics Certificate</li>
+                                <li>Data Randomization Associate, Pfizer</li>
+                                <li>Web Development Consultant</li>
+                            </ul>
                         </div>
                     </div>
                     <div class="timeline-node">
-                        <div class="node-marker"><i class="fas fa-flask"></i></div>
+                        <div class="node-marker node-marker-active"><i class="fas fa-code"></i></div>
                         <div class="node-content">
-                            <h4>Pfizer</h4>
-                            <p>Data Randomization Associate</p>
-                        </div>
-                    </div>
-                    <div class="timeline-node">
-                        <div class="node-marker"><i class="fas fa-code"></i></div>
-                        <div class="node-content">
-                            <h4>Web Development</h4>
-                            <p>Full-stack consulting & API integration</p>
-                        </div>
-                    </div>
-                    <div class="timeline-node">
-                        <div class="node-marker node-marker-active"><i class="fas fa-gem"></i></div>
-                        <div class="node-content">
-                            <h4>Onyx</h4>
-                            <p>Data tools, dashboards & project lab</p>
+                            <h4>Core Skills</h4>
+                            <ul class="node-list">
+                                <li>Full-Stack AI Web Development</li>
+                                <li>Data Analysis & Visualization</li>
+                                <li>API Integration</li>
+                                <li>Database Management</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
 
-                <!-- Currently Exploring — live ticker -->
-                <div class="about-exploring reveal reveal-delay-3">
+                <!-- Currently Exploring -->
+                <div class="about-exploring reveal reveal-delay-3" data-reveal="slide-right">
                     <span class="exploring-label">Currently exploring</span>
                     <div class="exploring-ticker" id="exploringTicker">
                         <span class="ticker-item active">Claude API</span>
@@ -241,33 +238,27 @@
                 </div>
 
                 <!-- CTA -->
-                <div class="about-cta-row reveal reveal-delay-4">
+                <div class="about-cta-row reveal reveal-delay-4" data-reveal="slide-right">
                     <a href="#connect" class="btn-primary">
                         <i class="fas fa-envelope" style="margin-right: 0.5rem;"></i> Get In Touch
                     </a>
-                    <a href="#work" class="btn-ghost">
-                        View My Work
-                    </a>
+                    <a href="#work" class="btn-ghost">View My Work</a>
                 </div>
             </div>
 
             <!-- RIGHT: Cinematic Portrait -->
-            <div class="about-portrait reveal reveal-delay-1">
+            <div class="about-portrait reveal" data-reveal="slide-left">
                 <div class="portrait-frame" id="portraitFrame">
-                    <!-- Gold corner accents -->
                     <div class="portrait-corner corner-tl"></div>
                     <div class="portrait-corner corner-tr"></div>
                     <div class="portrait-corner corner-bl"></div>
                     <div class="portrait-corner corner-br"></div>
-                    <!-- Photo -->
                     <div class="portrait-image-wrap">
                         <img src="Images/headshot.jpg" alt="Dustin Carstens — Builder, Analyst, Developer" loading="lazy">
                         <div class="portrait-shine"></div>
                     </div>
-                    <!-- Glow backdrop -->
                     <div class="portrait-glow"></div>
                 </div>
-                <!-- Name + socials beneath -->
                 <div class="portrait-meta">
                     <span class="nameplate-name">Dustin Carstens</span>
                     <span class="nameplate-title">Builder & Explorer</span>
@@ -279,11 +270,17 @@
                 </div>
             </div>
         </div>
+
+        <!-- Section transition hint -->
+        <div class="section-hint" data-next="work">
+            <span class="hint-label">Featured Work</span>
+            <div class="hint-chevron"><i class="fas fa-chevron-down"></i></div>
+        </div>
     </section>
 
     <!-- ══════════ FEATURED WORK CAROUSEL ══════════ -->
     <section class="section carousel-section" id="work" aria-label="Featured work">
-        <div class="carousel-header reveal">
+        <div class="carousel-header reveal" data-reveal="scale">
             <span class="section-label">Featured Work</span>
             <h2 class="section-title">Things I've<br><em>Built</em></h2>
             <p class="section-desc">Each project started as something I wanted to understand, automate, or make visible.</p>
@@ -326,7 +323,7 @@
                     <div class="carousel-slide" data-index="1">
                         <div class="slide-visual slide-visual-dark">
                             <div class="slide-placeholder-viz">
-                                <i class="fas fa-chart-bar"></i>>
+                                <i class="fas fa-chart-bar"></i>
                                 <span>Interactive Tableau Dashboard</span>
                                 <small>Scroll down to explore live</small>
                             </div>
@@ -395,7 +392,7 @@
                             <div class="slide-placeholder-meta">
                                 <div class="meta-browser">
                                     <div class="meta-dots"><span></span><span></span><span></span></div>
-                                    <div class="meta-url">www.onyx-projects.com</div>
+                                    <div class="meta-url">onyx.dustincarstens.com</div>
                                 </div>
                                 <div class="meta-content">
                                     <div class="meta-hex"></div>
@@ -449,9 +446,10 @@
         <div class="tableau-dot-grid"></div>
         <div class="tableau-scanline"></div>
         <div class="tableau-container">
-            <div class="tableau-header reveal">
+            <div class="tableau-header reveal" data-reveal="clip">
                 <span class="section-label">Data Visualization</span>
                 <h2 class="section-title">Interactive<br><em>Dashboard</em></h2>
+                <div class="tableau-live-badge"><span class="live-dot"></span> Live Data</div>
                 <p class="section-desc">Explore this Tableau dashboard directly — filter data, hover for details, and interact with visualizations in real time.</p>
             </div>
             <div class="tableau-wrapper reveal reveal-delay-1">
@@ -481,7 +479,7 @@
         <div class="lab-header reveal">
             <span class="section-label">Live Lab</span>
             <h2 class="section-title">Interactive<br><em>Tools</em></h2>
-            <p class="section-desc">Try these tools directly in your browser.  — just click and use.</p>
+            <p class="section-desc">Try these tools directly in your browser — just click and use.</p>
         </div>
         
         <!-- Tab Navigation -->
@@ -641,14 +639,14 @@
                     <a href="#work" class="download-link"><i class="fas fa-folder-open"></i><span>Project Showcase</span></a>
                 </div>
             </div>
-            <div class="cta-email"><span>Email: carstensdustin@gmail.com</a></span></div>
+            <div class="cta-email"><span>Email: carstensdustin@gmail.com</span></a></span></div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer class="footer" role="contentinfo">
         <div class="footer-line"></div>
-        <div class="footer-left">&copy; 2026 Onyx-Projects. All rights reserved.</div>
+        <div class="footer-left">&copy; 2026 Onyx. All rights reserved.</div>
         <div class="footer-links">
             <a href="https://www.linkedin.com/in/dustin-carstens-677683162" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
             <a href="https://github.com/DustinCarstens" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
