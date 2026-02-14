@@ -26,6 +26,9 @@
     <!-- Tableau Embed API -->
     <script type="module" src="https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js"></script>
     
+    <!-- Three.js for 3D Hero -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
@@ -101,37 +104,70 @@
 
     <!-- ══════════ HERO ══════════ -->
     <section class="hero" id="home" aria-label="Hero section">
-        <div class="hero-bg" data-parallax="0.3"></div>
-        <div class="hero-lines"></div>
-        <div class="hero-content">
+        <!-- Cinematic entrance overlay -->
+        <div class="hero-cinematic" id="heroCinematic">
+            <div class="cinematic-line"></div>
+            <div class="cinematic-flash"></div>
+        </div>
+
+        <!-- Background -->
+        <div class="hero-bg"></div>
+
+        <!-- Geometric parallax shapes -->
+        <div class="hero-geometry" id="heroGeometry">
+            <div class="geo-shape geo-hex geo-s1"></div>
+            <div class="geo-shape geo-hex geo-s2"></div>
+            <div class="geo-shape geo-hex geo-s3"></div>
+            <div class="geo-shape geo-tri geo-s4"></div>
+            <div class="geo-shape geo-tri geo-s5"></div>
+            <div class="geo-shape geo-ring geo-s6"></div>
+            <div class="geo-shape geo-ring geo-s7"></div>
+            <div class="geo-shape geo-line geo-s8"></div>
+            <div class="geo-shape geo-line geo-s9"></div>
+            <div class="geo-shape geo-dot geo-s10"></div>
+            <div class="geo-shape geo-dot geo-s11"></div>
+            <div class="geo-shape geo-dot geo-s12"></div>
+        </div>
+
+        <!-- Particle canvas -->
+        <canvas class="hero-particles" id="heroParticles"></canvas>
+
+        <!-- 3D Gem -->
+        <div class="hero-gem-wrap" id="heroGemWrap">
+            <div class="hero-gem-glow"></div>
+            <div class="hero-gem-pulse"></div>
+            <canvas id="heroGemCanvas"></canvas>
+        </div>
+
+        <!-- Orbital accents (replaces stats) -->
+        <div class="hero-orbitals" id="heroOrbitals">
+            <div class="orbital-ring orbital-1"></div>
+            <div class="orbital-ring orbital-2"></div>
+            <div class="orbital-ring orbital-3"></div>
+            <div class="orbital-node node-1"></div>
+            <div class="orbital-node node-2"></div>
+            <div class="orbital-node node-3"></div>
+            <div class="orbital-node node-4"></div>
+            <div class="orbital-node node-5"></div>
+            <div class="orbital-node node-6"></div>
+        </div>
+
+        <!-- Content -->
+        <div class="hero-content" id="heroContent">
             <div class="hero-eyebrow">
                 <span class="hero-eyebrow-line"></span>
                 Projects & Tools
                 <span class="hero-eyebrow-line"></span>
             </div>
             <h1 class="hero-title">
-                <span class="hero-title-line"><span>Built from</span></span>
-                <span class="hero-title-line"><span><em>Curiosity</em></span></span>
+                <span class="hero-title-line"><span>Onyx</span></span>
+                <span class="hero-title-line"><span><em>Projects</em></span></span>
             </h1>
             <p class="hero-subtitle">
                 A personal lab for data tools, interactive dashboards, and
                 projects built with modern workflows. I leverage AI to accelerate development
                 while maintaining full creative control. Everything here started as a question.
             </p>
-            <div class="hero-stats">
-                <div class="hero-stat">
-                    <div class="hero-stat-number" data-count="4">0</div>
-                    <div class="hero-stat-label">Projects Built</div>
-                </div>
-                <div class="hero-stat">
-                    <div class="hero-stat-number" data-count="6">0</div>
-                    <div class="hero-stat-label">Live Tools</div>
-                </div>
-                <div class="hero-stat">
-                    <div class="hero-stat-number" data-count="2">0</div>
-                    <div class="hero-stat-label">Excel Templates</div>
-                </div>
-            </div>
             <div class="hero-actions">
                 <a href="#work" class="btn-primary">Explore Projects</a>
                 <a href="#lab" class="btn-ghost">Try Live Tools</a>
@@ -141,59 +177,104 @@
 
     <!-- ══════════ ABOUT ══════════ -->
     <section class="section about" id="about" aria-label="About Onyx">
-        <div class="about-grid">
-            <div class="about-left reveal">
-                <span class="section-label">About Onyx</span>
-                <h2 class="section-title">A Workshop for<br><em>Thinking Out Loud</em></h2>
-                <p class="section-desc">
-                    I'm Dustin Carstens. Onyx is where I build things — data visualizations, web tools, analytical deep-dives, and whatever else pulls me in. I work with AI as a design and development partner, using tools like Claude to accelerate ideation and problem-solving. The vision and direction are mine; AI helps me build faster.
+        <!-- Constellation canvas -->
+        <canvas class="about-constellation" id="aboutConstellation"></canvas>
+
+        <div class="about-split">
+
+            <!-- LEFT: Content -->
+            <div class="about-content">
+                <div class="reveal">
+                    <span class="section-label">About Onyx</span>
+                    <h2 class="section-title">A Workshop for<br><em>Thinking Out Loud</em></h2>
+                </div>
+
+                <p class="about-bio reveal reveal-delay-1">
+                    Onyx is where I build things — data tools, web applications, and analytical deep-dives powered by curiosity. I use AI as a development partner to move fast; the vision and direction are mine.
                 </p>
-                
-                <div class="about-exploring">
+
+                <!-- Journey Timeline -->
+                <div class="about-timeline reveal reveal-delay-2" id="aboutTimeline">
+                    <div class="timeline-line">
+                        <div class="timeline-energy" id="timelineEnergy"></div>
+                    </div>
+                    <div class="timeline-node">
+                        <div class="node-marker"><i class="fas fa-graduation-cap"></i></div>
+                        <div class="node-content">
+                            <h4>MBA, UMKC</h4>
+                            <p>Business Analytics Certificate</p>
+                        </div>
+                    </div>
+                    <div class="timeline-node">
+                        <div class="node-marker"><i class="fas fa-flask"></i></div>
+                        <div class="node-content">
+                            <h4>Pfizer</h4>
+                            <p>Data Randomization Associate</p>
+                        </div>
+                    </div>
+                    <div class="timeline-node">
+                        <div class="node-marker"><i class="fas fa-code"></i></div>
+                        <div class="node-content">
+                            <h4>Web Development</h4>
+                            <p>Full-stack consulting & API integration</p>
+                        </div>
+                    </div>
+                    <div class="timeline-node">
+                        <div class="node-marker node-marker-active"><i class="fas fa-gem"></i></div>
+                        <div class="node-content">
+                            <h4>Onyx</h4>
+                            <p>Data tools, dashboards & project lab</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Currently Exploring — live ticker -->
+                <div class="about-exploring reveal reveal-delay-3">
                     <span class="exploring-label">Currently exploring</span>
-                    <div class="exploring-tags">
-                        <span class="exploring-tag"><i class="fas fa-brain"></i> Claude API</span>
-                        <span class="exploring-tag"><i class="fas fa-bolt"></i> WebSocket Streaming</span>
-                        <span class="exploring-tag"><i class="fas fa-chart-bar"></i> Tableau LOD</span>
+                    <div class="exploring-ticker" id="exploringTicker">
+                        <span class="ticker-item active">Claude API</span>
+                        <span class="ticker-item">WebSocket Streaming</span>
+                        <span class="ticker-item">Tableau LOD Expressions</span>
+                        <span class="ticker-item">Python Automation</span>
+                        <span class="ticker-cursor">|</span>
                     </div>
                 </div>
-                
-                <div class="about-credentials">
-                    <div class="credential-column">
-                        <h4>Background</h4>
-                        <ul class="credential-list">
-                            <li>MBA, UMKC</li>
-                            <li>Business Analytics Certificate</li>
-                            <li>Data Randomization Associate, Pfizer</li>
-                            <li>Web Development Consultant</li>
-                        </ul>
-                    </div>
-                    <div class="credential-column">
-                        <h4>Core Skills</h4>
-                        <ul class="credential-list">
-                            <li>Full-Stack Web Development</li>
-                            <li>Data Analysis & Visualization</li>
-                            <li>API Integration</li>
-                            <li>Database Management</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="about-right reveal reveal-delay-2">
-                <div class="about-image-frame">
-                    <img src="Images/headshot.jpg" alt="Professional headshot of Dustin Carstens" loading="lazy">
-                    <div class="about-image-overlay">
-                        <div class="about-image-title">Dustin Carstens</div>
-                        <div class="about-image-sub">Builder & Explorer</div>
-                    </div>
-                </div>
-                <div class="about-cta">
-                    <a href="#connect" class="btn-ghost" style="width: 100%;">
+
+                <!-- CTA -->
+                <div class="about-cta-row reveal reveal-delay-4">
+                    <a href="#connect" class="btn-primary">
                         <i class="fas fa-envelope" style="margin-right: 0.5rem;"></i> Get In Touch
                     </a>
-                    <div class="about-links">
-                        <a href="https://www.linkedin.com/in/dustin-carstens-677683162" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
-                        <a href="https://public.tableau.com/app/profile/dustin.carstens/vizzes" target="_blank" rel="noopener noreferrer"><i class="fas fa-chart-bar"></i> Tableau</a>
+                    <a href="#work" class="btn-ghost">
+                        View My Work
+                    </a>
+                </div>
+            </div>
+
+            <!-- RIGHT: Cinematic Portrait -->
+            <div class="about-portrait reveal reveal-delay-1">
+                <div class="portrait-frame" id="portraitFrame">
+                    <!-- Gold corner accents -->
+                    <div class="portrait-corner corner-tl"></div>
+                    <div class="portrait-corner corner-tr"></div>
+                    <div class="portrait-corner corner-bl"></div>
+                    <div class="portrait-corner corner-br"></div>
+                    <!-- Photo -->
+                    <div class="portrait-image-wrap">
+                        <img src="Images/headshot.jpg" alt="Dustin Carstens — Builder, Analyst, Developer" loading="lazy">
+                        <div class="portrait-shine"></div>
+                    </div>
+                    <!-- Glow backdrop -->
+                    <div class="portrait-glow"></div>
+                </div>
+                <!-- Name + socials beneath -->
+                <div class="portrait-meta">
+                    <span class="nameplate-name">Dustin Carstens</span>
+                    <span class="nameplate-title">Builder & Explorer</span>
+                    <div class="portrait-socials">
+                        <a href="https://www.linkedin.com/in/dustin-carstens-677683162" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://public.tableau.com/app/profile/dustin.carstens/vizzes" target="_blank" rel="noopener noreferrer" aria-label="Tableau"><i class="fas fa-chart-bar"></i></a>
+                        <a href="https://github.com/DustinCarstens" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
                     </div>
                 </div>
             </div>
@@ -215,7 +296,7 @@
                     <!-- Slide 1: Locksmith -->
                     <div class="carousel-slide" data-index="0">
                         <div class="slide-visual">
-                            <video class="slide-video" autoplay loop muted playsinline>
+                            <video class="slide-video" autoplay loop muted playsinline controls>
                                 <source src="Videos/Same_Day_Locksmith_Website.mp4" type="video/mp4">
                             </video>
                             
@@ -314,7 +395,7 @@
                             <div class="slide-placeholder-meta">
                                 <div class="meta-browser">
                                     <div class="meta-dots"><span></span><span></span><span></span></div>
-                                    <div class="meta-url">onyx.dustincarstens.com</div>
+                                    <div class="meta-url">www.onyx-projects.com</div>
                                 </div>
                                 <div class="meta-content">
                                     <div class="meta-hex"></div>
@@ -365,6 +446,8 @@
 
     <!-- ══════════ TABLEAU DASHBOARD ══════════ -->
     <section class="section tableau-section" id="dashboard" aria-label="Interactive data dashboard">
+        <div class="tableau-dot-grid"></div>
+        <div class="tableau-scanline"></div>
         <div class="tableau-container">
             <div class="tableau-header reveal">
                 <span class="section-label">Data Visualization</span>
@@ -537,12 +620,18 @@
 
     <!-- ══════════ CONNECT ══════════ -->
     <section class="cta-section" id="connect" aria-label="Contact section">
+        <div class="cta-rings">
+            <div class="cta-ring cta-ring-1"></div>
+            <div class="cta-ring cta-ring-2"></div>
+            <div class="cta-ring cta-ring-3"></div>
+            <div class="cta-ring cta-ring-4"></div>
+        </div>
         <div class="cta-inner reveal">
             <span class="section-label" style="justify-content: center;">Connect</span>
             <h2 class="cta-title">Let's<br><em>Connect</em></h2>
             <p class="cta-desc">Whether you have a question, want to discuss a project, or just want to say hello — I'm always open to connecting.</p>
             <div class="cta-actions">
-                <a href="mailto:carstensdustin@gmail.com" class="btn-primary"><i class="fas fa-envelope" style="margin-right: 0.5rem;"></i> Email Me</a>
+                <a href="/cdn-cgi/l/email-protection#e18280939295848f9285949295888fa1868c80888dcf828e8c" class="btn-primary"><i class="fas fa-envelope" style="margin-right: 0.5rem;"></i> Email Me</a>
                 <a href="https://www.linkedin.com/in/dustin-carstens-677683162" target="_blank" rel="noopener noreferrer" class="btn-ghost"><i class="fab fa-linkedin-in" style="margin-right: 0.5rem;"></i> LinkedIn</a>
             </div>
             <div class="cta-downloads">
@@ -552,13 +641,14 @@
                     <a href="#work" class="download-link"><i class="fas fa-folder-open"></i><span>Project Showcase</span></a>
                 </div>
             </div>
-            <div class="cta-email"><span>Email: <a href="mailto:carstensdustin@gmail.com">carstensdustin@gmail.com</a></span></div>
+            <div class="cta-email"><span>Email: carstensdustin@gmail.com<span class="__cf_email__" data-cfemail="f49795868780919a87908187809d9ab49399959d98da979b99">[email&#160;protected]</span></a></span></div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer class="footer" role="contentinfo">
-        <div class="footer-left">&copy; 2025 Onyx. All rights reserved.</div>
+        <div class="footer-line"></div>
+        <div class="footer-left">&copy; 2026 Onyx-Projects. All rights reserved.</div>
         <div class="footer-links">
             <a href="https://www.linkedin.com/in/dustin-carstens-677683162" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
             <a href="https://github.com/DustinCarstens" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
@@ -572,10 +662,15 @@
         <div class="modal-content">
             <button class="modal-close" aria-label="Close modal"><i class="fas fa-times"></i></button>
             <div class="modal-header"><h2 id="modalTitle" class="modal-title"></h2></div>
-            <div class="modal-body" id="modalBody"></div>
+            <div class="modal-body">
+                <p class="modal-subtitle" id="modalSubtitle"></p>
+                <div class="modal-section" id="modalDetails"></div>
+            </div>
         </div>
     </div>
 
+    <!-- Scripts -->
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script src="onyx-script.js"></script>
 </body>
 </html>
