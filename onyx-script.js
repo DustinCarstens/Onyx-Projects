@@ -55,7 +55,7 @@ if (hasFineCursor) {
         requestAnimationFrame(animateGlow);
     })();
 
-    document.querySelectorAll('a, button, input, select, textarea, .lab-card, .nav-dot, .carousel-dot, .resource-card').forEach(el => {
+    document.querySelectorAll('a, button, input, select, textarea, .lab-card, .nav-dot, .carousel-dot, .resource-card, .credential-cell').forEach(el => {
         el.addEventListener('mouseenter', () => { cursor.classList.add('hovering'); cursorGlow.classList.add('hovering'); });
         el.addEventListener('mouseleave', () => { cursor.classList.remove('hovering'); cursorGlow.classList.remove('hovering'); });
     });
@@ -101,16 +101,7 @@ window.addEventListener('scroll', debounce(() => {
     });
 }, 10));
 
-// ═══ MAGNETIC BUTTONS ═══
-if (hasFineCursor) {
-    document.querySelectorAll('.btn-primary, .btn-ghost, .tool-btn').forEach(btn => {
-        btn.addEventListener('mousemove', e => {
-            const r = btn.getBoundingClientRect();
-            btn.style.transform = `translate(${(e.clientX - r.left - r.width/2)*0.2}px, ${(e.clientY - r.top - r.height/2)*0.2}px)`;
-        });
-        btn.addEventListener('mouseleave', () => btn.style.transform = 'translate(0,0)');
-    });
-}
+// ═══ MAGNETIC BUTTONS ═══ (removed — keeps buttons anchored for premium feel)
 
 // ═══ SUCCESS FLASH ═══
 function showSuccess(el) { el.classList.add('success-flash'); setTimeout(() => el.classList.remove('success-flash'), 1000); }
@@ -301,7 +292,7 @@ const carousel = {
         this.autoTimer = setInterval(() => this.next(), this.autoDelay);
     }
 };
-carousel.init();
+// carousel.init(); // Disabled — depth-stack carousel in onyx-enhance.js takes over
 
 // ═══════════════════════════════════════
 //  LAB TABS
@@ -768,20 +759,16 @@ window.addEventListener('resize', setVH);
 })();
 
 // ═══════════════════════════════════════
-//  LAB CARD 3D TILT (desktop only)
+//  LAB CARD + CREDENTIAL SPOTLIGHT (desktop only)
 // ═══════════════════════════════════════
 if (hasFineCursor) {
-    document.querySelectorAll('.lab-card').forEach(card => {
+    document.querySelectorAll('.lab-card, .credential-cell').forEach(card => {
         card.addEventListener('mousemove', e => {
             const rect = card.getBoundingClientRect();
-            const x = (e.clientX - rect.left) / rect.width - 0.5;
-            const y = (e.clientY - rect.top) / rect.height - 0.5;
-            card.classList.add('tilt-active');
-            card.style.transform = `perspective(600px) rotateY(${x * 6}deg) rotateX(${-y * 6}deg) translateY(-2px)`;
-        });
-        card.addEventListener('mouseleave', () => {
-            card.classList.remove('tilt-active');
-            card.style.transform = '';
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--mouse-x', x + 'px');
+            card.style.setProperty('--mouse-y', y + 'px');
         });
     });
 }
@@ -888,8 +875,9 @@ const heroEntrance = (() => {
     function updateGem() {
         if (!gem) return;
         gemAngle += 0.004;
-        gem.rotation.y = gemAngle + mouseNX * 0.3;
-        gem.rotation.x = Math.sin(gemAngle * 0.5) * 0.15 + mouseNY * 0.2;
+        // Autonomous rotation only — no mouse tracking for anchored, weighty feel
+        gem.rotation.y = gemAngle;
+        gem.rotation.x = Math.sin(gemAngle * 0.5) * 0.15;
         wireframe.rotation.y = gem.rotation.y;
         wireframe.rotation.x = gem.rotation.x;
         innerGlow.rotation.y = -gemAngle * 0.6;
