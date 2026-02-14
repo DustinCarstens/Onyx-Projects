@@ -59,7 +59,6 @@
         <a href="#work" class="nav-dot" data-section="Work" data-target="work"></a>
         <a href="#dashboard" class="nav-dot" data-section="Dashboard" data-target="dashboard"></a>
         <a href="#lab" class="nav-dot" data-section="Lab" data-target="lab"></a>
-        <a href="#toolkit" class="nav-dot" data-section="Toolkit" data-target="toolkit"></a>
         <a href="#connect" class="nav-dot" data-section="Connect" data-target="connect"></a>
     </nav>
 
@@ -75,6 +74,9 @@
         </a>
         <a href="#work" class="mob-nav-item" data-target="work">
             <i class="fas fa-briefcase"></i><span>Work</span>
+        </a>
+        <a href="#dashboard" class="mob-nav-item" data-target="dashboard">
+            <i class="fas fa-chart-bar"></i><span>Data</span>
         </a>
         <a href="#lab" class="mob-nav-item" data-target="lab">
             <i class="fas fa-flask"></i><span>Tools</span>
@@ -95,7 +97,6 @@
             <li><a href="#work">Work</a></li>
             <li><a href="#dashboard">Dashboard</a></li>
             <li><a href="#lab">Live Lab</a></li>
-            <li><a href="#toolkit">Toolkit</a></li>
             <li><a href="#connect" class="nav-cta">Connect</a></li>
         </ul>
         <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
@@ -229,20 +230,31 @@
                 <div class="about-exploring reveal reveal-delay-3" data-reveal="slide-right">
                     <span class="exploring-label">Currently exploring</span>
                     <div class="exploring-ticker" id="exploringTicker">
-                        <span class="ticker-item active">Claude API</span>
-                        <span class="ticker-item">WebSocket Streaming</span>
+                        <span class="ticker-item active">Client Dashboard Builds</span>
+                        <span class="ticker-item">Claude API Integration</span>
+                        <span class="ticker-item">Workflow Automation</span>
                         <span class="ticker-item">Tableau LOD Expressions</span>
-                        <span class="ticker-item">Python Automation</span>
+                        <span class="ticker-item">Small Business Web Solutions</span>
+                        <span class="ticker-item">Python Data Pipelines</span>
                         <span class="ticker-cursor">|</span>
                     </div>
                 </div>
 
+                <!-- Toolkit (compact) -->
+                <div class="about-toolkit reveal reveal-delay-4" data-reveal="slide-right">
+                    <span class="exploring-label">Toolkit</span>
+                    <div class="toolkit-strip">
+                        <div class="toolkit-chip"><i class="fas fa-chart-line"></i> Tableau &middot; Python &middot; SQL &middot; R</div>
+                        <div class="toolkit-chip"><i class="fas fa-code"></i> HTML &middot; CSS &middot; JS &middot; APIs</div>
+                        <div class="toolkit-chip"><i class="fas fa-database"></i> ETL &middot; Data Modeling &middot; Automation</div>
+                        <div class="toolkit-chip"><i class="fas fa-brain"></i> Claude &middot; AI-Assisted Dev</div>
+                    </div>
+                </div>
+
                 <!-- CTA -->
-                <div class="about-cta-row reveal reveal-delay-4" data-reveal="slide-right">
-                    <a href="#connect" class="btn-primary">
-                        <i class="fas fa-envelope" style="margin-right: 0.5rem;"></i> Get In Touch
-                    </a>
-                    <a href="#work" class="btn-ghost">View My Work</a>
+                <div class="about-cta-row reveal reveal-delay-5" data-reveal="slide-right">
+                    <a href="#work" class="btn-primary">View My Work</a>
+                    <a href="#lab" class="btn-ghost">Try Live Tools</a>
                 </div>
             </div>
 
@@ -288,15 +300,15 @@
         
         <div class="carousel-wrapper">
             <div class="carousel" id="projectCarousel">
-                <div class="carousel-track" id="carouselTrack">
+                <div class="carousel-track" id="carouselTrack" aria-live="polite" aria-atomic="false">
                     
                     <!-- Slide 1: Locksmith -->
                     <div class="carousel-slide" data-index="0">
                         <div class="slide-visual">
-                            <video class="slide-video" autoplay loop muted playsinline controls>
+                            <!-- Replace src with your image/video. Accepts .jpg .png .webp .mp4 — auto-formats to fill -->
+                            <video class="slide-media slide-video" autoplay loop muted playsinline controls>
                                 <source src="Videos/Same_Day_Locksmith_Website.mp4" type="video/mp4">
                             </video>
-                            
                         </div>
                         <div class="slide-content">
                             <span class="slide-number">01</span>
@@ -321,12 +333,13 @@
 
                     <!-- Slide 2: Dashboards -->
                     <div class="carousel-slide" data-index="1">
-                        <div class="slide-visual slide-visual-dark">
-                            <div class="slide-placeholder-viz">
-                                <i class="fas fa-chart-bar"></i>
-                                <span>Interactive Tableau Dashboard</span>
-                                <small>Scroll down to explore live</small>
-                            </div>
+                        <div class="slide-visual">
+                            <!-- Replace src with your image/video. Accepts .jpg .png .webp .mp4 — auto-formats to fill -->
+                            <img class="slide-media" src="Images/dashboard-preview.jpg" alt="Marketing Analytics Dashboard" loading="lazy">
+                            <!-- To use a video instead, comment out the img and uncomment below:
+                            <video class="slide-media slide-video" autoplay loop muted playsinline>
+                                <source src="Videos/dashboard-demo.mp4" type="video/mp4">
+                            </video> -->
                         </div>
                         <div class="slide-content">
                             <span class="slide-number">02</span>
@@ -351,19 +364,13 @@
 
                     <!-- Slide 3: Data Pipeline -->
                     <div class="carousel-slide" data-index="2">
-                        <div class="slide-visual slide-visual-dark">
-                            <div class="slide-placeholder-code">
-                                <div class="code-line"><span class="code-kw">import</span> pandas <span class="code-kw">as</span> pd</div>
-                                <div class="code-line"><span class="code-kw">from</span> sqlalchemy <span class="code-kw">import</span> create_engine</div>
-                                <div class="code-line">&nbsp;</div>
-                                <div class="code-line"><span class="code-cm"># Extract → Transform → Load</span></div>
-                                <div class="code-line">df = pd.<span class="code-fn">read_sql</span>(query, engine)</div>
-                                <div class="code-line">df = <span class="code-fn">clean_and_transform</span>(df)</div>
-                                <div class="code-line">df.<span class="code-fn">to_sql</span>(<span class="code-str">'analytics'</span>, engine)</div>
-                                <div class="code-line">&nbsp;</div>
-                                <div class="code-line"><span class="code-cm"># ✓ 12,847 rows processed</span></div>
-                                <div class="code-line"><span class="code-cm"># ✓ Pipeline complete</span></div>
-                            </div>
+                        <div class="slide-visual">
+                            <!-- Replace src with your image/video. Accepts .jpg .png .webp .mp4 — auto-formats to fill -->
+                            <img class="slide-media" src="Images/pipeline-preview.jpg" alt="Data Pipeline Automation" loading="lazy">
+                            <!-- To use a video instead, comment out the img and uncomment below:
+                            <video class="slide-media slide-video" autoplay loop muted playsinline>
+                                <source src="Videos/pipeline-demo.mp4" type="video/mp4">
+                            </video> -->
                         </div>
                         <div class="slide-content">
                             <span class="slide-number">03</span>
@@ -380,26 +387,21 @@
                                 <span class="tech-tag">SQL</span>
                                 <span class="tech-tag">Automation</span>
                             </div>
-                            <a href="#connect" class="btn-primary slide-cta carousel-internal-link">
-                                <i class="fas fa-envelope"></i> Discuss a Project
+                            <a href="https://github.com/DustinCarstens" target="_blank" rel="noopener noreferrer" class="btn-primary slide-cta">
+                                <i class="fab fa-github"></i> View on GitHub
                             </a>
                         </div>
                     </div>
 
                     <!-- Slide 4: Onyx -->
                     <div class="carousel-slide" data-index="3">
-                        <div class="slide-visual slide-visual-dark">
-                            <div class="slide-placeholder-meta">
-                                <div class="meta-browser">
-                                    <div class="meta-dots"><span></span><span></span><span></span></div>
-                                    <div class="meta-url">www.onyx-projects.com</div>
-                                </div>
-                                <div class="meta-content">
-                                    <div class="meta-hex"></div>
-                                    <div class="meta-title">ONYX</div>
-                                    <div class="meta-sub">Built from Curiosity</div>
-                                </div>
-                            </div>
+                        <div class="slide-visual">
+                            <!-- Replace src with your image/video. Accepts .jpg .png .webp .mp4 — auto-formats to fill -->
+                            <img class="slide-media" src="Images/onyx-preview.jpg" alt="Onyx Portfolio Website" loading="lazy">
+                            <!-- To use a video instead, comment out the img and uncomment below:
+                            <video class="slide-media slide-video" autoplay loop muted playsinline>
+                                <source src="Videos/onyx-demo.mp4" type="video/mp4">
+                            </video> -->
                         </div>
                         <div class="slide-content">
                             <span class="slide-number">04</span>
@@ -506,6 +508,7 @@
                     <div class="lab-card-header"><div class="lab-icon"><i class="fas fa-cloud-sun"></i></div><h3>Weather Dashboard</h3></div>
                     <p>Real-time weather data for any location using live API integration.</p>
                     <div class="tool-input-group">
+                        <label for="weatherCity" class="sr-only">City name</label>
                         <input type="text" id="weatherCity" placeholder="Enter city name" value="Kansas City">
                         <button class="tool-btn" id="weatherBtn">Get Weather</button>
                     </div>
@@ -514,6 +517,7 @@
                 <div class="lab-card reveal reveal-delay-2">
                     <div class="lab-card-header"><div class="lab-icon"><i class="fas fa-calculator"></i></div><h3>Data Calculator</h3></div>
                     <p>Paste numbers (comma or space-separated) to get instant statistics.</p>
+                    <label for="dataInput" class="sr-only">Numbers to calculate</label>
                     <textarea id="dataInput" placeholder="Enter numbers: 10, 20, 30, 40, 50"></textarea>
                     <button class="tool-btn" id="calculateBtn">Calculate</button>
                     <div id="calcResult" class="tool-result"></div>
@@ -522,6 +526,7 @@
                     <div class="lab-card-header"><div class="lab-icon"><i class="fas fa-exchange-alt"></i></div><h3>Unit Converter</h3></div>
                     <p>Convert between different units of measurement instantly.</p>
                     <div class="converter-tool">
+                        <label for="unitCategory" class="sr-only">Unit category</label>
                         <select id="unitCategory" class="converter-select">
                             <option value="temperature">Temperature</option>
                             <option value="length">Length</option>
@@ -531,14 +536,18 @@
                         </select>
                         <div class="converter-inputs">
                             <div class="converter-group">
+                                <label for="fromValue" class="sr-only">Value to convert</label>
                                 <input type="number" id="fromValue" placeholder="Enter value" value="32">
+                                <label for="fromUnit" class="sr-only">Convert from unit</label>
                                 <select id="fromUnit" class="converter-select"></select>
                             </div>
                             <div class="converter-swap">
-                                <button id="swapBtn" class="swap-btn"><i class="fas fa-exchange-alt"></i></button>
+                                <button id="swapBtn" class="swap-btn" aria-label="Swap units"><i class="fas fa-exchange-alt"></i></button>
                             </div>
                             <div class="converter-group">
+                                <label for="toValue" class="sr-only">Converted result</label>
                                 <input type="number" id="toValue" placeholder="Result" readonly>
+                                <label for="toUnit" class="sr-only">Convert to unit</label>
                                 <select id="toUnit" class="converter-select"></select>
                             </div>
                         </div>
@@ -548,6 +557,7 @@
                     <div class="lab-card-header"><div class="lab-icon"><i class="fas fa-chart-line"></i></div><h3>Stock Lookup</h3></div>
                     <p>Get real-time stock quotes and market data for any ticker symbol.</p>
                     <div class="tool-input-group">
+                        <label for="stockSymbol" class="sr-only">Stock ticker symbol</label>
                         <input type="text" id="stockSymbol" placeholder="Enter ticker (e.g., AAPL)" value="AAPL">
                         <button class="tool-btn" id="stockBtn">Get Quote</button>
                     </div>
@@ -562,6 +572,7 @@
                 <div class="lab-card">
                     <div class="lab-card-header"><div class="lab-icon"><i class="fas fa-font"></i></div><h3>Text Analytics</h3></div>
                     <p>Analyze text for word count, character count, and reading time.</p>
+                    <label for="textInput" class="sr-only">Text to analyze</label>
                     <textarea id="textInput" placeholder="Paste your text here..."></textarea>
                     <div id="textResult" class="text-stats"></div>
                 </div>
@@ -573,7 +584,11 @@
             <div class="lab-grid resources-grid">
                 <div class="resource-card">
                     <div class="resource-preview">
-                        <div class="resource-icon-lg"><i class="fas fa-file-excel"></i></div>
+                        <!-- Replace src with your preview image, or remove the img to fall back to the icon -->
+                        <img class="resource-thumb" src="Images/budget-template-preview.jpg" alt="Budget Spreadsheet Template preview">
+                        <div class="resource-preview-fallback">
+                            <div class="resource-icon-lg"><i class="fas fa-file-excel"></i></div>
+                        </div>
                         <span class="resource-format">.XLSX</span>
                     </div>
                     <div class="resource-info">
@@ -590,7 +605,11 @@
                 </div>
                 <div class="resource-card">
                     <div class="resource-preview">
-                        <div class="resource-icon-lg"><i class="fas fa-file-excel"></i></div>
+                        <!-- Replace src with your preview image, or remove the img to fall back to the icon -->
+                        <img class="resource-thumb" src="Images/pm-template-preview.jpg" alt="Project Management Template preview">
+                        <div class="resource-preview-fallback">
+                            <div class="resource-icon-lg"><i class="fas fa-file-excel"></i></div>
+                        </div>
                         <span class="resource-format">.XLSX</span>
                     </div>
                     <div class="resource-info">
@@ -609,23 +628,6 @@
         </div>
     </section>
 
-    <!-- ══════════ TOOLKIT ══════════ -->
-    <section class="section credentials" id="toolkit" aria-label="Technology toolkit">
-        <div class="credentials-inner">
-            <div class="reveal">
-                <span class="section-label">Toolkit</span>
-                <h2 class="section-title">What I <em>Work With</em></h2>
-            </div>
-            <div class="credentials-grid">
-                <div class="credential-cell reveal reveal-delay-1"><div class="credential-icon"><i class="fas fa-chart-line"></i></div><h4>Data & Analytics</h4><p>Tableau, Python, R, SQL, Excel — analysis and visualization</p></div>
-                <div class="credential-cell reveal reveal-delay-2"><div class="credential-icon"><i class="fas fa-code"></i></div><h4>Web Development</h4><p>HTML, CSS, JavaScript, APIs, Cloudflare Workers</p></div>
-                <div class="credential-cell reveal reveal-delay-3"><div class="credential-icon"><i class="fas fa-database"></i></div><h4>Data Engineering</h4><p>ETL pipelines, data modeling, database design, automation</p></div>
-                <div class="credential-cell reveal reveal-delay-4"><div class="credential-icon"><i class="fas fa-pencil-ruler"></i></div><h4>Design & UX</h4><p>Responsive design, UI architecture, user-centered builds</p></div>
-                <div class="credential-cell reveal reveal-delay-5"><div class="credential-icon"><i class="fas fa-brain"></i></div><h4>AI-Assisted Dev</h4><p>Claude, ChatGPT — accelerated prototyping and problem-solving</p></div>
-            </div>
-        </div>
-    </section>
-
     <!-- ══════════ CONNECT ══════════ -->
     <section class="cta-section" id="connect" aria-label="Contact section">
         <div class="cta-rings">
@@ -639,17 +641,9 @@
             <h2 class="cta-title">Let's<br><em>Connect</em></h2>
             <p class="cta-desc">Whether you have a question, want to discuss a project, or just want to say hello — I'm always open to connecting.</p>
             <div class="cta-actions">
-                <a href="/cdn-cgi/l/email-protection#e18280939295848f9285949295888fa1868c80888dcf828e8c" class="btn-primary"><i class="fas fa-envelope" style="margin-right: 0.5rem;"></i> Email Me</a>
+                <a href="mailto:carstensdustin@gmail.com" class="btn-primary"><i class="fas fa-envelope" style="margin-right: 0.5rem;"></i> Email Me</a>
                 <a href="https://www.linkedin.com/in/dustin-carstens-677683162" target="_blank" rel="noopener noreferrer" class="btn-ghost"><i class="fab fa-linkedin-in" style="margin-right: 0.5rem;"></i> LinkedIn</a>
             </div>
-            <div class="cta-downloads">
-                <p class="download-label">View My Work</p>
-                <div class="download-buttons">
-                    <a href="https://public.tableau.com/app/profile/dustin.carstens/vizzes" target="_blank" rel="noopener noreferrer" class="download-link"><i class="fas fa-chart-bar"></i><span>Tableau Portfolio</span></a>
-                    <a href="#work" class="download-link"><i class="fas fa-folder-open"></i><span>Project Showcase</span></a>
-                </div>
-            </div>
-            <div class="cta-email"><span>Email: <a href="/cdn-cgi/l/email-protection#c7a4a6b5b4b3a2a9b4a3b2b4b3aea987a0aaa6aeabe9a4a8aa"><span class="__cf_email__" data-cfemail="f49795868780919a87908187809d9ab49399959d98da979b99">[email&#160;protected]</span></a></span></div>
         </div>
     </section>
 
@@ -678,7 +672,6 @@
     </div>
 
     <!-- Scripts -->
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script src="onyx-script.js"></script>
 </body>
 </html>

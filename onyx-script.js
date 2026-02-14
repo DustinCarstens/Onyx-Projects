@@ -20,44 +20,31 @@ window.addEventListener('load', () => {
     }, 800);
 });
 
-// ═══ CUSTOM CURSOR ═══
+// ═══ CURSOR AMBIENT GLOW ═══
 const hasFineCursor = window.matchMedia('(pointer: fine)').matches;
 if (hasFineCursor) {
-    const cursor = document.getElementById('customCursor');
     const cursorGlow = document.getElementById('cursorGlow');
-    let mouseX = -100, mouseY = -100, glowX = -100, glowY = -100;
-    let prevX = -100, prevY = -100, velocity = 0;
+    let mouseX = -200, mouseY = -200, glowX = -200, glowY = -200;
 
-    // Inner dot: zero-lag, direct positioning
     document.addEventListener('mousemove', e => {
         mouseX = e.clientX;
         mouseY = e.clientY;
-        cursor.style.left = mouseX + 'px';
-        cursor.style.top = mouseY + 'px';
     });
 
-    // Outer glow: smooth trail with velocity-based scaling
+    // Smooth trailing glow — slower easing for ambient feel
     (function animateGlow() {
-        glowX += (mouseX - glowX) * 0.18;
-        glowY += (mouseY - glowY) * 0.18;
+        glowX += (mouseX - glowX) * 0.08;
+        glowY += (mouseY - glowY) * 0.08;
         cursorGlow.style.left = glowX + 'px';
         cursorGlow.style.top = glowY + 'px';
-
-        // Velocity: expand ring when moving fast
-        const dx = mouseX - prevX, dy = mouseY - prevY;
-        const speed = Math.sqrt(dx * dx + dy * dy);
-        velocity += (Math.min(speed, 60) - velocity) * 0.15;
-        const scale = 1 + velocity * 0.012;
-        cursorGlow.style.transform = `translate(-50%, -50%) scale(${scale})`;
-
-        prevX = mouseX;
-        prevY = mouseY;
+        cursorGlow.style.transform = 'translate(-50%, -50%)';
         requestAnimationFrame(animateGlow);
     })();
 
-    document.querySelectorAll('a, button, input, select, textarea, .lab-card, .nav-dot, .carousel-dot, .resource-card, .credential-cell').forEach(el => {
-        el.addEventListener('mouseenter', () => { cursor.classList.add('hovering'); cursorGlow.classList.add('hovering'); });
-        el.addEventListener('mouseleave', () => { cursor.classList.remove('hovering'); cursorGlow.classList.remove('hovering'); });
+    // Brighten glow on interactive elements
+    document.querySelectorAll('a, button, input, select, textarea, .lab-card, .nav-dot, .carousel-dot, .resource-card').forEach(el => {
+        el.addEventListener('mouseenter', () => cursorGlow.classList.add('hovering'));
+        el.addEventListener('mouseleave', () => cursorGlow.classList.remove('hovering'));
     });
 }
 
@@ -69,7 +56,7 @@ window.addEventListener('scroll', debounce(() => {
 }, 10));
 
 // ═══ SECTION NAV DOTS ═══
-const allSections = document.querySelectorAll('.hero, .about, .carousel-section, .tableau-section, .live-lab, .credentials, .cta-section');
+const allSections = document.querySelectorAll('.hero, .about, .carousel-section, .tableau-section, .live-lab, .cta-section');
 const navDots = document.querySelectorAll('.nav-dot');
 const mobNavItems = document.querySelectorAll('.mob-nav-item');
 
@@ -79,8 +66,8 @@ function updateActiveSection() {
         if (window.pageYOffset >= s.offsetTop - 200) current = s.getAttribute('id');
     });
     navDots.forEach(d => { d.classList.toggle('active', d.getAttribute('data-target') === current); });
-    // Mobile bottom nav
-    const mobMap = { home: 'home', about: 'home', work: 'work', dashboard: 'work', lab: 'lab', toolkit: 'lab', connect: 'connect' };
+    // Mobile bottom nav — direct mapping for 5-tab layout
+    const mobMap = { home: 'home', about: 'home', work: 'work', dashboard: 'dashboard', lab: 'lab', connect: 'connect' };
     const mobTarget = mobMap[current] || 'home';
     mobNavItems.forEach(m => m.classList.toggle('active', m.getAttribute('data-target') === mobTarget));
 }
@@ -274,6 +261,14 @@ const carousel = {
         this.dotsContainer.querySelectorAll('.carousel-dot').forEach((d, i) => d.classList.toggle('active', i === this.current));
         // Progress
         this.progressBar.style.width = `${((this.current + 1) / this.total) * 100}%`;
+        // Accessibility: mark active/hidden slides
+        this.slides.forEach((slide, i) => {
+            const isActive = i === this.current;
+            slide.setAttribute('aria-hidden', !isActive);
+            slide.querySelectorAll('a, button, input, select, textarea, video').forEach(el => {
+                el.setAttribute('tabindex', isActive ? '0' : '-1');
+            });
+        });
     },
 
     startAuto() {
@@ -292,7 +287,47 @@ const carousel = {
         this.autoTimer = setInterval(() => this.next(), this.autoDelay);
     }
 };
-// carousel.init(); // Disabled — depth-stack carousel in onyx-enhance.js takes over
+carousel.init();
+
+// Pause carousel when off-screen
+(() => {
+    const workSection = document.getElementById('work');
+    if (!workSection) return;
+    const carouselObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                if (!carousel.isPaused) carousel.startAuto();
+            } else {
+                carousel.stopAuto();
+            }
+        });
+    }, { threshold: 0.05 });
+    carouselObs.observe(workSection);
+})();
+
+// ═══ MEDIA FALLBACK HANDLING ═══
+// Slide media: if image fails, show a styled empty container
+document.querySelectorAll('img.slide-media').forEach(img => {
+    img.addEventListener('error', () => {
+        img.style.display = 'none';
+        img.closest('.slide-visual').classList.add('slide-visual-dark');
+        // Insert a minimal fallback
+        const fallback = document.createElement('div');
+        fallback.className = 'slide-placeholder-viz';
+        fallback.innerHTML = '<i class="fas fa-image"></i><span>Image coming soon</span>';
+        img.closest('.slide-visual').appendChild(fallback);
+    });
+});
+// Resource thumbs: if image fails, show the icon fallback
+document.querySelectorAll('img.resource-thumb').forEach(img => {
+    img.addEventListener('error', () => {
+        img.style.display = 'none';
+        const fallback = img.nextElementSibling;
+        if (fallback && fallback.classList.contains('resource-preview-fallback')) {
+            fallback.style.display = 'block';
+        }
+    });
+});
 
 // ═══════════════════════════════════════
 //  LAB TABS
@@ -762,7 +797,7 @@ window.addEventListener('resize', setVH);
 //  LAB CARD + CREDENTIAL SPOTLIGHT (desktop only)
 // ═══════════════════════════════════════
 if (hasFineCursor) {
-    document.querySelectorAll('.lab-card, .credential-cell').forEach(card => {
+    document.querySelectorAll('.lab-card').forEach(card => {
         card.addEventListener('mousemove', e => {
             const rect = card.getBoundingClientRect();
             const x = e.clientX - rect.left;
