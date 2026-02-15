@@ -23,19 +23,26 @@
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpolygon points='50,2 95,27 95,73 50,98 5,73 5,27' fill='none' stroke='%23c8a45a' stroke-width='6'/%3E%3Cpolygon points='50,20 78,37 78,63 50,80 22,63 22,37' fill='%23c8a45a'/%3E%3C/svg%3E">
     <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230a0a0a'/%3E%3Cpolygon points='50,12 85,32 85,68 50,88 15,68 15,32' fill='none' stroke='%23c8a45a' stroke-width='5'/%3E%3Cpolygon points='50,28 72,40 72,60 50,72 28,60 28,40' fill='%23c8a45a'/%3E%3C/svg%3E">
     
-    <!-- Tableau Embed API -->
-    <script type="module" src="https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js"></script>
+    <!-- Font Optimization -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300;1,9..40,400&family=IBM+Plex+Mono:wght@300;400;500&display=swap" as="style">
     
-    <!-- Three.js for 3D Hero -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Tableau Embed API (deferred) -->
+    <script type="module" defer src="https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js"></script>
+    
+    <!-- Three.js for 3D Hero (async) -->
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300;1,9..40,400&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="onyx-styles.css">
 </head>
 <body>
+    
+    <!-- Skip to Main Content -->
+    <a href="#home" class="skip-to-main">Skip to main content</a>
 
     <!-- Page Loader -->
     <div class="page-loader" id="pageLoader">
@@ -53,13 +60,24 @@
 
     <!-- Section Navigation Dots (desktop) -->
     <nav class="section-nav" id="sectionNav" aria-label="Page sections">
-        <div class="nav-progress-line" id="navProgressLine"></div>
-        <a href="#home" class="nav-dot active" data-section="Home" data-target="home"></a>
-        <a href="#about" class="nav-dot" data-section="About" data-target="about"></a>
-        <a href="#work" class="nav-dot" data-section="Work" data-target="work"></a>
-        <a href="#dashboard" class="nav-dot" data-section="Dashboard" data-target="dashboard"></a>
-        <a href="#lab" class="nav-dot" data-section="Lab" data-target="lab"></a>
-        <a href="#connect" class="nav-dot" data-section="Connect" data-target="connect"></a>
+        <a href="#home" class="nav-dot active" data-section="Home" data-target="home">
+            <i class="fas fa-home"></i><span>Home</span>
+        </a>
+        <a href="#about" class="nav-dot" data-section="About" data-target="about">
+            <i class="fas fa-user"></i><span>About</span>
+        </a>
+        <a href="#work" class="nav-dot" data-section="Work" data-target="work">
+            <i class="fas fa-briefcase"></i><span>Work</span>
+        </a>
+        <a href="#dashboard" class="nav-dot" data-section="Dashboard" data-target="dashboard">
+            <i class="fas fa-chart-bar"></i><span>Data</span>
+        </a>
+        <a href="#lab" class="nav-dot" data-section="Lab" data-target="lab">
+            <i class="fas fa-tools"></i><span>Tools</span>
+        </a>
+        <a href="#connect" class="nav-dot" data-section="Connect" data-target="connect">
+            <i class="fas fa-envelope"></i><span>Connect</span>
+        </a>
     </nav>
 
     <!-- Back to Top -->
@@ -110,7 +128,7 @@
             </li>
         </ul>
         <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
-            <span></span><span></span>
+            <span></span><span></span><span></span>
         </button>
     </nav>
 
@@ -124,22 +142,6 @@
 
         <!-- Background -->
         <div class="hero-bg"></div>
-
-        <!-- Geometric parallax shapes -->
-        <div class="hero-geometry" id="heroGeometry">
-            <div class="geo-shape geo-hex geo-s1"></div>
-            <div class="geo-shape geo-hex geo-s2"></div>
-            <div class="geo-shape geo-hex geo-s3"></div>
-            <div class="geo-shape geo-tri geo-s4"></div>
-            <div class="geo-shape geo-tri geo-s5"></div>
-            <div class="geo-shape geo-ring geo-s6"></div>
-            <div class="geo-shape geo-ring geo-s7"></div>
-            <div class="geo-shape geo-line geo-s8"></div>
-            <div class="geo-shape geo-line geo-s9"></div>
-            <div class="geo-shape geo-dot geo-s10"></div>
-            <div class="geo-shape geo-dot geo-s11"></div>
-            <div class="geo-shape geo-dot geo-s12"></div>
-        </div>
 
         <!-- Particle canvas -->
         <canvas class="hero-particles" id="heroParticles" aria-hidden="true"></canvas>
@@ -315,7 +317,7 @@
                     <!-- Slide 1: Locksmith -->
                     <div class="carousel-slide" data-index="0">
                         <div class="slide-visual">
-                            <video class="slide-media slide-video" autoplay loop muted playsinline controls>
+                            <video class="slide-media slide-video" poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 1080'%3E%3Crect fill='%23111111' width='1920' height='1080'/%3E%3C/svg%3E" autoplay loop muted playsinline controls preload="auto">
                                 <source src="Videos/Same_Day_Locksmith_Website.mp4" type="video/mp4">
                             </video>
                         </div>
@@ -369,7 +371,7 @@
                     <!-- Slide 3: Data Pipeline -->
                     <div class="carousel-slide" data-index="2">
                         <div class="slide-visual">
-                            <video class="slide-media slide-video" autoplay loop muted playsinline controls>
+                            <video class="slide-media slide-video" poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 1080'%3E%3Crect fill='%23111111' width='1920' height='1080'/%3E%3C/svg%3E" autoplay loop muted playsinline controls preload="auto">
                                 <source src="Videos/Python_ETL_py_Video.mp4" type="video/mp4">
                             </video>
                         </div>
@@ -397,7 +399,7 @@
                     <!-- Slide 4: Onyx -->
                     <div class="carousel-slide" data-index="3">
                         <div class="slide-visual">
-                            <video class="slide-media slide-video" autoplay loop muted playsinline controls>
+                            <video class="slide-media slide-video" poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 1080'%3E%3Crect fill='%23111111' width='1920' height='1080'/%3E%3C/svg%3E" autoplay loop muted playsinline controls preload="auto">
                                 <source src="Videos/The_Onyx_Project.mp4" type="video/mp4">
                             </video>
                         </div>
@@ -406,7 +408,7 @@
                             <h3 class="slide-title">The Onyx Project — This Portfolio</h3>
                             <p class="slide-desc">The site you're exploring right now. Custom-built with a premium dark aesthetic, interactive tools, embedded dashboards, and responsive design. No templates, no frameworks.</p>
                             <div class="slide-metrics">
-                                <div class="slide-metric"><span class="metric-value">6</span><span class="metric-label">Tools</span></div>
+                                <div class="slide-metric"><span class="metric-value">5</span><span class="metric-label">Tools</span></div>
                                 <div class="slide-metric"><span class="metric-value">0</span><span class="metric-label">Frameworks</span></div>
                                 <div class="slide-metric"><span class="metric-value">100%</span><span class="metric-label">Custom</span></div>
                             </div>
@@ -494,6 +496,7 @@
         
         <!-- Tab Navigation -->
         <div class="lab-tabs reveal" role="tablist">
+            <div class="lab-tab-indicator" id="labTabIndicator"></div>
             <button class="lab-tab active" role="tab" aria-selected="true" data-tab="tools"><i class="fas fa-wrench"></i> Tools</button>
             <button class="lab-tab" role="tab" aria-selected="false" data-tab="analytics"><i class="fas fa-chart-pie"></i> Analytics</button>
             <button class="lab-tab" role="tab" aria-selected="false" data-tab="resources"><i class="fas fa-download"></i> Resources</button>
@@ -521,37 +524,6 @@
                     <div id="calcResult" class="tool-result"></div>
                 </div>
                 <div class="lab-card reveal reveal-delay-3">
-                    <div class="lab-card-header"><div class="lab-icon"><i class="fas fa-exchange-alt"></i></div><h3>Unit Converter</h3></div>
-                    <p>Convert between different units of measurement instantly.</p>
-                    <div class="converter-tool">
-                        <label for="unitCategory" class="sr-only">Unit category</label>
-                        <select id="unitCategory" class="converter-select">
-                            <option value="temperature">Temperature</option>
-                            <option value="length">Length</option>
-                            <option value="weight">Weight</option>
-                            <option value="volume">Volume</option>
-                            <option value="speed">Speed</option>
-                        </select>
-                        <div class="converter-inputs">
-                            <div class="converter-group">
-                                <label for="fromValue" class="sr-only">Value to convert</label>
-                                <input type="number" id="fromValue" placeholder="Enter value" value="32">
-                                <label for="fromUnit" class="sr-only">Convert from unit</label>
-                                <select id="fromUnit" class="converter-select"></select>
-                            </div>
-                            <div class="converter-swap">
-                                <button id="swapBtn" class="swap-btn" aria-label="Swap units"><i class="fas fa-exchange-alt"></i></button>
-                            </div>
-                            <div class="converter-group">
-                                <label for="toValue" class="sr-only">Converted result</label>
-                                <input type="number" id="toValue" placeholder="Result" readonly>
-                                <label for="toUnit" class="sr-only">Convert to unit</label>
-                                <select id="toUnit" class="converter-select"></select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="lab-card reveal reveal-delay-4">
                     <div class="lab-card-header"><div class="lab-icon"><i class="fas fa-chart-line"></i></div><h3>Stock Lookup</h3></div>
                     <p>Get real-time stock quotes and market data for any ticker symbol.</p>
                     <div class="tool-input-group">
@@ -626,6 +598,11 @@
         </div>
     </section>
 
+    <!-- Section Break: Lab → Connect -->
+    <div class="section-break-connect" aria-hidden="true">
+        <div class="section-break-line"></div>
+    </div>
+
     <!-- ══════════ CONNECT ══════════ -->
     <section class="cta-section" id="connect" aria-label="Contact section">
         <div class="cta-rings">
@@ -639,7 +616,7 @@
             <h2 class="cta-title">Let's<br><em>Connect</em></h2>
             <p class="cta-desc">Whether you have a question, want to discuss a project, or just want to say hello — I'm always open to connecting.</p>
             <div class="cta-actions">
-                <a href="/cdn-cgi/l/email-protection#254644575651404b56415056514c4b654248444c490b464a48" class="btn-primary"><i class="fas fa-envelope" style="margin-right: 0.5rem;"></i> Email Me</a>
+                <a href="mailto:carstensdustin@gmail.com" class="btn-primary"><i class="fas fa-envelope" style="margin-right: 0.5rem;"></i> Email Me</a>
                 <a href="https://www.linkedin.com/in/dustin-carstens-677683162" target="_blank" rel="noopener noreferrer" class="btn-ghost"><i class="fab fa-linkedin-in" style="margin-right: 0.5rem;"></i> LinkedIn</a>
             </div>
         </div>

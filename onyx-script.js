@@ -66,13 +66,13 @@ function updateActiveSection() {
     allSections.forEach(s => {
         if (window.pageYOffset >= s.offsetTop - 200) current = s.getAttribute('id');
     });
-    navDots.forEach(d => { d.classList.toggle('active', d.getAttribute('data-target') === current); });
+    navDots.forEach(d => { d.classList.toggle('active', d.getAttribute('data-target') === current); d.setAttribute('aria-current', d.getAttribute('data-target') === current ? 'page' : 'false'); });
     // Mobile bottom nav — direct mapping for 5-tab layout
     const mobMap = { home: 'home', about: 'home', work: 'work', dashboard: 'dashboard', lab: 'lab', connect: 'connect' };
     const mobTarget = mobMap[current] || 'home';
-    mobNavItems.forEach(m => m.classList.toggle('active', m.getAttribute('data-target') === mobTarget));
+    mobNavItems.forEach(m => { m.classList.toggle('active', m.getAttribute('data-target') === mobTarget); m.setAttribute('aria-current', m.getAttribute('data-target') === mobTarget ? 'page' : 'false'); });
     // Top nav links — active section indicator
-    navLinksAll.forEach(a => a.classList.toggle('nav-active', a.getAttribute('data-section') === current));
+    navLinksAll.forEach(a => { a.classList.toggle('nav-active', a.getAttribute('data-section') === current); a.setAttribute('aria-current', a.getAttribute('data-section') === current ? 'page' : 'false'); });
 }
 window.addEventListener('scroll', debounce(updateActiveSection, 50));
 
@@ -182,33 +182,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// ═══ HERO COUNTER ANIMATION ═══
-function animateCounter(el) {
-    const target = parseInt(el.dataset.count);
-    const suffix = el.dataset.suffix || '';
-    const duration = 1500;
-    let start = null;
-    function step(ts) {
-        if (!start) start = ts;
-        const p = Math.min((ts - start) / duration, 1);
-        const eased = 1 - Math.pow(1 - p, 3); // ease-out cubic
-        el.textContent = Math.floor(eased * target) + suffix;
-        if (p < 1) requestAnimationFrame(step);
-    }
-    requestAnimationFrame(step);
-}
-
-const counterObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.querySelectorAll('[data-count]').forEach(animateCounter);
-            counterObserver.unobserve(entry.target);
-        }
-    });
-}, { threshold: 0.5 });
-const heroEl = document.querySelector('.hero');
-if (heroEl) counterObserver.observe(heroEl);
-
 // ═══════════════════════════════════════
 //  FEATURED WORK CAROUSEL
 // ═══════════════════════════════════════
@@ -265,16 +238,15 @@ const carousel = {
         });
 
         // Pause when user interacts with carousel videos
-        // Delayed activation prevents autoplay 'play' events from permanently
-        // blocking carousel auto-advance on page load
+        // Only pause carousel if user manually pauses the video (not autoplay)
         let videoListenersActive = false;
         setTimeout(() => { videoListenersActive = true; }, 3000);
         this.track.querySelectorAll('video').forEach(video => {
-            video.addEventListener('play', () => {
-                if (videoListenersActive) { this.isPaused = true; this.stopAuto(); }
-            });
             video.addEventListener('pause', () => {
-                if (videoListenersActive) { this.isPaused = false; this.startAuto(); }
+                // Only pause carousel if video is in active slide and wasn't paused by carousel update
+                if (videoListenersActive && video.closest('.carousel-slide')?.classList.contains('active-slide')) {
+                    this.isPaused = false; // Reset carousel pause state when video is paused manually
+                }
             });
         });
 
@@ -288,6 +260,16 @@ const carousel = {
 
         this.update();
         this.startAuto();
+        
+        // Ensure first video plays immediately after a brief delay for browser readiness
+        setTimeout(() => {
+            const firstVideo = this.slides[0]?.querySelector('video');
+            if (firstVideo) {
+                firstVideo.play().catch(() => {
+                    // If autoplay fails, at least the video is loaded and visible
+                });
+            }
+        }, 100);
     },
 
     goTo(index) {
@@ -308,8 +290,17 @@ const carousel = {
         this.slides.forEach((slide, i) => {
             const isActive = i === this.current;
             slide.setAttribute('aria-hidden', !isActive);
+            slide.classList.toggle('active-slide', isActive);
             slide.querySelectorAll('a, button, input, select, textarea, video').forEach(el => {
                 el.setAttribute('tabindex', isActive ? '0' : '-1');
+            });
+            // Play videos on active slide, pause on inactive slides
+            slide.querySelectorAll('video').forEach(video => {
+                if (isActive) {
+                    video.play().catch(() => {}); // Resume playing
+                } else {
+                    video.pause(); // Pause videos on hidden slides
+                }
             });
         });
     },
@@ -373,21 +364,65 @@ document.querySelectorAll('img.resource-thumb').forEach(img => {
 });
 
 // ═══════════════════════════════════════
-//  LAB TABS
+//  LAB TABS — with sliding indicator + keyboard navigation
 // ═══════════════════════════════════════
-document.querySelectorAll('.lab-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-        const target = tab.dataset.tab;
-        // Update tabs
-        document.querySelectorAll('.lab-tab').forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected', 'false'); });
-        tab.classList.add('active');
-        tab.setAttribute('aria-selected', 'true');
-        // Update panels
-        document.querySelectorAll('.lab-panel').forEach(p => p.classList.remove('active'));
-        const panel = document.querySelector(`.lab-panel[data-panel="${target}"]`);
-        if (panel) panel.classList.add('active');
+const labTabIndicator = document.getElementById('labTabIndicator');
+const labTabs = document.querySelectorAll('.lab-tab');
+
+function selectTab(tab) {
+    const index = Array.from(labTabs).indexOf(tab);
+    const target = tab.dataset.tab;
+    // Update tabs
+    document.querySelectorAll('.lab-tab').forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected', 'false'); });
+    tab.classList.add('active');
+    tab.setAttribute('aria-selected', 'true');
+    // Slide the indicator
+    if (labTabIndicator) labTabIndicator.setAttribute('data-pos', index);
+    // Update panels
+    document.querySelectorAll('.lab-panel').forEach(p => p.classList.remove('active'));
+    const panel = document.querySelector(`.lab-panel[data-panel="${target}"]`);
+    if (panel) panel.classList.add('active');
+    tab.focus();
+}
+
+document.querySelectorAll('.lab-tab').forEach((tab, index) => {
+    tab.addEventListener('click', () => selectTab(tab));
+    
+    tab.addEventListener('keydown', (e) => {
+        let nextTab = null;
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+            e.preventDefault();
+            nextTab = labTabs[(index + 1) % labTabs.length];
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+            e.preventDefault();
+            nextTab = labTabs[(index - 1 + labTabs.length) % labTabs.length];
+        } else if (e.key === 'Home') {
+            e.preventDefault();
+            nextTab = labTabs[0];
+        } else if (e.key === 'End') {
+            e.preventDefault();
+            nextTab = labTabs[labTabs.length - 1];
+        }
+        if (nextTab) selectTab(nextTab);
     });
 });
+
+// ═══════════════════════════════════════
+//  FETCH WITH TIMEOUT HELPER
+// ═══════════════════════════════════════
+async function fetchWithTimeout(url, timeout = 8000) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeout);
+    try {
+        const response = await fetch(url, { signal: controller.signal });
+        clearTimeout(timeoutId);
+        return response;
+    } catch (error) {
+        clearTimeout(timeoutId);
+        if (error.name === 'AbortError') throw new Error('Request timeout — please try again');
+        throw error;
+    }
+}
 
 // ═══════════════════════════════════════
 //  WEATHER TOOL
@@ -404,13 +439,13 @@ weatherBtn.addEventListener('click', async () => {
     
     try {
         // Geocode
-        const geoRes = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1`);
+        const geoRes = await fetchWithTimeout(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1`);
         const geoData = await geoRes.json();
         if (!geoData.results?.length) throw new Error('City not found');
         const { latitude, longitude, name: cityName, country } = geoData.results[0];
         
         // Weather
-        const wxRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code&temperature_unit=fahrenheit&wind_speed_unit=mph`);
+        const wxRes = await fetchWithTimeout(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code&temperature_unit=fahrenheit&wind_speed_unit=mph`);
         const wxData = await wxRes.json();
         const c = wxData.current;
         
@@ -459,46 +494,6 @@ document.getElementById('calculateBtn').addEventListener('click', () => {
 });
 
 // ═══════════════════════════════════════
-//  UNIT CONVERTER
-// ═══════════════════════════════════════
-const conversionData = {
-    temperature: { units: ['Celsius','Fahrenheit','Kelvin'], conversions: { 'Celsius-Fahrenheit': c=>(c*9/5)+32, 'Fahrenheit-Celsius': f=>(f-32)*5/9, 'Celsius-Kelvin': c=>c+273.15, 'Kelvin-Celsius': k=>k-273.15, 'Fahrenheit-Kelvin': f=>(f-32)*5/9+273.15, 'Kelvin-Fahrenheit': k=>(k-273.15)*9/5+32 }},
-    length: { units: ['Meters','Kilometers','Miles','Feet','Inches','Centimeters'], toBase: { Meters:1, Kilometers:1000, Miles:1609.34, Feet:0.3048, Inches:0.0254, Centimeters:0.01 }},
-    weight: { units: ['Kilograms','Grams','Pounds','Ounces','Tons'], toBase: { Kilograms:1, Grams:0.001, Pounds:0.453592, Ounces:0.0283495, Tons:1000 }},
-    volume: { units: ['Liters','Milliliters','Gallons','Quarts','Cups','Fluid Ounces'], toBase: { Liters:1, Milliliters:0.001, Gallons:3.78541, Quarts:0.946353, Cups:0.236588, 'Fluid Ounces':0.0295735 }},
-    speed: { units: ['Meters/Second','Kilometers/Hour','Miles/Hour','Knots'], toBase: { 'Meters/Second':1, 'Kilometers/Hour':0.277778, 'Miles/Hour':0.44704, Knots:0.514444 }}
-};
-
-const unitCat = document.getElementById('unitCategory'), fromVal = document.getElementById('fromValue'), fromUn = document.getElementById('fromUnit'), toVal = document.getElementById('toValue'), toUn = document.getElementById('toUnit');
-
-function populateUnits(cat) {
-    const d = conversionData[cat]; fromUn.innerHTML = ''; toUn.innerHTML = '';
-    d.units.forEach(u => { fromUn.add(new Option(u,u)); toUn.add(new Option(u,u)); });
-    if (d.units.length > 1) toUn.selectedIndex = 1;
-    convertUnits();
-}
-
-function convertUnits() {
-    const v = parseFloat(fromVal.value), cat = unitCat.value, from = fromUn.value, to = toUn.value;
-    if (isNaN(v) || from === to) { toVal.value = fromVal.value; return; }
-    const d = conversionData[cat];
-    let result;
-    if (cat === 'temperature') { result = d.conversions[`${from}-${to}`](v); }
-    else { result = (v * d.toBase[from]) / d.toBase[to]; }
-    toVal.value = result.toFixed(4);
-}
-
-unitCat.addEventListener('change', () => populateUnits(unitCat.value));
-fromVal.addEventListener('input', convertUnits);
-fromUn.addEventListener('change', convertUnits);
-toUn.addEventListener('change', convertUnits);
-document.getElementById('swapBtn').addEventListener('click', () => {
-    const t = fromUn.value; fromUn.value = toUn.value; toUn.value = t;
-    fromVal.value = toVal.value; convertUnits();
-});
-populateUnits('temperature');
-
-// ═══════════════════════════════════════
 //  STOCK LOOKUP
 // ═══════════════════════════════════════
 const stockBtn = document.getElementById('stockBtn'), stockSymbol = document.getElementById('stockSymbol'), stockResult = document.getElementById('stockResult');
@@ -512,7 +507,7 @@ stockBtn.addEventListener('click', async () => {
     showSkeleton(stockResult);
     
     try {
-        const res = await fetch(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${sym}&apikey=${STOCK_API_KEY}`);
+        const res = await fetchWithTimeout(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${sym}&apikey=${STOCK_API_KEY}`, 10000);
         const data = await res.json();
         if (data['Error Message']) throw new Error('Invalid symbol');
         if (data['Note'] || data['Information']) throw new Error('API rate limit (25/day). Try again later.');
@@ -703,14 +698,22 @@ window.addEventListener('resize', setVH);
 
     let currentIndex = 0;
     const HOLD = 2500, TYPE_SPEED = 55, ERASE_SPEED = 30;
+    let activeIntervals = [];
+
+    function clearIntervals() {
+        activeIntervals.forEach(id => clearInterval(id));
+        activeIntervals = [];
+    }
 
     function typeText(item, text, cb) {
         let i = 0; item.textContent = ''; item.classList.add('active');
-        const iv = setInterval(() => { item.textContent = text.slice(0, ++i); if (i >= text.length) { clearInterval(iv); setTimeout(cb, HOLD); } }, TYPE_SPEED);
+        const iv = setInterval(() => { item.textContent = text.slice(0, ++i); if (i >= text.length) { clearInterval(iv); activeIntervals = activeIntervals.filter(id => id !== iv); setTimeout(cb, HOLD); } }, TYPE_SPEED);
+        activeIntervals.push(iv);
     }
     function eraseText(item, cb) {
         let text = item.textContent, i = text.length;
-        const iv = setInterval(() => { item.textContent = text.slice(0, --i); if (i <= 0) { clearInterval(iv); item.classList.remove('active'); cb(); } }, ERASE_SPEED);
+        const iv = setInterval(() => { item.textContent = text.slice(0, --i); if (i <= 0) { clearInterval(iv); activeIntervals = activeIntervals.filter(id => id !== iv); item.classList.remove('active'); cb(); } }, ERASE_SPEED);
+        activeIntervals.push(iv);
     }
     function cycle() {
         const item = items[currentIndex];
@@ -722,7 +725,14 @@ window.addEventListener('resize', setVH);
     items.forEach(item => { item.setAttribute('data-text', item.textContent.trim()); item.textContent = ''; item.classList.remove('active'); });
 
     const obs = new IntersectionObserver((entries) => {
-        entries.forEach(entry => { if (entry.isIntersecting) { setTimeout(cycle, 800); obs.unobserve(entry.target); } });
+        entries.forEach(entry => { 
+            if (entry.isIntersecting) { 
+                setTimeout(cycle, 800); 
+                obs.unobserve(entry.target); 
+            } else {
+                clearIntervals();
+            }
+        });
     }, { threshold: 0.3 });
     obs.observe(document.getElementById('about'));
 })();
@@ -734,7 +744,6 @@ window.addEventListener('resize', setVH);
     const heroDissolve = document.getElementById('heroDissolve');
     const hero = document.querySelector('.hero');
     const heroOrbitals = document.getElementById('heroOrbitals');
-    const heroGeometry = document.getElementById('heroGeometry');
     const heroGemWrap = document.getElementById('heroGemWrap');
     if (!heroDissolve || !hero) return;
 
@@ -756,36 +765,17 @@ window.addEventListener('resize', setVH);
                 // Fade hero visual elements
                 const fadeOut = 1 - progress;
                 if (heroOrbitals) heroOrbitals.style.opacity = fadeOut;
-                if (heroGeometry) heroGeometry.style.opacity = fadeOut;
                 if (heroGemWrap) heroGemWrap.style.opacity = Math.max(fadeOut, 0.1);
             } else {
                 heroDissolve.classList.remove('active');
                 heroDissolve.style.opacity = 0;
                 if (heroOrbitals) heroOrbitals.style.opacity = '';
-                if (heroGeometry) heroGeometry.style.opacity = '';
                 if (heroGemWrap) heroGemWrap.style.opacity = '';
             }
             ticking = false;
         });
     }
     window.addEventListener('scroll', onScroll, { passive: true });
-})();
-
-// ═══════════════════════════════════════
-//  NAV PROGRESS LINE
-// ═══════════════════════════════════════
-(() => {
-    const progressLine = document.getElementById('navProgressLine');
-    const sectionNavEl = document.getElementById('sectionNav');
-    if (!progressLine || !sectionNavEl) return;
-
-    function updateProgress() {
-        const scrolled = document.documentElement.scrollTop;
-        const total = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const pct = Math.min((scrolled / total) * 100, 100);
-        progressLine.style.height = pct + '%';
-    }
-    window.addEventListener('scroll', debounce(updateProgress, 16), { passive: true });
 })();
 
 // ═══════════════════════════════════════
@@ -845,6 +835,22 @@ if (footerEl) {
 }
 
 // ═══════════════════════════════════════
+//  SECTION BREAK GOLD LINE (Lab → Connect)
+// ═══════════════════════════════════════
+const sectionBreak = document.querySelector('.section-break-connect');
+if (sectionBreak) {
+    const breakObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                sectionBreak.classList.add('break-revealed');
+                breakObs.unobserve(sectionBreak);
+            }
+        });
+    }, { threshold: 0.5 });
+    breakObs.observe(sectionBreak);
+}
+
+// ═══════════════════════════════════════
 //  HERO — CINEMATIC ENTRANCE & EFFECTS
 // ═══════════════════════════════════════
 const heroEntrance = (() => {
@@ -852,7 +858,6 @@ const heroEntrance = (() => {
     const cinematic = document.getElementById('heroCinematic');
     const gemCanvas = document.getElementById('heroGemCanvas');
     const particleCanvas = document.getElementById('heroParticles');
-    const geoLayer = document.getElementById('heroGeometry');
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let started = false;
     let mouseNX = 0, mouseNY = 0; // normalised -1…1
@@ -1026,27 +1031,12 @@ const heroEntrance = (() => {
         }
     }
 
-    // ── GEOMETRIC PARALLAX ──
-    function updateGeometry() {
-        if (!geoLayer) return;
-        const shapes = geoLayer.querySelectorAll('.geo-shape');
-        const depths = [0.025, 0.04, 0.02, 0.035, 0.03, 0.045, 0.015, 0.05, 0.02, 0.04, 0.03, 0.05];
-        shapes.forEach((el, i) => {
-            const d = depths[i] || 0.03;
-            const px = mouseNX * d * 800;
-            const py = mouseNY * d * 800;
-            el.style.setProperty('--px', px + 'px');
-            el.style.setProperty('--py', py + 'px');
-        });
-    }
-
     // ── MASTER ANIMATION LOOP ──
     let heroVisible = true;
     function loop() {
         if (!heroVisible) { animFrameId = null; return; }
         updateGem();
         updateParticles();
-        updateGeometry();
         animFrameId = requestAnimationFrame(loop);
     }
 
