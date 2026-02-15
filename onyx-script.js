@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════
-//  ONYX — INTERACTIVE FUNCTIONALITY
+//  THE ONYX PROJECT — INTERACTIVE FUNCTIONALITY
 // ═══════════════════════════════════════
 
 const STOCK_API_KEY = '041M45P0WTZN93PY';
@@ -59,6 +59,7 @@ window.addEventListener('scroll', debounce(() => {
 const allSections = document.querySelectorAll('.hero, .about, .carousel-section, .tableau-section, .live-lab, .cta-section');
 const navDots = document.querySelectorAll('.nav-dot');
 const mobNavItems = document.querySelectorAll('.mob-nav-item');
+const navLinksAll = document.querySelectorAll('.nav-links a[data-section]');
 
 function updateActiveSection() {
     let current = '';
@@ -70,6 +71,8 @@ function updateActiveSection() {
     const mobMap = { home: 'home', about: 'home', work: 'work', dashboard: 'dashboard', lab: 'lab', connect: 'connect' };
     const mobTarget = mobMap[current] || 'home';
     mobNavItems.forEach(m => m.classList.toggle('active', m.getAttribute('data-target') === mobTarget));
+    // Top nav links — active section indicator
+    navLinksAll.forEach(a => a.classList.toggle('nav-active', a.getAttribute('data-section') === current));
 }
 window.addEventListener('scroll', debounce(updateActiveSection, 50));
 
@@ -100,7 +103,20 @@ function showSkeleton(el) {
 
 // ═══ LOGO SCROLL TO TOP ═══
 const navLogo = document.getElementById('navLogo');
-if (navLogo) navLogo.addEventListener('click', e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
+if (navLogo) navLogo.addEventListener('click', e => {
+    e.preventDefault();
+    // Close mobile menu if open
+    if (navLinks.classList.contains('mobile-open')) {
+        navToggle.classList.remove('active');
+        navLinks.classList.remove('mobile-open');
+        nav.classList.remove('nav-open');
+        document.body.style.overflow = '';
+        navToggle.setAttribute('aria-expanded', 'false');
+        const mobileBottomNav = document.getElementById('mobileBottomNav');
+        if (mobileBottomNav) mobileBottomNav.style.display = '';
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+});
 
 // ═══ NAVIGATION ═══
 const nav = document.getElementById('nav');
@@ -115,6 +131,9 @@ navToggle.addEventListener('click', () => {
     nav.classList.toggle('nav-open', isOpen);
     document.body.style.overflow = navLinks.classList.contains('mobile-open') ? 'hidden' : '';
     navToggle.setAttribute('aria-expanded', isOpen);
+    // Hide/show mobile bottom nav when hamburger menu toggles
+    const mobileBottomNav = document.getElementById('mobileBottomNav');
+    if (mobileBottomNav) mobileBottomNav.style.display = isOpen ? 'none' : '';
 });
 
 navLinks.querySelectorAll('a').forEach(link => {
@@ -124,7 +143,23 @@ navLinks.querySelectorAll('a').forEach(link => {
         nav.classList.remove('nav-open');
         document.body.style.overflow = '';
         navToggle.setAttribute('aria-expanded', 'false');
+        // Restore mobile bottom nav
+        const mobileBottomNav = document.getElementById('mobileBottomNav');
+        if (mobileBottomNav) mobileBottomNav.style.display = '';
     });
+});
+
+// Close mobile menu on Escape key
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && navLinks.classList.contains('mobile-open')) {
+        navToggle.classList.remove('active');
+        navLinks.classList.remove('mobile-open');
+        nav.classList.remove('nav-open');
+        document.body.style.overflow = '';
+        navToggle.setAttribute('aria-expanded', 'false');
+        const mobileBottomNav = document.getElementById('mobileBottomNav');
+        if (mobileBottomNav) mobileBottomNav.style.display = '';
+    }
 });
 
 // ═══ SCROLL REVEAL ═══
@@ -229,10 +264,18 @@ const carousel = {
             link.addEventListener('click', () => this.stopAuto());
         });
 
-        // Pause when video inside carousel is being interacted with
+        // Pause when user interacts with carousel videos
+        // Delayed activation prevents autoplay 'play' events from permanently
+        // blocking carousel auto-advance on page load
+        let videoListenersActive = false;
+        setTimeout(() => { videoListenersActive = true; }, 3000);
         this.track.querySelectorAll('video').forEach(video => {
-            video.addEventListener('play', () => { this.isPaused = true; this.stopAuto(); });
-            video.addEventListener('pause', () => { this.isPaused = false; this.startAuto(); });
+            video.addEventListener('play', () => {
+                if (videoListenersActive) { this.isPaused = true; this.stopAuto(); }
+            });
+            video.addEventListener('pause', () => {
+                if (videoListenersActive) { this.isPaused = false; this.startAuto(); }
+            });
         });
 
         // Keyboard
@@ -621,29 +664,6 @@ window.addEventListener('resize', setVH);
 
     resize();
     window.addEventListener('resize', debounce(resize, 200));
-})();
-
-// ═══════════════════════════════════════
-//  ABOUT — PORTRAIT PARALLAX TILT
-// ═══════════════════════════════════════
-(() => {
-    if (!hasFineCursor) return;
-    const frame = document.getElementById('portraitFrame');
-    if (!frame) return;
-    const MAX_TILT = 4;
-
-    frame.addEventListener('mousemove', (e) => {
-        const rect = frame.getBoundingClientRect();
-        const x = (e.clientX - rect.left) / rect.width - 0.5;
-        const y = (e.clientY - rect.top) / rect.height - 0.5;
-        frame.style.transform = `perspective(800px) rotateX(${-y * MAX_TILT}deg) rotateY(${x * MAX_TILT}deg)`;
-    });
-
-    frame.addEventListener('mouseleave', () => {
-        frame.style.transition = 'transform 0.5s ease';
-        frame.style.transform = 'perspective(800px) rotateX(0) rotateY(0)';
-        setTimeout(() => { frame.style.transition = 'box-shadow 0.6s ease, transform 0.15s ease-out'; }, 500);
-    });
 })();
 
 // ═══════════════════════════════════════
@@ -1101,4 +1121,4 @@ const heroEntrance = (() => {
     return { start, skip };
 })();
 
-console.log('🎯 Onyx Interactive Systems Loaded');
+console.log('🎯 The Onyx Project — Interactive Systems Loaded');
