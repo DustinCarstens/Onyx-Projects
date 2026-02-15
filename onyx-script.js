@@ -931,6 +931,32 @@ const heroEntrance = (() => {
         return true;
     }
 
+    // Attempt to initialize the gem only when Three.js is available.
+    // Polls briefly if the CDN script hasn't executed yet, then initializes particles and the loop.
+    function safeInitGem() {
+        const wrapper = document.getElementById('heroGemWrap');
+        let attempts = 0;
+        const tryInit = () => {
+            if (typeof THREE !== 'undefined') {
+                const ok = initGem();
+                try {
+                    if (ok) {
+                        initParticles();
+                        loop();
+                        if (wrapper) wrapper.classList.add('gem-ready');
+                    }
+                } catch (e) {
+                    // swallow errors to avoid breaking page; keep poster visible
+                    console.warn('Gem init error', e);
+                }
+                return;
+            }
+            attempts++;
+            if (attempts < 20) setTimeout(tryInit, 150);
+        };
+        tryInit();
+    }
+
     let gemAngle = 0;
     function updateGem() {
         if (!gem) return;
@@ -1070,7 +1096,7 @@ const heroEntrance = (() => {
             cinematic.style.display = 'none';
             hero.classList.add('entrance-active');
             hero.classList.add('entrance-complete');
-            initGem(); initParticles(); loop();
+            safeInitGem();
             return;
         }
 
@@ -1083,9 +1109,7 @@ const heroEntrance = (() => {
         // Phase 3 — Fade cinematic overlay, reveal scene (1500ms)
         timers.push(setTimeout(() => {
             cinematic.classList.add('phase-fade');
-            initGem();
-            initParticles();
-            loop();
+            safeInitGem();
         }, 1500));
 
         // Phase 4 — Content entrance (2200ms)
@@ -1104,7 +1128,7 @@ const heroEntrance = (() => {
         timers.forEach(clearTimeout);
         cinematic.style.display = 'none';
         hero.classList.add('entrance-active', 'entrance-complete');
-        if (!gem) { initGem(); initParticles(); loop(); }
+        if (!gem) { safeInitGem(); }
     }
     window.addEventListener('scroll', skip, { once: true });
 

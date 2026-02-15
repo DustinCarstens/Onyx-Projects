@@ -415,6 +415,15 @@ body::after {
 
 .hero-gem-wrap canvas { width: 100%; height: 100%; display: block; }
 
+/* Static poster that shows until the Three.js gem is ready */
+.hero-gem-poster {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; display: block; z-index: 3; pointer-events: none;
+}
+.hero-gem-wrap.gem-ready .hero-gem-poster {
+    opacity: 0; transition: opacity 260ms ease; pointer-events: none;
+}
+
 /* ── Orbital Accents (replaces stats) ── */
 .hero-orbitals {
     position: absolute; top: 50%; left: 50%;
@@ -453,6 +462,21 @@ body::after {
     animation: orbitSpin 25s linear infinite;
 }
 @keyframes orbitSpin { to { transform: translate(-50%, -50%) rotateX(65deg) rotate(360deg); } }
+
+/* Preview change: hide the two thin light rings around the gem */
+.orbital-1, .orbital-2 {
+    display: none !important;
+}
+
+/* Remove orbital nodes (thicker dots) */
+.orbital-node {
+    display: none !important;
+}
+
+/* Remove dashed outer ring */
+.orbital-3 {
+    display: none !important;
+}
 
 .orbital-node {
     position: absolute;
@@ -494,11 +518,11 @@ body::after {
 .hero-title {
     font-family: var(--font-display);
     font-size: clamp(3rem, 8vw, 7rem);
-    font-weight: 300; line-height: 1.05; letter-spacing: -2px;
+    font-weight: 300; line-height: 1.12; letter-spacing: -2px;
     margin-bottom: 2rem; color: var(--text-primary);
     text-shadow: 0 0 80px rgba(200,164,90,0.15);
 }
-.hero-title-line { display: block; overflow: hidden; }
+.hero-title-line { display: block; overflow: hidden; padding-bottom: 0.12em; }
 .hero-title-line span { display: inline-block; }
 .hero-title em { font-style: italic; color: var(--gold); font-weight: 400; }
 
