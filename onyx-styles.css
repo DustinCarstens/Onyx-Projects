@@ -726,6 +726,16 @@ body::after {
     border-color: var(--gold-muted); color: var(--text-primary);
 }
 
+/* Randomization tool styles */
+.rand-form { display: grid; gap: 0.5rem; align-items: start; }
+.rand-form label { display: block; font-size: 0.85rem; color: var(--text-secondary); }
+.rand-form input { width: 100%; padding: 0.5rem 0.6rem; background: var(--onyx-surface); border: 1px solid var(--onyx-border); color: var(--text-primary); border-radius: 6px; }
+.rand-actions { display: flex; gap: 0.6rem; margin-top: 0.6rem; }
+.rand-preview { margin-top: 0.8rem; max-height: 220px; overflow: auto; background: rgba(255,255,255,0.02); border: 1px solid var(--onyx-border); padding: 0.6rem; border-radius: 6px; font-family: var(--font-mono); font-size: 0.9rem; color: var(--text-primary); }
+.rand-preview table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+.rand-preview th, .rand-preview td { padding: 0.25rem 0.35rem; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.03); }
+.rand-preview thead th { color: var(--gold); font-weight: 600; }
+
 /* ── About CTA Row ── */
 .about-cta-row { display: flex; gap: 1rem; flex-wrap: wrap; }
 
