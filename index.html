@@ -4,19 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Onyx Project | Projects & Tools by Dustin Carstens</title>
-    <meta name="description" content="Onyx is a project lab by Dustin Carstens — a curated collection of data tools, interactive dashboards, and curiosity-driven builds.">
+    <meta name="description" content="Onyx is a project lab by Dustin Carstens — a curated collection of data tools, web applications, and curiosity-driven builds.">
     
     <!-- Open Graph / Social Sharing -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="The Onyx Project | Projects & Tools by Dustin Carstens">
-    <meta property="og:description" content="A project lab for data tools, interactive dashboards, and full-stack builds. MBA graduate, former Pfizer analyst, and web development consultant.">
+    <meta property="og:description" content="A project lab for data tools, web applications, and full-stack builds. MBA graduate, former Pfizer analyst, and web development consultant.">
     <meta property="og:url" content="https://www.the-onyx-project.com">
     <meta property="og:image" content="https://www.the-onyx-project.com/images/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="The Onyx Project | Projects & Tools by Dustin Carstens">
-    <meta name="twitter:description" content="A project lab for data tools, interactive dashboards, and full-stack builds.">
+    <meta name="twitter:description" content="A project lab for data tools, web applications, and full-stack builds.">
     <meta name="twitter:image" content="https://www.the-onyx-project.com/images/og-image.png">
     
     <!-- Favicon -->
@@ -25,9 +25,6 @@
     
     <!-- Font Optimization -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300;1,9..40,400&family=IBM+Plex+Mono:wght@300;400;500&display=swap" as="style">
-    
-    <!-- Tableau Embed API (deferred) -->
-    <script type="module" defer src="https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js"></script>
     
     <!-- Three.js for 3D Hero (async) -->
     <script async src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -69,17 +66,11 @@
         <a href="#work" class="nav-dot" data-section="Work" data-target="work">
             <i class="fas fa-briefcase"></i><span>Work</span>
         </a>
-        <a href="#dashboard" class="nav-dot" data-section="Dashboard" data-target="dashboard">
-            <i class="fas fa-chart-bar"></i><span>Data</span>
-        </a>
         <a href="#lab" class="nav-dot" data-section="Lab" data-target="lab">
             <i class="fas fa-tools"></i><span>Tools</span>
         </a>
         <a href="https://ai.the-onyx-project.com" class="nav-dot" data-section="AI" data-target="ai">
             <i class="fas fa-robot"></i><span>AI</span>
-        </a>
-        <a href="#connect" class="nav-dot" data-section="Connect" data-target="connect">
-            <i class="fas fa-envelope"></i><span>Connect</span>
         </a>
     </nav>
 
@@ -96,17 +87,11 @@
         <a href="#work" class="mob-nav-item" data-target="work">
             <i class="fas fa-briefcase"></i><span>Work</span>
         </a>
-        <a href="#dashboard" class="mob-nav-item" data-target="dashboard">
-            <i class="fas fa-chart-bar"></i><span>Data</span>
-        </a>
         <a href="#lab" class="mob-nav-item" data-target="lab">
             <i class="fas fa-tools"></i><span>Tools</span>
         </a>
         <a href="https://ai.the-onyx-project.com" class="mob-nav-item" data-target="ai">
             <i class="fas fa-robot"></i><span>AI</span>
-        </a>
-        <a href="#connect" class="mob-nav-item" data-target="connect">
-            <i class="fas fa-envelope"></i><span>Connect</span>
         </a>
     </nav>
 
@@ -119,10 +104,8 @@
         <ul class="nav-links" id="navLinks">
             <li><a href="#about" data-section="about">About</a></li>
             <li><a href="#work" data-section="work">Work</a></li>
-            <li><a href="#dashboard" data-section="dashboard">Dashboard</a></li>
             <li><a href="#lab" data-section="lab">Tools</a></li>
-            <li><a href="https://ai.the-onyx-project.com" class="nav-ai-link">AI <span class="nav-ai-badge">New</span></a></li>
-            <li class="nav-connect-li"><a href="#connect" data-section="connect" class="nav-cta"><span>Connect</span><svg class="nav-cta-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 13L13 1M13 1H3M13 1V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+            <li><a href="https://ai.the-onyx-project.com">AI</a></li>
             <!-- Mobile menu footer — hidden on desktop, shown inside mobile overlay -->
             <li class="mobile-menu-footer" aria-hidden="true">
                 <div class="mobile-menu-divider"></div>
@@ -186,7 +169,7 @@
                 <span class="hero-title-line"><span><em>Project</em></span></span>
             </h1>
             <p class="hero-subtitle">
-                The Onyx Project is a personal lab for data tools, interactive dashboards, and
+                The Onyx Project is a personal lab for data tools, web applications, and
                 projects built with modern workflows. I leverage AI to accelerate development
                 while maintaining full creative control. Everything here started as a question.
             </p>
@@ -225,7 +208,6 @@
                             <h4>Background</h4>
                             <ul class="node-list">
                                 <li>MBA, UMKC</li>
-                                <li>Business Analytics Certificate</li>
                                 <li>Data Randomization Associate, Pfizer</li>
                                 <li>Web Development & Marketing Consultant</li>
                             </ul>
@@ -269,12 +251,6 @@
                         <div class="toolkit-chip"><i class="fas fa-brain"></i> Claude &middot; AI-Assisted Dev</div>
                     </div>
                 </div>
-
-                <!-- CTA -->
-                <div class="about-cta-row reveal reveal-delay-5" data-reveal="slide-right">
-                    <a href="#work" class="btn-primary">View My Work</a>
-                    <a href="#lab" class="btn-ghost">Try Live Tools</a>
-                </div>
             </div>
 
             <!-- RIGHT: Cinematic Portrait -->
@@ -295,8 +271,6 @@
                     <span class="nameplate-title">Builder & Explorer</span>
                     <div class="portrait-socials">
                         <a href="https://www.linkedin.com/in/dustin-carstens-677683162" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="https://public.tableau.com/app/profile/dustin.carstens/vizzes" target="_blank" rel="noopener noreferrer" aria-label="Tableau"><i class="fas fa-chart-bar"></i></a>
-                        <a href="https://github.com/DustinCarstens" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
                     </div>
                 </div>
             </div>
@@ -349,13 +323,67 @@
                         </div>
                     </div>
 
-                    <!-- Slide 2: Dashboards -->
+                    <!-- Slide 2: Onyx AI -->
                     <div class="carousel-slide" data-index="1">
+                        <div class="slide-visual">
+                            <img class="slide-media" src="Images/Onyx_AI.png" alt="Onyx AI Chat Interface" loading="lazy">
+                        </div>
+                        <div class="slide-content">
+                            <span class="slide-number">02</span>
+                            <h3 class="slide-title">Onyx AI &mdash; Private Chat Assistant</h3>
+                            <p class="slide-desc">Self-hosted AI chat running local LLMs with secure remote access. Multi-server GPU inference via Tailscale, document analysis, and two-layer authentication with Cloudflare tunnel infrastructure.</p>
+                            <div class="slide-metrics">
+                                <div class="slide-metric"><span class="metric-value">5</span><span class="metric-label">Security Layers</span></div>
+                                <div class="slide-metric"><span class="metric-value">2</span><span class="metric-label">Servers</span></div>
+                                <div class="slide-metric"><span class="metric-value">PWA</span><span class="metric-label">Installable</span></div>
+                            </div>
+                            <div class="slide-tags">
+                                <span class="tech-tag">Ollama</span>
+                                <span class="tech-tag">Node.js</span>
+                                <span class="tech-tag">Cloudflare</span>
+                                <span class="tech-tag">Tailscale</span>
+                            </div>
+                            <a href="https://ai.the-onyx-project.com" target="_blank" rel="noopener noreferrer" class="btn-primary slide-cta">
+                                <i class="fas fa-robot"></i> Try Onyx AI
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Slide 3: This Portfolio -->
+                    <div class="carousel-slide" data-index="2">
+                        <div class="slide-visual">
+                            <video class="slide-media slide-video" poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 1080'%3E%3Crect fill='%23111111' width='1920' height='1080'/%3E%3C/svg%3E" autoplay loop muted playsinline controls preload="auto">
+                                <source src="Videos/The_Onyx_Project.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="slide-content">
+                            <span class="slide-number">03</span>
+                            <h3 class="slide-title">The Onyx Project &mdash; This Portfolio</h3>
+                            <p class="slide-desc">The site you're exploring right now. Custom-built with a premium dark aesthetic, interactive tools, and responsive design. No templates, no frameworks.</p>
+                            <div class="slide-metrics">
+                                <div class="slide-metric"><span class="metric-value">4</span><span class="metric-label">Sections</span></div>
+                                <div class="slide-metric"><span class="metric-value">0</span><span class="metric-label">Frameworks</span></div>
+                                <div class="slide-metric"><span class="metric-value">100%</span><span class="metric-label">Custom</span></div>
+                            </div>
+                            <div class="slide-tags">
+                                <span class="tech-tag">HTML/CSS/JS</span>
+                                <span class="tech-tag">Three.js</span>
+                                <span class="tech-tag">REST APIs</span>
+                                <span class="tech-tag">AI-Assisted</span>
+                            </div>
+                            <a href="#lab" class="btn-primary slide-cta carousel-internal-link">
+                                <i class="fas fa-tools"></i> Try the Tools
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Slide 4: Dashboards -->
+                    <div class="carousel-slide" data-index="3">
                         <div class="slide-visual">
                             <img class="slide-media" src="Images/Tableau_Dashboard.png" alt="Marketing Analytics Dashboard" loading="lazy">
                         </div>
                         <div class="slide-content">
-                            <span class="slide-number">02</span>
+                            <span class="slide-number">04</span>
                             <h3 class="slide-title">Marketing Analytics Dashboard</h3>
                             <p class="slide-desc">Embedded Tableau visualizations that transform raw supermarket data into explorable stories. Filter, drill down, and interact with insights directly.</p>
                             <div class="slide-metrics">
@@ -369,64 +397,8 @@
                                 <span class="tech-tag">Analytics</span>
                                 <span class="tech-tag">JS API</span>
                             </div>
-                            <a href="#dashboard" class="btn-primary slide-cta carousel-internal-link">
+                            <a href="https://public.tableau.com/app/profile/dustin.carstens/vizzes" target="_blank" rel="noopener noreferrer" class="btn-primary slide-cta">
                                 <i class="fas fa-chart-line"></i> View Dashboard
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Slide 3: Data Pipeline -->
-                    <div class="carousel-slide" data-index="2">
-                        <div class="slide-visual">
-                            <video class="slide-media slide-video" poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 1080'%3E%3Crect fill='%23111111' width='1920' height='1080'/%3E%3C/svg%3E" autoplay loop muted playsinline controls preload="auto">
-                                <source src="Videos/Python_ETL_py_Video.mp4" type="video/mp4">
-                            </video>
-                        </div>
-                        <div class="slide-content">
-                            <span class="slide-number">03</span>
-                            <h3 class="slide-title">Data Pipeline Automation</h3>
-                            <p class="slide-desc">ETL workflows and data transformation scripts that automate repetitive analysis tasks. Scheduled execution with error handling and monitoring.</p>
-                            <div class="slide-metrics">
-                                <div class="slide-metric"><span class="metric-value">Auto</span><span class="metric-label">Scheduled</span></div>
-                                <div class="slide-metric"><span class="metric-value">ETL</span><span class="metric-label">Pipeline</span></div>
-                                <div class="slide-metric"><span class="metric-value">SQL</span><span class="metric-label">Powered</span></div>
-                            </div>
-                            <div class="slide-tags">
-                                <span class="tech-tag">Python</span>
-                                <span class="tech-tag">pandas</span>
-                                <span class="tech-tag">SQL</span>
-                                <span class="tech-tag">Automation</span>
-                            </div>
-                            <a href="https://github.com/DustinCarstens" target="_blank" rel="noopener noreferrer" class="btn-primary slide-cta">
-                                <i class="fab fa-github"></i> View on GitHub
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Slide 4: Onyx -->
-                    <div class="carousel-slide" data-index="3">
-                        <div class="slide-visual">
-                            <video class="slide-media slide-video" poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 1080'%3E%3Crect fill='%23111111' width='1920' height='1080'/%3E%3C/svg%3E" autoplay loop muted playsinline controls preload="auto">
-                                <source src="Videos/The_Onyx_Project.mp4" type="video/mp4">
-                            </video>
-                        </div>
-                        <div class="slide-content">
-                            <span class="slide-number">04</span>
-                            <h3 class="slide-title">The Onyx Project — This Portfolio</h3>
-                            <p class="slide-desc">The site you're exploring right now. Custom-built with a premium dark aesthetic, interactive tools, embedded dashboards, and responsive design. No templates, no frameworks.</p>
-                            <div class="slide-metrics">
-                                <div class="slide-metric"><span class="metric-value">5</span><span class="metric-label">Tools</span></div>
-                                <div class="slide-metric"><span class="metric-value">0</span><span class="metric-label">Frameworks</span></div>
-                                <div class="slide-metric"><span class="metric-value">100%</span><span class="metric-label">Custom</span></div>
-                            </div>
-                            <div class="slide-tags">
-                                <span class="tech-tag">HTML/CSS/JS</span>
-                                <span class="tech-tag">Tableau API</span>
-                                <span class="tech-tag">REST APIs</span>
-                                <span class="tech-tag">AI-Assisted</span>
-                            </div>
-                            <a href="#lab" class="btn-primary slide-cta carousel-internal-link">
-                                <i class="fas fa-tools"></i> Try the Tools
                             </a>
                         </div>
                     </div>
@@ -450,49 +422,6 @@
         </div>
     </section>
 
-    <!-- ══════════ TABLEAU DASHBOARD ══════════ -->
-    <section class="section tableau-section" id="dashboard" aria-label="Interactive data dashboard">
-        <div class="tableau-dot-grid"></div>
-        <div class="tableau-scanline"></div>
-        <div class="tableau-container">
-            <div class="tableau-header reveal" data-reveal="clip">
-                <span class="section-label">Data Visualization</span>
-                <h2 class="section-title">Interactive<br><em>Dashboard</em></h2>
-                <p class="section-desc">Explore this Tableau dashboard directly — filter data, hover for details, and interact with visualizations in real time.</p>
-            </div>
-            <div class="tableau-wrapper reveal reveal-delay-1">
-                <div class="tableau-terminal">
-                    <div class="tableau-terminal-bar">
-                        <div class="terminal-bar-left">
-                            <div class="terminal-dots"><span></span><span></span><span></span></div>
-                            <span class="terminal-bar-title">Marketing Dashboard — Tableau Public</span>
-                        </div>
-                        <div class="terminal-bar-right">
-                            <div class="terminal-status"><span class="terminal-status-dot"></span> Live Data</div>
-                        </div>
-                    </div>
-                    <div class="tableau-embed-container">
-                        <tableau-viz id="tableauViz" 
-                            src="https://public.tableau.com/shared/SBSN869W6?:display_count=n&:origin=viz_share_link"
-                            width="100%" height="1100" toolbar="bottom" hide-tabs>
-                        </tableau-viz>
-                    </div>
-                    <div class="terminal-bar-tips">
-                        <span class="terminal-tip"><i class="fas fa-mouse-pointer"></i> Click and drag to filter</span>
-                        <span class="terminal-tip"><i class="fas fa-hand-pointer"></i> Hover for tooltips</span>
-                        <span class="terminal-tip"><i class="fas fa-expand"></i> Use toolbar to fullscreen</span>
-                    </div>
-                </div>
-            </div>
-            <div class="tableau-cta reveal reveal-delay-2">
-                <p>Want to see more visualizations?</p>
-                <a href="https://public.tableau.com/app/profile/dustin.carstens/vizzes" target="_blank" rel="noopener noreferrer" class="btn-ghost">
-                    View Full Portfolio <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
-        </div>
-    </section>
-
     <!-- ══════════ LIVE LAB (Tabbed) ══════════ -->
     <section class="section live-lab" id="lab" aria-label="Interactive tools lab">
         <div class="lab-header reveal">
@@ -505,7 +434,6 @@
         <div class="lab-tabs reveal" role="tablist">
             <div class="lab-tab-indicator" id="labTabIndicator"></div>
             <button class="lab-tab active" role="tab" aria-selected="true" data-tab="tools"><i class="fas fa-wrench"></i> Tools</button>
-            <button class="lab-tab" role="tab" aria-selected="false" data-tab="analytics"><i class="fas fa-chart-pie"></i> Analytics</button>
             <button class="lab-tab" role="tab" aria-selected="false" data-tab="resources"><i class="fas fa-download"></i> Resources</button>
         </div>
         
@@ -540,13 +468,7 @@
                     </div>
                     <div id="stockResult" class="tool-result"></div>
                 </div>
-            </div>
-        </div>
-        
-        <!-- Panel: Analytics -->
-        <div class="lab-panel" data-panel="analytics">
-            <div class="lab-grid">
-                <div class="lab-card">
+                <div class="lab-card reveal reveal-delay-4">
                     <div class="lab-card-header"><div class="lab-icon"><i class="fas fa-font"></i></div><h3>Text Analytics</h3></div>
                     <p>Analyze text for word count, character count, and reading time.</p>
                     <label for="textInput" class="sr-only">Text to analyze</label>
@@ -605,38 +527,27 @@
         </div>
     </section>
 
-    <!-- Section Break: Lab → Connect -->
-    <div class="section-break-connect" aria-hidden="true">
-        <div class="section-break-line"></div>
-    </div>
-
-    <!-- ══════════ CONNECT ══════════ -->
-    <section class="cta-section" id="connect" aria-label="Contact section">
-        <div class="cta-rings">
-            <div class="cta-ring cta-ring-1"></div>
-            <div class="cta-ring cta-ring-2"></div>
-            <div class="cta-ring cta-ring-3"></div>
-            <div class="cta-ring cta-ring-4"></div>
-        </div>
-        <div class="cta-inner reveal">
-            <span class="section-label" style="justify-content: center;">Connect</span>
-            <h2 class="cta-title">Let's<br><em>Connect</em></h2>
-            <p class="cta-desc">Whether you have a question, want to discuss a project, or just want to say hello — I'm always open to connecting.</p>
-            <div class="cta-actions">
-                <a href="/cdn-cgi/l/email-protection#8eedeffcfdfaebe0fdeafbfdfae7e0cee9e3efe7e2a0ede1e3" class="btn-primary"><i class="fas fa-envelope" style="margin-right: 0.5rem;"></i> Email Me</a>
-                <a href="https://www.linkedin.com/in/dustin-carstens-677683162" target="_blank" rel="noopener noreferrer" class="btn-ghost"><i class="fab fa-linkedin-in" style="margin-right: 0.5rem;"></i> LinkedIn</a>
+    <!-- ══════════ FOOTER ══════════ -->
+    <footer class="site-footer" id="connect" role="contentinfo">
+        <div class="site-footer-inner">
+            <div class="site-footer-brand">
+                <div class="site-footer-gem"></div>
+                <span class="site-footer-name">The Onyx Project</span>
             </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer" role="contentinfo">
-        <div class="footer-line"></div>
-        <div class="footer-left">&copy; 2026 The Onyx Project. All rights reserved.</div>
-        <div class="footer-links">
-            <a href="https://www.linkedin.com/in/dustin-carstens-677683162" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
-            <a href="https://github.com/DustinCarstens" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
-            <a href="https://public.tableau.com/app/profile/dustin.carstens/vizzes" target="_blank" rel="noopener noreferrer"><i class="fas fa-chart-bar"></i></a>
+            <p class="site-footer-tagline">Built with curiosity. Powered by data.</p>
+            <div class="site-footer-links">
+                <a href="mailto:carstensdustin@gmail.com" class="site-footer-link"><i class="fas fa-envelope"></i> Email</a>
+                <a href="https://www.linkedin.com/in/dustin-carstens-677683162" target="_blank" rel="noopener noreferrer" class="site-footer-link"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
+                <a href="https://github.com/DustinCarstens" target="_blank" rel="noopener noreferrer" class="site-footer-link"><i class="fab fa-github"></i> GitHub</a>
+                <a href="https://public.tableau.com/app/profile/dustin.carstens/vizzes" target="_blank" rel="noopener noreferrer" class="site-footer-link"><i class="fas fa-chart-bar"></i> Tableau</a>
+                <a href="https://ai.the-onyx-project.com" class="site-footer-link"><i class="fas fa-robot"></i> Onyx AI</a>
+            </div>
+            <div class="site-footer-divider"></div>
+            <div class="site-footer-bottom">
+                <span>&copy; 2026 The Onyx Project</span>
+                <span class="site-footer-dot">&middot;</span>
+                <span>Dustin Carstens</span>
+            </div>
         </div>
     </footer>
 
