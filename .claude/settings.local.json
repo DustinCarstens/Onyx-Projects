@@ -3,7 +3,15 @@
     "allow": [
       "Bash(grep -n \"Onyx-Projects\\\\\\\\\\\\\\\\index\\\\\\\\.html\\\\|Onyx-Projects\\\\\\\\\\\\\\\\onyx-styles\\\\\\\\.css\\\\|Onyx-Projects\\\\\\\\\\\\\\\\onyx-script\\\\\\\\.js\" \"/c/Users/carst/.claude/projects/C--Onyx-AI/6734a0f2-1ddc-4061-8d3b-c312e6479105.jsonl\")",
       "Bash(sed -n '2910,2917p' \"/c/Users/carst/.claude/projects/C--Onyx-AI/6734a0f2-1ddc-4061-8d3b-c312e6479105.jsonl\")",
-      "Read(//tmp/**)"
+      "Read(//tmp/**)",
+      "Read(//c/Onyx AI/**)",
+      "Bash(node onyx-server.js)",
+      "Bash(netstat -ano)",
+      "Bash(findstr \":3000\")",
+      "Bash(tasklist /FI \"PID eq 13524\" /FO CSV)",
+      "Bash(tasklist /FI \"PID eq 20536\" /FO CSV)",
+      "Bash(powershell -Command \"Get-Process -Id 13524,20536 -ErrorAction SilentlyContinue | Select-Object Id,ProcessName,Path | Format-Table -AutoSize\")",
+      "Bash(powershell -Command \"Stop-Process -Id 13524 -Force -ErrorAction Stop; Write-Host 'Killed PID 13524'\")"
     ]
   }
 }

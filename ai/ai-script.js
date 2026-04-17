@@ -64,11 +64,32 @@
         const toggle = document.getElementById('aiNavToggle');
         const links = document.getElementById('aiNavLinks');
         if (!toggle || !links) return;
-        toggle.addEventListener('click', () => {
-            links.classList.toggle('open');
+
+        const setOpen = (open) => {
+            links.classList.toggle('open', open);
+            toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        };
+        setOpen(false);
+
+        toggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            setOpen(!links.classList.contains('open'));
         });
         links.querySelectorAll('a').forEach(a => {
-            a.addEventListener('click', () => links.classList.remove('open'));
+            a.addEventListener('click', () => setOpen(false));
+        });
+        // Outside tap / click closes
+        document.addEventListener('click', (e) => {
+            if (!links.classList.contains('open')) return;
+            if (links.contains(e.target) || toggle.contains(e.target)) return;
+            setOpen(false);
+        });
+        // Escape closes and restores focus to the toggle
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && links.classList.contains('open')) {
+                setOpen(false);
+                toggle.focus();
+            }
         });
     }
 
@@ -92,6 +113,11 @@
     function initNetwork() {
         const canvas = document.getElementById('aiNetworkCanvas');
         if (!canvas) return;
+        // Skip the canvas entirely on small/touch devices — perf + battery win,
+        // the grid background + glow already carry the look on mobile.
+        const isMobile = window.matchMedia('(max-width: 768px)').matches
+            || window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+        if (isMobile) { canvas.style.display = 'none'; return; }
         const ctx = canvas.getContext('2d');
         let w, h, nodes = [], mouse = { x: -9999, y: -9999 }, raf;
         const NODE_COUNT = 55;
