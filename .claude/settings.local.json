@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(grep -n \"Onyx-Projects\\\\\\\\\\\\\\\\index\\\\\\\\.html\\\\|Onyx-Projects\\\\\\\\\\\\\\\\onyx-styles\\\\\\\\.css\\\\|Onyx-Projects\\\\\\\\\\\\\\\\onyx-script\\\\\\\\.js\" \"/c/Users/carst/.claude/projects/C--Onyx-AI/6734a0f2-1ddc-4061-8d3b-c312e6479105.jsonl\")"
+      "Bash(grep -n \"Onyx-Projects\\\\\\\\\\\\\\\\index\\\\\\\\.html\\\\|Onyx-Projects\\\\\\\\\\\\\\\\onyx-styles\\\\\\\\.css\\\\|Onyx-Projects\\\\\\\\\\\\\\\\onyx-script\\\\\\\\.js\" \"/c/Users/carst/.claude/projects/C--Onyx-AI/6734a0f2-1ddc-4061-8d3b-c312e6479105.jsonl\")",
+      "Bash(sed -n '2910,2917p' \"/c/Users/carst/.claude/projects/C--Onyx-AI/6734a0f2-1ddc-4061-8d3b-c312e6479105.jsonl\")",
+      "Read(//tmp/**)"
     ]
   }
 }

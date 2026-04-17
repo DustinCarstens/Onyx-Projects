@@ -1,11 +1,372 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0;url=https://ai.the-onyx-project.com">
-    <title>Redirecting to Onyx AI...</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onyx AI | Your Own AI. On Your Own Terms.</title>
+    <meta name="description" content="Onyx AI is a self-hosted, open-source AI chat built by Dustin Carstens. Persistent memory, multi-user accounts, knowledge base, and web search.">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Onyx AI | Your Own AI. On Your Own Terms.">
+    <meta property="og:description" content="Self-hosted AI chat with memory, knowledge base, and web search. Part of The Onyx Project.">
+    <meta property="og:url" content="https://www.the-onyx-project.com/ai/">
+    <meta property="og:image" content="https://www.the-onyx-project.com/images/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Onyx AI | Your Own AI. On Your Own Terms.">
+    <meta name="twitter:description" content="Self-hosted AI chat with memory, knowledge base, and web search.">
+
+    <link rel="icon" type="image/x-icon" href="onyx-ai-online.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="onyx-ai-online.ico">
+    <link rel="apple-touch-icon" href="onyx-ai-online.ico">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="../onyx-styles.css">
+    <link rel="stylesheet" href="ai-styles.css">
 </head>
-<body>
-    <p>Redirecting to <a href="https://ai.the-onyx-project.com">Onyx AI</a>...</p>
+<body class="ai-page">
+
+    <canvas id="aiNetworkCanvas" aria-hidden="true"></canvas>
+    <div class="ai-grid-bg" aria-hidden="true"></div>
+
+    <!-- ═══════════ TOP NAV — minimal: brand + single action ═══════════ -->
+    <nav class="ai-nav" id="aiNav" role="navigation" aria-label="Onyx AI navigation">
+        <a href="/" class="ai-nav-logo" aria-label="Onyx home">
+            <div class="nav-logo-stone"></div>
+            <span class="ai-nav-logo-text">Onyx <span class="accent">AI</span></span>
+        </a>
+        <ul class="ai-nav-links" id="aiNavLinks">
+            <li class="ai-nav-mobile-only"><a href="/">Portfolio</a></li>
+            <li class="ai-nav-mobile-only"><a href="https://github.com/DustinCarstens" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+            <li><a href="https://ai.the-onyx-project.com" class="ai-nav-cta">launch chat &rarr;</a></li>
+        </ul>
+        <button class="ai-nav-toggle" id="aiNavToggle" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <!-- ═══════════ LEFT RAIL — utility links (desktop) ═══════════ -->
+    <aside class="ai-rail" aria-label="Utility links">
+        <a href="../" class="ai-rail-btn" aria-label="Back to Portfolio">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 12l2-2m0 0l7-7 7 7m-14 0v10a1 1 0 0 0 1 1h3m10-11l2 2m-2-2v10a1 1 0 0 1-1 1h-3m-6 0a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1m-6 0h6"/></svg>
+            <span class="ai-rail-tip">portfolio</span>
+        </a>
+        <a href="https://github.com/DustinCarstens" target="_blank" rel="noopener noreferrer" class="ai-rail-btn" aria-label="GitHub">
+            <i class="fab fa-github" aria-hidden="true"></i>
+            <span class="ai-rail-tip">github</span>
+        </a>
+        <div class="ai-rail-spacer"></div>
+        <a href="mailto:carstensdustin@gmail.com" class="ai-rail-btn" aria-label="Email">
+            <i class="fas fa-envelope" aria-hidden="true"></i>
+            <span class="ai-rail-tip">email</span>
+        </a>
+    </aside>
+
+    <!-- ═══════════ HERO ═══════════ -->
+    <section class="ai-hero ai-hero-chat" id="aiHero">
+        <div class="ai-hero-glow" aria-hidden="true"></div>
+        <h1 class="ai-visually-hidden">Onyx AI — private, local, yours.</h1>
+        <div class="ai-hero-inner">
+            <div class="ai-status-pill ai-status-pill-float" id="aiStatus" role="status" aria-live="polite">
+                <span class="ai-status-dot"></span>
+                <span id="aiStatusLabel">checking server</span>
+            </div>
+
+            <!-- New-chat screen replica — preview of the real app -->
+            <div class="ai-preview ai-preview-hero sidebar-collapsed" id="aiPreview">
+                <div class="ai-preview-header">
+                    <span class="ai-preview-dot"></span>
+                    <span class="ai-preview-dot"></span>
+                    <span class="ai-preview-dot"></span>
+                    <span class="ai-preview-label">onyx-ai</span>
+                    <span class="ai-preview-banner">
+                        <span class="ai-preview-banner-dot"></span>
+                        live preview &middot; click to launch
+                    </span>
+                </div>
+                <div class="ai-preview-shell">
+                    <aside class="ai-preview-sidebar" id="aiPreviewSidebar">
+                        <!-- Collapsed icon strip (matches real .sidebar-collapsed-strip) -->
+                        <div class="ai-preview-strip">
+                            <button type="button" class="ai-preview-strip-btn" data-sidebar-toggle aria-label="Expand sidebar">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="9 18 15 12 9 6"/></svg>
+                            </button>
+                            <div class="ai-preview-strip-divider"></div>
+                            <button type="button" class="ai-preview-strip-btn" tabindex="-1" aria-label="New chat">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                            </button>
+                            <button type="button" class="ai-preview-strip-btn" tabindex="-1" aria-label="Search">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                            </button>
+                            <button type="button" class="ai-preview-strip-btn" tabindex="-1" aria-label="Artifacts">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                            </button>
+                            <button type="button" class="ai-preview-strip-btn ai-preview-strip-btn-end" tabindex="-1" aria-label="Sign out">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                            </button>
+                        </div>
+                        <!-- Expanded sidebar content -->
+                        <div class="ai-preview-sidebar-main">
+                            <div class="ai-preview-sidebar-header">
+                                <div class="ai-preview-sidebar-header-row">
+                                    <button type="button" class="ai-preview-new-chat" tabindex="-1">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                                        New Chat
+                                    </button>
+                                    <button type="button" class="ai-preview-new-folder" tabindex="-1" aria-label="New folder">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/><line x1="12" y1="11" x2="12" y2="17"/><line x1="9" y1="14" x2="15" y2="14"/></svg>
+                                    </button>
+                                </div>
+                                <div class="ai-preview-sidebar-search">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                                    <input type="text" tabindex="-1" placeholder="Search chats..." readonly>
+                                </div>
+                            </div>
+                            <div class="ai-preview-sidebar-list">
+                                <div class="ai-preview-sidebar-item active">
+                                    <div class="ai-preview-sidebar-item-content">
+                                        <span class="ai-preview-sidebar-item-text">Welcome to Onyx</span>
+                                        <span class="ai-preview-sidebar-item-preview">Hey &mdash; what can I help you with?</span>
+                                    </div>
+                                </div>
+                                <div class="ai-preview-sidebar-item">
+                                    <div class="ai-preview-sidebar-item-content">
+                                        <span class="ai-preview-sidebar-item-text">Wedding menu ideas</span>
+                                        <span class="ai-preview-sidebar-item-preview">For 60 guests, start with three shared platters&hellip;</span>
+                                    </div>
+                                </div>
+                                <div class="ai-preview-sidebar-item">
+                                    <div class="ai-preview-sidebar-item-content">
+                                        <span class="ai-preview-sidebar-item-text">Q3 board prep</span>
+                                        <span class="ai-preview-sidebar-item-preview">Pulled the three flags from last Tuesday&hellip;</span>
+                                    </div>
+                                </div>
+                                <div class="ai-preview-sidebar-item">
+                                    <div class="ai-preview-sidebar-item-content">
+                                        <span class="ai-preview-sidebar-item-text">Rust notes</span>
+                                        <span class="ai-preview-sidebar-item-preview">Ownership review &mdash; the lifetime elision rules&hellip;</span>
+                                    </div>
+                                </div>
+                                <div class="ai-preview-sidebar-item">
+                                    <div class="ai-preview-sidebar-item-content">
+                                        <span class="ai-preview-sidebar-item-text">Trip to Iceland</span>
+                                        <span class="ai-preview-sidebar-item-preview">Ring Road itinerary, 7 nights in September&hellip;</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ai-preview-sidebar-personas">
+                                <label>Persona</label>
+                                <div class="ai-preview-persona-select" tabindex="-1">
+                                    <span>Default Assistant</span>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="6 9 12 15 18 9"/></svg>
+                                </div>
+                            </div>
+                            <div class="ai-preview-sidebar-footer">
+                                <span class="ai-preview-sidebar-footer-text">5 chats</span>
+                                <div class="ai-preview-sidebar-footer-actions">
+                                    <button type="button" class="ai-preview-sidebar-footer-btn" tabindex="-1" aria-label="Clear all chats">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                                    </button>
+                                    <button type="button" class="ai-preview-sidebar-footer-btn" tabindex="-1" aria-label="Sign out">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
+                    <div class="ai-preview-main">
+                        <!-- Chat app top header (matches real .header) -->
+                        <header class="ai-preview-chat-header">
+                            <div class="ai-preview-chat-header-left">
+                                <button type="button" class="ai-preview-chat-toggle" data-sidebar-toggle aria-label="Toggle sidebar">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                                </button>
+                                <div class="ai-preview-chat-logo"></div>
+                                <span class="ai-preview-chat-title">Onyx <em>AI</em></span>
+                                <div class="ai-preview-chat-status"><div class="ai-preview-chat-status-dot"></div></div>
+                            </div>
+                            <div class="ai-preview-chat-header-right">
+                                <div class="ai-preview-model-picker" tabindex="-1">
+                                    <span class="ai-preview-model-dot"></span>
+                                    <span class="ai-preview-model-name">llama3.1:8b</span>
+                                    <span class="ai-preview-model-arrow">&#9662;</span>
+                                </div>
+                            </div>
+                        </header>
+                <div class="ai-preview-welcome">
+                    <div class="ai-preview-gem-container">
+                        <div class="ai-preview-gem-ring"></div>
+                        <div class="ai-preview-gem-ring"></div>
+                        <div class="ai-preview-gem"></div>
+                        <div class="ai-preview-gem-particle"></div>
+                        <div class="ai-preview-gem-particle"></div>
+                        <div class="ai-preview-gem-particle"></div>
+                    </div>
+                    <h2 class="ai-preview-welcome-title">Onyx <em>AI</em></h2>
+                    <p class="ai-preview-welcome-sub">Private. Local. Yours.</p>
+                    <div class="ai-preview-cards">
+                        <div class="ai-preview-card">
+                            <div class="ai-preview-card-header">
+                                <div class="ai-preview-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg></div>
+                                <span class="ai-preview-card-title">Create</span>
+                            </div>
+                            <span class="ai-preview-card-prompt">Build a playable tic-tac-toe game</span>
+                        </div>
+                        <div class="ai-preview-card">
+                            <div class="ai-preview-card-header">
+                                <div class="ai-preview-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+                                <span class="ai-preview-card-title">Explore</span>
+                            </div>
+                            <span class="ai-preview-card-prompt">What's happening in the world today?</span>
+                        </div>
+                        <div class="ai-preview-card">
+                            <div class="ai-preview-card-header">
+                                <div class="ai-preview-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+                                <span class="ai-preview-card-title">Design</span>
+                            </div>
+                            <span class="ai-preview-card-prompt">Design a futuristic dashboard UI</span>
+                        </div>
+                        <div class="ai-preview-card">
+                            <div class="ai-preview-card-header">
+                                <div class="ai-preview-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div>
+                                <span class="ai-preview-card-title">Research</span>
+                            </div>
+                            <span class="ai-preview-card-prompt">Who won the most recent Super Bowl?</span>
+                        </div>
+                    </div>
+                    <div class="ai-preview-caps">
+                        <span class="ai-preview-cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 8l-4 4 4 4"/><path d="M17 8l4 4-4 4"/></svg> /templates</span>
+                        <span class="ai-preview-cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg> files</span>
+                        <span class="ai-preview-cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/></svg> voice</span>
+                        <span class="ai-preview-cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> images</span>
+                        <span class="ai-preview-cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> research</span>
+                        <span class="ai-preview-cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> knowledge</span>
+                    </div>
+                </div>
+
+                <!-- Input bar — 1:1 replica of real .input-bar (attach, mic, divider, textarea, image, research, send) -->
+                <a href="https://ai.the-onyx-project.com" class="ai-preview-input-bar" aria-label="Launch Onyx AI chat">
+                    <div class="ai-preview-input-wrapper">
+                        <div class="ai-preview-input-row">
+                            <button type="button" class="ai-preview-btn-tool" tabindex="-1" aria-label="Attach files"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg></button>
+                            <button type="button" class="ai-preview-btn-tool" tabindex="-1" aria-label="Voice input"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></button>
+                            <div class="ai-preview-input-divider"></div>
+                            <div class="ai-preview-input-field">
+                                <span class="ai-preview-input-placeholder">Ask anything...</span>
+                            </div>
+                            <button type="button" class="ai-preview-btn-tool" tabindex="-1" aria-label="Generate image"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></button>
+                            <button type="button" class="ai-preview-btn-tool" tabindex="-1" aria-label="Deep research"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></button>
+                            <button type="button" class="ai-preview-btn-send" tabindex="-1" aria-label="Send"><svg viewBox="0 0 24 24"><polygon fill="currentColor" points="12,2.5 21.5,7.25 21.5,16.75 12,21.5 2.5,16.75 2.5,7.25"/><polygon fill="rgba(255,255,255,0.15)" points="12,2.5 21.5,7.25 2.5,7.25"/></svg></button>
+                        </div>
+                    </div>
+                </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ai-hero-footer">
+                <a href="https://github.com/DustinCarstens" target="_blank" rel="noopener noreferrer" class="ai-hero-secondary">
+                    <i class="fab fa-github"></i> View on GitHub
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ═══════════ MARQUEE TICKER ═══════════ -->
+    <section class="ai-marquee" aria-label="Tech stack">
+        <div class="ai-marquee-track">
+            <span class="ai-marquee-item gold">open-source</span>
+            <span class="ai-marquee-sep"></span>
+            <span class="ai-marquee-item">self-hosted</span>
+            <span class="ai-marquee-sep"></span>
+            <span class="ai-marquee-item">llama 3.1</span>
+            <span class="ai-marquee-sep"></span>
+            <span class="ai-marquee-item">node.js</span>
+            <span class="ai-marquee-sep"></span>
+            <span class="ai-marquee-item">tailscale mesh</span>
+            <span class="ai-marquee-sep"></span>
+            <span class="ai-marquee-item">cloudflare edge</span>
+            <span class="ai-marquee-sep"></span>
+            <span class="ai-marquee-item gold">persistent memory</span>
+            <span class="ai-marquee-sep"></span>
+            <span class="ai-marquee-item">knowledge base</span>
+            <span class="ai-marquee-sep"></span>
+            <span class="ai-marquee-item">web search</span>
+            <span class="ai-marquee-sep"></span>
+            <span class="ai-marquee-item">deep research</span>
+            <span class="ai-marquee-sep"></span>
+            <span class="ai-marquee-item gold">yours to fork</span>
+            <span class="ai-marquee-sep"></span>
+            <!-- duplicate for seamless loop -->
+            <span class="ai-marquee-item gold">open-source</span>
+            <span class="ai-marquee-sep"></span>
+            <span class="ai-marquee-item">self-hosted</span>
+            <span class="ai-marquee-sep"></span>
+            <span class="ai-marquee-item">llama 3.1</span>
+            <span class="ai-marquee-sep"></span>
+            <span class="ai-marquee-item">node.js</span>
+            <span class="ai-marquee-sep"></span>
+            <span class="ai-marquee-item">tailscale mesh</span>
+            <span class="ai-marquee-sep"></span>
+            <span class="ai-marquee-item">cloudflare edge</span>
+            <span class="ai-marquee-sep"></span>
+            <span class="ai-marquee-item gold">persistent memory</span>
+            <span class="ai-marquee-sep"></span>
+            <span class="ai-marquee-item">knowledge base</span>
+            <span class="ai-marquee-sep"></span>
+            <span class="ai-marquee-item">web search</span>
+            <span class="ai-marquee-sep"></span>
+            <span class="ai-marquee-item">deep research</span>
+            <span class="ai-marquee-sep"></span>
+            <span class="ai-marquee-item gold">yours to fork</span>
+            <span class="ai-marquee-sep"></span>
+        </div>
+    </section>
+
+    <!-- ═══════════ BOTTOM CTA ═══════════ -->
+    <section class="ai-cta-section">
+        <div class="ai-cta-inner">
+            <h2 class="ai-section-title reveal">Take Onyx for a <span class="em">spin</span>.</h2>
+            <p class="ai-section-sub reveal">If the server is asleep, your chat will be waiting when it wakes.</p>
+            <div class="ai-cta-row reveal" style="margin-bottom: 0;">
+                <a href="https://ai.the-onyx-project.com" class="ai-btn ai-btn-primary">
+                    <i class="fas fa-bolt"></i> Launch Chat
+                </a>
+                <a href="https://github.com/DustinCarstens" target="_blank" rel="noopener noreferrer" class="ai-btn ai-btn-secondary">
+                    <i class="fab fa-github"></i> View on GitHub
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════ FOOTER ═══════════ -->
+    <footer class="site-footer" role="contentinfo">
+        <div class="site-footer-inner">
+            <div class="site-footer-brand">
+                <div class="site-footer-gem"></div>
+                <span class="site-footer-name">The Onyx Project</span>
+            </div>
+            <p class="site-footer-tagline">Built with curiosity. Powered by data.</p>
+            <div class="site-footer-links">
+                <a href="/" class="site-footer-link"><i class="fas fa-home"></i> Portfolio</a>
+                <a href="mailto:carstensdustin@gmail.com" class="site-footer-link"><i class="fas fa-envelope"></i> Email</a>
+                <a href="https://www.linkedin.com/in/dustin-carstens-677683162" target="_blank" rel="noopener noreferrer" class="site-footer-link"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
+                <a href="https://github.com/DustinCarstens" target="_blank" rel="noopener noreferrer" class="site-footer-link"><i class="fab fa-github"></i> GitHub</a>
+                <a href="https://ai.the-onyx-project.com" class="site-footer-link"><i class="fas fa-robot"></i> Launch Chat</a>
+            </div>
+            <div class="site-footer-divider"></div>
+            <div class="site-footer-bottom">
+                <span>&copy; 2026 The Onyx Project</span>
+                <span class="site-footer-dot">&middot;</span>
+                <span>Dustin Carstens</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="ai-script.js"></script>
 </body>
 </html>
