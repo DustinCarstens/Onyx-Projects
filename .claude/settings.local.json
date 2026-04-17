@@ -11,7 +11,13 @@
       "Bash(tasklist /FI \"PID eq 13524\" /FO CSV)",
       "Bash(tasklist /FI \"PID eq 20536\" /FO CSV)",
       "Bash(powershell -Command \"Get-Process -Id 13524,20536 -ErrorAction SilentlyContinue | Select-Object Id,ProcessName,Path | Format-Table -AutoSize\")",
-      "Bash(powershell -Command \"Stop-Process -Id 13524 -Force -ErrorAction Stop; Write-Host 'Killed PID 13524'\")"
+      "Bash(powershell -Command \"Stop-Process -Id 13524 -Force -ErrorAction Stop; Write-Host 'Killed PID 13524'\")",
+      "Bash(python -m http.server 8765)",
+      "Bash(curl -s \"http://localhost:8765/ai/ai-styles.css\")",
+      "Bash(py -m http.server 8765)",
+      "Bash(curl -s \"http://localhost:8765/ai/ai-styles.css\" -o /tmp/served-css.txt)",
+      "Bash(kill bx6gu2bvy *)",
+      "Bash(kill b18xq4zxe *)"
     ]
   }
 }
