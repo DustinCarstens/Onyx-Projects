@@ -167,7 +167,8 @@ body {
 
 @media (max-width: 768px) {
     .mobile-bottom-nav { display: flex; justify-content: space-around; align-items: center; }
-    body { padding-bottom: 70px; }
+    /* Scope bottom padding to portfolio page only — AI page has no bottom nav */
+    body:not(.ai-page) { padding-bottom: 70px; }
 }
 
 .mob-nav-item {
