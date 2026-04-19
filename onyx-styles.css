@@ -34,6 +34,40 @@
     --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
     --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
     --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+
+    /* ─── Extended design tokens ───────────────────────────────── */
+
+    /* Glassmorphism background stack (dark → light layering) */
+    --glass-nav:     rgba(12, 10, 8, 0.85);    /* fixed nav / menus */
+    --glass-overlay: rgba(10,  9, 8, 0.72);    /* lighter floating panels */
+    --glass-surface: rgba(15, 14, 12, 0.75);   /* cards, side panels */
+    --glass-input:   rgba(20, 18, 16, 0.92);   /* input controls */
+
+    /* Elevation shadows (pair with --glow-gold-* for lift effect) */
+    --shadow-sm:  0 4px  16px rgba(0, 0, 0, 0.25);
+    --shadow-md:  0 8px  32px rgba(0, 0, 0, 0.40);
+    --shadow-lg:  0 20px 60px rgba(0, 0, 0, 0.40);
+    --shadow-xl:  0 40px 100px rgba(0, 0, 0, 0.55);
+    --glow-gold-sm: 0 0 20px rgba(201, 165, 78, 0.08);
+    --glow-gold-md: 0 0 40px rgba(201, 165, 78, 0.10);
+
+    /* Status / state indicator colours
+       --color-online  = external server pulse (soft pastel green)
+       --color-active  = in-app running state  (bright neon green) */
+    --color-online:         #6ee7a0;
+    --color-online-border:  rgba(110, 231, 160, 0.25);
+    --color-online-glow:    rgba(110, 231, 160, 0.50);
+    --color-offline:        #d97757;
+    --color-offline-border: rgba(217, 119,  87, 0.25);
+    --color-offline-glow:   rgba(217, 119,  87, 0.40);
+    --color-active:         #4ade80;
+    --color-active-glow:    rgba(74,  222, 128, 0.40);
+
+    /* Transition presets */
+    --t-fast:   0.2s ease;
+    --t-base:   0.3s ease;
+    --t-smooth: 0.4s var(--ease-out-expo);
+    --t-slow:   0.6s var(--ease-out-expo);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -210,23 +244,23 @@ body::after {
     padding: 1.5rem 3rem;
     display: flex; align-items: center; justify-content: space-between;
     transition: all 0.7s var(--ease-out-expo);
-    background: rgba(12, 10, 8, 0.85);
+    background: var(--glass-nav);
     backdrop-filter: blur(24px) saturate(1.3);
     -webkit-backdrop-filter: blur(24px) saturate(1.3);
-    border-bottom: 1px solid rgba(200, 164, 90, 0.15);
+    border-bottom: 1px solid rgba(201, 165, 78, 0.15);
 }
 .nav.scrolled {
     padding: 0.8rem 2rem;
     top: 0.75rem;
     left: 2rem; right: 2rem;
     border-radius: 100px;
-    background: rgba(15, 14, 12, 0.75);
+    background: var(--glass-surface);
     backdrop-filter: blur(24px) saturate(1.3);
     -webkit-backdrop-filter: blur(24px) saturate(1.3);
-    border: 1px solid rgba(200, 164, 90, 0.08);
-    border-bottom: 1px solid rgba(200, 164, 90, 0.08);
+    border: 1px solid var(--gold-dim);
+    border-bottom: 1px solid var(--gold-dim);
     box-shadow:
-        0 8px 32px rgba(0, 0, 0, 0.4),
+        var(--shadow-md),
         0 0 0 1px rgba(255, 255, 255, 0.03) inset;
 }
 .nav.nav-open { z-index: 9999; }
@@ -574,7 +608,7 @@ body::after {
 .btn-primary { padding: 1rem 2.5rem; background: var(--onyx-black); color: var(--gold); font-family: var(--font-body); font-size: 0.82rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; border: 1.5px solid var(--gold); cursor: pointer; transition: all 0.4s ease; position: relative; overflow: hidden; }
 .btn-primary::before { content: ''; position: absolute; inset: 0; background: var(--gold); transform: translateY(100%); transition: transform 0.4s var(--ease-out-expo); }
 .btn-primary:hover::before { transform: translateY(0); }
-.btn-primary:hover { color: var(--onyx-black); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(200,164,90,0.2); }
+.btn-primary:hover { color: var(--onyx-black); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(201,165,78,0.2); }
 .btn-primary > * { position: relative; z-index: 1; }
 
 .btn-ghost { padding: 1rem 2.5rem; background: transparent; color: var(--text-primary); font-family: var(--font-body); font-size: 0.82rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; border: 1.5px solid var(--onyx-muted); cursor: pointer; transition: all 0.4s ease; }
