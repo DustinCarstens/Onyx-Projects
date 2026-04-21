@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#0a0908">
     <title>Onyx AI | Your Own AI. On Your Own Terms.</title>
-    <meta name="description" content="Onyx AI is a self-hosted, open-source AI chat built by Dustin Carstens. Persistent memory, multi-user accounts, knowledge base, and web search.">
+    <meta name="description" content="Onyx AI is a self-hosted AI chat built by Dustin Carstens. Persistent memory, multi-user accounts, knowledge base, web search, and multi-provider model support.">
 
     <meta property="og:type" content="website">
     <meta property="og:title" content="Onyx AI | Your Own AI. On Your Own Terms.">
@@ -138,26 +138,26 @@
                                 </div>
                                 <div class="ai-preview-sidebar-item">
                                     <div class="ai-preview-sidebar-item-content">
-                                        <span class="ai-preview-sidebar-item-text">Wedding menu ideas</span>
-                                        <span class="ai-preview-sidebar-item-preview">For 60 guests, start with three shared platters&hellip;</span>
+                                        <span class="ai-preview-sidebar-item-text">R script for cohort analysis</span>
+                                        <span class="ai-preview-sidebar-item-preview">Refactor the enrollment query &mdash; group by site and&hellip;</span>
                                     </div>
                                 </div>
                                 <div class="ai-preview-sidebar-item">
                                     <div class="ai-preview-sidebar-item-content">
-                                        <span class="ai-preview-sidebar-item-text">Q3 board prep</span>
-                                        <span class="ai-preview-sidebar-item-preview">Pulled the three flags from last Tuesday&hellip;</span>
+                                        <span class="ai-preview-sidebar-item-text">Draft SOP deviation memo</span>
+                                        <span class="ai-preview-sidebar-item-preview">Protocol deviation class 2 &mdash; documented under&hellip;</span>
                                     </div>
                                 </div>
                                 <div class="ai-preview-sidebar-item">
                                     <div class="ai-preview-sidebar-item-content">
-                                        <span class="ai-preview-sidebar-item-text">Rust notes</span>
-                                        <span class="ai-preview-sidebar-item-preview">Ownership review &mdash; the lifetime elision rules&hellip;</span>
+                                        <span class="ai-preview-sidebar-item-text">Explain banded randomization</span>
+                                        <span class="ai-preview-sidebar-item-preview">Stratified by site, block size 4 &mdash; the bands&hellip;</span>
                                     </div>
                                 </div>
                                 <div class="ai-preview-sidebar-item">
                                     <div class="ai-preview-sidebar-item-content">
-                                        <span class="ai-preview-sidebar-item-text">Trip to Iceland</span>
-                                        <span class="ai-preview-sidebar-item-preview">Ring Road itinerary, 7 nights in September&hellip;</span>
+                                        <span class="ai-preview-sidebar-item-text">Python ETL cleanup</span>
+                                        <span class="ai-preview-sidebar-item-preview">Replace the pandas merge with a proper join &mdash;&hellip;</span>
                                     </div>
                                 </div>
                             </div>
@@ -287,7 +287,9 @@
             <span class="ai-marquee-sep"></span>
             <span class="ai-marquee-item">self-hosted</span>
             <span class="ai-marquee-sep"></span>
-            <span class="ai-marquee-item">llama 3.1</span>
+            <span class="ai-marquee-item">ollama + local llms</span>
+            <span class="ai-marquee-sep"></span>
+            <span class="ai-marquee-item">multi-provider api</span>
             <span class="ai-marquee-sep"></span>
             <span class="ai-marquee-item">node.js</span>
             <span class="ai-marquee-sep"></span>
@@ -310,7 +312,9 @@
             <span class="ai-marquee-sep"></span>
             <span class="ai-marquee-item">self-hosted</span>
             <span class="ai-marquee-sep"></span>
-            <span class="ai-marquee-item">llama 3.1</span>
+            <span class="ai-marquee-item">ollama + local llms</span>
+            <span class="ai-marquee-sep"></span>
+            <span class="ai-marquee-item">multi-provider api</span>
             <span class="ai-marquee-sep"></span>
             <span class="ai-marquee-item">node.js</span>
             <span class="ai-marquee-sep"></span>
@@ -328,6 +332,39 @@
             <span class="ai-marquee-sep"></span>
             <span class="ai-marquee-item gold">yours to fork</span>
             <span class="ai-marquee-sep"></span>
+        </div>
+    </section>
+
+    <!-- ═══════════ WHY THIS EXISTS ═══════════ -->
+    <section class="ai-why-section">
+        <div class="ai-why-inner">
+            <h2 class="ai-section-title reveal">Why I built <span class="em">this</span>.</h2>
+            <div class="ai-why-body">
+                <p class="ai-why-p reveal">
+                    I was using ChatGPT and Claude subscriptions, and neither felt like <em>mine</em> — context reset between sessions, data left the machine, and I couldn't tune the behavior for my actual workflow. So I built something that didn't have those problems.
+                </p>
+                <p class="ai-why-p reveal">
+                    The interesting part wasn't the model side — Ollama makes that easy. It was the infrastructure: threading a Tailscale mesh between two machines, writing auth middleware that enforces per-user session isolation, adding a Cloudflare tunnel so it's reliably reachable from anywhere. The kind of plumbing that doesn't show up in tutorials but is the whole reason it works.
+                </p>
+            </div>
+            <div class="ai-why-grid reveal">
+                <div class="ai-why-card">
+                    <span class="ai-why-card-label">Inference</span>
+                    <span class="ai-why-card-value">Ollama (local GPU) + multi-provider API fallback — Anthropic, OpenAI, Gemini</span>
+                </div>
+                <div class="ai-why-card">
+                    <span class="ai-why-card-label">Network</span>
+                    <span class="ai-why-card-value">Tailscale mesh across two servers + Cloudflare tunnel for public access</span>
+                </div>
+                <div class="ai-why-card">
+                    <span class="ai-why-card-label">Memory</span>
+                    <span class="ai-why-card-value">SQLite — persistent per-user chat history, knowledge base, searchable context</span>
+                </div>
+                <div class="ai-why-card">
+                    <span class="ai-why-card-label">Auth</span>
+                    <span class="ai-why-card-value">Two-layer — Cloudflare Access at the edge + custom session tokens in the backend</span>
+                </div>
+            </div>
         </div>
     </section>
 
